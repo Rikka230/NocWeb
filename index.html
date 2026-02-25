@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Web Design Professionnel pour Petites Entreprises</title>
-<img src="NOCX_WEB_logo_with_bg.png" alt="Logo NocxWeb" style="display:none;">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<meta name="description" content="Création de site vitrine professionnel pour petits commerces et restaurants – Livraison rapide, design moderne, tarif clair.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://nocxweb.netlify.app/">
-<meta property="og:title" content="Site vitrine à 499€ – NocxWeb">
-<meta property="og:description" content="Design moderne, responsive, livraison en 24/48h. Idéal pour petits commerces.">
-<meta property="og:image" content="https://nocxweb.netlify.app/assets/NOCX_WEB_logo_with_bg.png">
-<meta property="og:url" content="https://nocxweb.netlify.app/">
-<meta property="og:type" content="website">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Design Professionnel pour Petites Entreprises</title>
+    <img src="NOCX_WEB_logo_with_bg.png" alt="Logo NocxWeb" style="display:none;">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description" content="Création de site vitrine professionnel pour petits commerces et restaurants – Livraison rapide, design moderne, tarif clair.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://nocxweb.netlify.app/">
+    <meta property="og:title" content="Site vitrine à 499€ – NocxWeb">
+    <meta property="og:description" content="Design moderne, responsive, livraison en 24/48h. Idéal pour petits commerces.">
+    <meta property="og:image" content="https://nocxweb.netlify.app/assets/NOCX_WEB_logo_with_bg.png">
+    <meta property="og:url" content="https://nocxweb.netlify.app/">
+    <meta property="og:type" content="website">
     <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "NocxWeb",
-  "url": "https://nocxweb.netlify.app",
-  "logo": "https://nocxweb.netlify.app/assets/NOCX_WEB_logo_with_bg.png"
-}
-</script>
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "NocxWeb",
+      "url": "https://nocxweb.netlify.app",
+      "logo": "https://nocxweb.netlify.app/assets/NOCX_WEB_logo_with_bg.png"
+    }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
     <style>
@@ -46,41 +46,43 @@
     </style>
 </head>
 <body class="font-montserrat bg-white text-gray-800">
-    <!-- Navigation -->
     <nav class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-            <div class="flex items-center">
-                <span class="text-xl font-bold text-gray-900">Nocx<span class="text-amber-600">Web</span></span>
-            </div>
-            <div class="hidden md:block">
-                <div class="ml-10 flex items-center space-x-8">
-                    <a href="#offre" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium">Offre Commerçants</a>
-                    <a href="offre-intermittant.html" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium">Offre Intermittents</a>
-                    <a href="#comparaison" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium">Comparaison</a>
-                    <a href="#contact" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-gray-900">Nocx<span class="text-amber-600">Web</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="#offre" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium">Offre Commerçants</a>
+                        <a href="offre-intermittant.html" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium">Offre Intermittents</a>
+                        <a href="#services" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium">Services</a>
+                        <a href="#realisations" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium">Réalisations</a>
+                        <a href="#comparaison" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium">Comparaison</a>
+                        <a href="#contact" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-gray-700 hover:text-amber-600">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
                 </div>
             </div>
-            <div class="md:hidden">
-                <button id="menu-toggle" class="text-gray-700 hover:text-amber-600">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#offre" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600">Offre Commerçants</a>
+                <a href="offre-intermittant.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600">Offre Intermittents</a>
+                <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600">Services</a>
+                <a href="#realisations" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600">Réalisations</a>
+                <a href="#comparaison" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600">Comparaison</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-amber-600 hover:bg-amber-700">Contact</a>
             </div>
         </div>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="#offre" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600">Offre Commerçants</a>
-            <a href="offre-intermittant.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600">Offre Intermittents</a>
-            <a href="#comparaison" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600">Comparaison</a>
-            <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-amber-600 hover:bg-amber-700">Contact</a>
-        </div>
-    </div>
-</nav>
+    </nav>
 
-    <!-- Hero Section -->
     <section class="relative bg-white overflow-hidden">
         <div class="max-w-7xl mx-auto">
             <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
@@ -114,8 +116,7 @@
         </div>
     </section>
 
-    <!-- Main Offer Section -->
-    <section id="offre" class="py-12 bg-gray-50">
+    <section id="offre" class="py-12 bg-gray-50 animate-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
                 <h2 class="text-base text-amber-600 font-semibold tracking-wide uppercase">Offre spéciale</h2>
@@ -129,7 +130,6 @@
 
             <div class="mt-10">
                 <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 lg:grid-cols-3">
-                    <!-- Feature 1 -->
                     <div class="relative bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div class="absolute -top-4 -left-4 bg-amber-100 rounded-full p-3">
                             <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -142,7 +142,6 @@
                         </p>
                     </div>
 
-                    <!-- Feature 2 -->
                     <div class="relative bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div class="absolute -top-4 -left-4 bg-amber-100 rounded-full p-3">
                             <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -155,7 +154,6 @@
                         </p>
                     </div>
 
-                    <!-- Feature 3 -->
                     <div class="relative bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div class="absolute -top-4 -left-4 bg-amber-100 rounded-full p-3">
                             <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -168,7 +166,6 @@
                         </p>
                     </div>
 
-                    <!-- Feature 4 -->
                     <div class="relative bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div class="absolute -top-4 -left-4 bg-amber-100 rounded-full p-3">
                             <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -181,7 +178,6 @@
                         </p>
                     </div>
 
-                    <!-- Feature 5 -->
                     <div class="relative bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div class="absolute -top-4 -left-4 bg-amber-100 rounded-full p-3">
                             <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -194,7 +190,6 @@
                         </p>
                     </div>
 
-                    <!-- Feature 6 -->
                     <div class="relative bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div class="absolute -top-4 -left-4 bg-amber-100 rounded-full p-3">
                             <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -211,8 +206,7 @@
         </div>
     </section>
 
-    <!-- Optional Services Section -->
-    <section id="services" class="py-12 bg-white">
+    <section id="services" class="py-12 bg-white animate-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center mb-12">
                 <h2 class="text-base text-amber-600 font-semibold tracking-wide uppercase">Services optionnels</h2>
@@ -223,64 +217,13 @@
                     Ajoutez des fonctionnalités supplémentaires à votre site vitrine
                 </p>
             </div>
-<section id="realisations" class="py-12 bg-white animate-on-scroll">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="lg:text-center mb-12">
-            <h2 class="text-base text-amber-600 font-semibold tracking-wide uppercase">Portfolio</h2>
-            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                Ils nous ont fait confiance
-            </p>
-            <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                Découvrez quelques-uns de nos derniers sites vitrines conçus sur mesure.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="group relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
-                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Site Restaurant" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-80"></div>
-                <div class="absolute bottom-0 left-0 p-6 w-full">
-                    <h3 class="text-xl font-bold text-white mb-2">Le Petit Bistrot</h3>
-                    <p class="text-amber-400 text-sm mb-4">Site Vitrine & Menu digital</p>
-                    <a href="#" class="inline-flex items-center text-white hover:text-amber-400 text-sm font-medium transition-colors">
-                        Voir le site <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="group relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
-                <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Site Salon de Coiffure" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-80"></div>
-                <div class="absolute bottom-0 left-0 p-6 w-full">
-                    <h3 class="text-xl font-bold text-white mb-2">Style & Co</h3>
-                    <p class="text-amber-400 text-sm mb-4">Galerie Photos Premium</p>
-                    <a href="#" class="inline-flex items-center text-white hover:text-amber-400 text-sm font-medium transition-colors">
-                        Voir le site <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="group relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
-                <img src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Site Boulangerie" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-80"></div>
-                <div class="absolute bottom-0 left-0 p-6 w-full">
-                    <h3 class="text-xl font-bold text-white mb-2">Les Délices</h3>
-                    <p class="text-amber-400 text-sm mb-4">Interface Administrateur</p>
-                    <a href="#" class="inline-flex items-center text-white hover:text-amber-400 text-sm font-medium transition-colors">
-                        Voir le site <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+            
             <div class="bg-white shadow overflow-hidden sm:rounded-lg">
                 <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">Nos services complémentaires</h3>
                 </div>
                 <div class="border-t border-gray-200">
                     <dl>
-                        <!-- Service 1 -->
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-amber-50 transition-colors duration-200">
                             <dt class="text-sm font-medium text-gray-500 flex items-center">
                                 <svg class="h-5 w-5 text-amber-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -291,7 +234,6 @@
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-bold">80€</dd>
                         </div>
                         
-                        <!-- Service 2 -->
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-amber-50 transition-colors duration-200">
                             <dt class="text-sm font-medium text-gray-500 flex items-center">
                                 <svg class="h-5 w-5 text-amber-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -302,7 +244,6 @@
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-bold">60€</dd>
                         </div>
                         
-                        <!-- Service 3 -->
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-amber-50 transition-colors duration-200">
                             <dt class="text-sm font-medium text-gray-500 flex items-center">
                                 <svg class="h-5 w-5 text-amber-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -313,7 +254,6 @@
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-bold">50€/an</dd>
                         </div>
                         
-                        <!-- Service 4 -->
                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-amber-50 transition-colors duration-200">
                             <dt class="text-sm font-medium text-gray-500 flex items-center">
                                 <svg class="h-5 w-5 text-amber-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -323,27 +263,79 @@
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-bold">90€</dd>
                         </div>
+
                         <div class="bg-amber-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-l-4 border-amber-500 hover:bg-amber-100 transition-colors duration-200">
-    <dt class="text-sm font-medium text-amber-800 flex items-center">
-        <svg class="h-5 w-5 text-amber-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        Premium : Interface d'administration
-    </dt>
-    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 flex justify-between items-center">
-        <span>Gérez vous-même vos photos et vidéos (+48h de développement)</span>
-        <span class="font-bold text-amber-600 text-lg">+500€</span>
-    </dd>
-</div>
+                            <dt class="text-sm font-medium text-amber-800 flex items-center">
+                                <svg class="h-5 w-5 text-amber-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                Premium : Interface d'administration
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 flex justify-between items-center">
+                                <span>Gérez vous-même vos photos et vidéos (+48h de développement)</span>
+                                <span class="font-bold text-amber-600 text-lg">+500€</span>
+                            </dd>
+                        </div>
                     </dl>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Comparison Section -->
-    <section id="comparaison" class="py-12 bg-gray-50">
+    <section id="realisations" class="py-12 bg-gray-50 animate-on-scroll">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center mb-12">
+                <h2 class="text-base text-amber-600 font-semibold tracking-wide uppercase">Portfolio</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Ils nous ont fait confiance
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                    Découvrez quelques-uns de nos derniers sites vitrines conçus sur mesure.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="group relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Site Restaurant" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                        <h3 class="text-xl font-bold text-white mb-2">Le Petit Bistrot</h3>
+                        <p class="text-amber-400 text-sm mb-4">Site Vitrine & Menu digital</p>
+                        <a href="#" class="inline-flex items-center text-white hover:text-amber-400 text-sm font-medium transition-colors">
+                            Voir le site <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="group relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+                    <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Site Salon de Coiffure" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                        <h3 class="text-xl font-bold text-white mb-2">Style & Co</h3>
+                        <p class="text-amber-400 text-sm mb-4">Galerie Photos Premium</p>
+                        <a href="#" class="inline-flex items-center text-white hover:text-amber-400 text-sm font-medium transition-colors">
+                            Voir le site <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="group relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+                    <img src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Site Boulangerie" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                        <h3 class="text-xl font-bold text-white mb-2">Les Délices</h3>
+                        <p class="text-amber-400 text-sm mb-4">Interface Administrateur</p>
+                        <a href="#" class="inline-flex items-center text-white hover:text-amber-400 text-sm font-medium transition-colors">
+                            Voir le site <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="comparaison" class="py-12 bg-white animate-on-scroll">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center mb-12">
                 <h2 class="text-base text-amber-600 font-semibold tracking-wide uppercase">Pourquoi nous choisir</h2>
@@ -415,75 +407,6 @@
         </div>
     </section>
 
-    <!-- Testimonials Section (commented out)
-    <section class="py-12 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:text-center mb-12">
-                <h2 class="text-base text-amber-600 font-semibold tracking-wide uppercase">Témoignages</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                    Ce que nos clients disent
-                </p>
-            </div>
-
-            <div class="mt-10">
-                <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 lg:grid-cols-3">
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center">
-                                <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-medium text-gray-900">Marie Dubois</h4>
-                                <p class="text-sm text-amber-600">Restaurant "Le Petit Bistrot"</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 italic">
-                            "Notre site a été livré en moins de 48h comme promis. Le design est exactement ce que nous voulions et nous avons déjà vu une augmentation des réservations en ligne."
-                        </p>
-                    </div>
-
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center">
-                                <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-medium text-gray-900">Thomas Martin</h4>
-                                <p class="text-sm text-amber-600">Boulangerie "Les Délices"</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 italic">
-                            "Excellent rapport qualité-prix. Le site est très professionnel et s'affiche parfaitement sur les téléphones de nos clients. Le formulaire de contact fonctionne très bien."
-                        </p>
-                    </div>
-
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center">
-                                <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-medium text-gray-900">Sophie Leroy</h4>
-                                <p class="text-sm text-amber-600">Salon de coiffure "Style & Co"</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 italic">
-                            "Service rapide et professionnel. J'ai ajouté la galerie photo optionnelle et mes clients adorent voir nos réalisations avant de prendre rendez-vous. Très satisfaite !"
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    -->
-
-    <!-- Final CTA Section -->
     <section id="contact" class="relative bg-gray-900">
         <div class="absolute inset-0">
             <img class="w-full h-full object-cover opacity-30" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" alt="">
@@ -504,7 +427,6 @@
                            class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-amber-500 hover:bg-amber-600 hover-scale">
                            Demander un devis
                       </a>
-
                     </div>
                     <div class="ml-3 inline-flex">
                         <a href="tel:+33123456789" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-amber-500 bg-white bg-opacity-10 hover:bg-opacity-20 hover-scale">
@@ -519,7 +441,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-gray-800">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
@@ -529,12 +450,6 @@
                         Solutions web sur mesure pour petits commerces et restaurants.
                     </p>
                     <div class="flex space-x-6">
-                       <!--  <a href="#" class="text-gray-400 hover:text-amber-400">
-                            <span class="sr-only">Facebook</span>
-                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
-                            </svg>
-                        </a>-->
                         <a href="https://www.instagram.com/nocxweb/" class="text-gray-400 hover:text-amber-400">
                             <span class="sr-only">Instagram</span>
                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -552,6 +467,9 @@
                             </li>
                             <li>
                                 <a href="#services" class="text-base text-gray-400 hover:text-amber-400">Services</a>
+                            </li>
+                            <li>
+                                <a href="#realisations" class="text-base text-gray-400 hover:text-amber-400">Réalisations</a>
                             </li>
                             <li>
                                 <a href="#comparaison" class="text-base text-gray-400 hover:text-amber-400">Comparaison</a>
@@ -599,7 +517,6 @@
         </div>
     </footer>
 
-    <!-- Simple JS for mobile menu toggle -->
     <script>
         document.getElementById('menu-toggle').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
@@ -654,6 +571,6 @@
             observer.observe(el);
         });
     });
-</script>
+    </script>
 </body>
 </html>
