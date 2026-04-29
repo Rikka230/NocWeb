@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# Sitemap officiel de la version Firebase Hosting.
-Sitemap: https://nocx-web.web.app/sitemap.xml
+# Sitemap officiel du domaine Nocx Web.
+Sitemap: https://nocxweb.fr/sitemap.xml
