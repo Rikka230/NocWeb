@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Nocx Web - Sites premium et campus en ligne</title>
+  <desc id="desc">Image de partage social pour Nocx Web.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050711"/>
+      <stop offset="0.58" stop-color="#0b1230"/>
+      <stop offset="1" stop-color="#15124a"/>
+    </linearGradient>
+    <radialGradient id="orbA" cx="25%" cy="18%" r="55%">
+      <stop offset="0" stop-color="#2a57ff" stop-opacity="0.52"/>
+      <stop offset="1" stop-color="#2a57ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orbB" cx="88%" cy="18%" r="48%">
+      <stop offset="0" stop-color="#ff4ed8" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#ff4ed8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#36d8ff"/>
+      <stop offset="0.5" stop-color="#8f5cff"/>
+      <stop offset="1" stop-color="#ff4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#orbA)"/>
+  <rect width="1200" height="630" fill="url(#orbB)"/>
+  <g opacity="0.22" stroke="#fff" stroke-width="1">
+    <path d="M0 100h1200M0 200h1200M0 300h1200M0 400h1200M0 500h1200"/>
+    <path d="M100 0v630M200 0v630M300 0v630M400 0v630M500 0v630M600 0v630M700 0v630M800 0v630M900 0v630M1000 0v630M1100 0v630"/>
+  </g>
+  <g transform="translate(80 84)">
+    <rect width="86" height="86" rx="26" fill="url(#accent)"/>
+    <text x="43" y="59" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="900" fill="#fff">N</text>
+    <text x="112" y="35" font-family="Inter, Arial, sans-serif" font-size="31" font-weight="800" fill="#fff">Nocx Web</text>
+    <text x="112" y="68" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="600" fill="#aeb7ce">Studio digital premium</text>
+  </g>
+  <text x="80" y="276" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="900" letter-spacing="-4" fill="#fff">Sites premium</text>
+  <text x="80" y="356" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="900" letter-spacing="-4" fill="#fff">& campus en ligne</text>
+  <text x="82" y="426" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="600" fill="#d7def0">Plateformes privées, portails clients et interfaces sur mesure.</text>
+  <g transform="translate(820 178)">
+    <rect width="300" height="258" rx="34" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-opacity="0.18"/>
+    <rect x="24" y="28" width="112" height="22" rx="11" fill="#36d8ff" fill-opacity="0.75"/>
+    <rect x="24" y="72" width="252" height="70" rx="20" fill="#ffffff" fill-opacity="0.08"/>
+    <rect x="44" y="94" width="142" height="12" rx="6" fill="#fff" fill-opacity="0.72"/>
+    <rect x="44" y="116" width="82" height="10" rx="5" fill="#fff" fill-opacity="0.28"/>
+    <rect x="24" y="162" width="118" height="72" rx="20" fill="#2a57ff" fill-opacity="0.32"/>
+    <rect x="158" y="162" width="118" height="72" rx="20" fill="#ff4ed8" fill-opacity="0.20"/>
+  </g>
+</svg>
