@@ -141,6 +141,8 @@ const routes = {
               "Tableau de bord professeur",
               "Tableau de bord administrateur",
               "Notifications",
+              "Gamification",
+              "Forum / Communauté",
               "Profils utilisateurs",
               "Accès sécurisés",
               "Design aux couleurs du client",
@@ -414,7 +416,7 @@ const routes = {
       <section class="section-tight">
         <div class="container">
           <div class="pricing-grid">
-            ${priceCard("Audit digital", "590 € HT", "à partir de", [
+            ${priceCard("Audit digital", "590\u202f€ HT", "à partir de", [
               "Analyse de votre besoin",
               "Recommandations",
               "Structure proposée",
@@ -422,7 +424,7 @@ const routes = {
               "Plan d’action"
             ], "Réserver un audit", "contact")}
 
-            ${priceCard("Site vitrine premium", "1 490 € HT", "à partir de", [
+            ${priceCard("Site vitrine premium", "1\u202f490\u202f€ HT", "à partir de", [
               "Design responsive",
               "Pages essentielles",
               "SEO de base",
@@ -430,7 +432,7 @@ const routes = {
               "Mise en ligne"
             ], "Créer mon site", "contact")}
 
-            ${priceCard("Campus Starter", "4 900 € HT", "à partir de", [
+            ${priceCard("Campus Starter", "4\u202f900\u202f€ HT", "à partir de", [
               "Espace privé",
               "Connexion utilisateurs",
               "Premiers modules de cours",
@@ -439,7 +441,7 @@ const routes = {
               "Accompagnement"
             ], "Créer mon campus", "contact", true)}
 
-            ${priceCard("Campus Pro", "12 000 € HT", "à partir de", [
+            ${priceCard("Campus Pro", "12\u202f000\u202f€ HT", "à partir de", [
               "Rôles élèves / professeurs / administrateurs",
               "Suivi de progression",
               "Dashboard",
