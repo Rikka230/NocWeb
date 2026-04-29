@@ -1369,11 +1369,28 @@ h1 {
   padding: .9rem 1rem;
   border-radius: 16px;
   font-weight: 800;
+  line-height: 1.45;
   background: linear-gradient(135deg, var(--success), var(--cyan));
 }
 
 .form-status.is-visible {
   display: block;
+}
+
+.form-status.is-loading {
+  color: #f6f8ff;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .13);
+}
+
+.form-status.is-success {
+  color: #061015;
+  background: linear-gradient(135deg, var(--success), var(--cyan));
+}
+
+.form-status.is-error {
+  color: #fff;
+  background: linear-gradient(135deg, rgba(255, 105, 120, .92), rgba(143, 92, 255, .72));
 }
 
 .reassurance-stack {
@@ -1745,74 +1762,3 @@ h1 {
 .feature-grid-sites .feature-card {
   min-height: 0;
 }
-
-/* =========================================================
-   MOBILE HOTFIX - Sites vitrines
-   Corrige le débordement horizontal de la section Sites vitrines.
-   ========================================================= */
-
-html,
-body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-@media (max-width: 980px) {
-  .split-section-sites,
-  .split-section.split-section-sites,
-  .container.split-section-sites {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    width: min(100% - 24px, var(--container)) !important;
-    max-width: 100% !important;
-    margin-inline: auto !important;
-    overflow: hidden !important;
-  }
-
-  .split-section-sites > *,
-  .feature-grid-sites,
-  .highlight-panel-sites {
-    min-width: 0 !important;
-    max-width: 100% !important;
-  }
-
-  .feature-grid-sites,
-  .split-section-sites .feature-grid-sites {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-  }
-
-  .mini-proof-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .highlight-panel-sites,
-  .feature-grid-sites .feature-card,
-  .mini-proof-card {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .highlight-panel-sites {
-    padding: 1.25rem !important;
-    border-radius: 24px !important;
-  }
-
-  .highlight-panel-sites h2 {
-    font-size: clamp(2rem, 11vw, 3rem) !important;
-    line-height: 1.03 !important;
-  }
-
-  .feature-grid-sites .feature-card {
-    padding: 1.15rem !important;
-    border-radius: 22px !important;
-  }
-
-  .mini-proof-card {
-    padding: 1rem !important;
-  }
-}
-

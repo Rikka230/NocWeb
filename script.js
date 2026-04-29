@@ -5,6 +5,8 @@
    sans JS, les liens rechargent simplement index.html?page=...
    ========================================================= */
 
+const CONTACT_ENDPOINT = "/api/sendContactEmail";
+
 const routes = {
   home: {
     title: "Nocx Web | Sites premium, campus en ligne et portails privés",
@@ -539,13 +541,23 @@ const routes = {
           </aside>
 
           <section class="contact-panel" data-reveal>
-            <form class="contact-form" data-contact-form>
-              <div class="form-status" data-form-status>Votre demande est prête. Branchez ce formulaire à votre service d’envoi ou remplacez-le par un mailto.</div>
+            <form class="contact-form" data-contact-form novalidate>
+              <div class="form-status is-visible" data-form-status>Votre demande est prête.</div>
+
+              <input type="hidden" name="formStartedAt" value="${Date.now()}" />
+              <div class="form-field contact-honeypot" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden;pointer-events:none;">
+                <label for="website">Site web</label>
+                <input id="website" name="website" tabindex="-1" autocomplete="off" />
+              </div>
 
               <div class="form-grid">
                 <div class="form-field">
-                  <label for="name">Nom</label>
-                  <input id="name" name="name" autocomplete="name" required placeholder="Votre nom" />
+                  <label for="firstName">Prénom</label>
+                  <input id="firstName" name="firstName" autocomplete="given-name" placeholder="Votre prénom" />
+                </div>
+                <div class="form-field">
+                  <label for="lastName">Nom</label>
+                  <input id="lastName" name="lastName" autocomplete="family-name" placeholder="Votre nom" />
                 </div>
                 <div class="form-field">
                   <label for="email">Email</label>
@@ -554,6 +566,10 @@ const routes = {
                 <div class="form-field">
                   <label for="phone">Téléphone</label>
                   <input id="phone" name="phone" autocomplete="tel" placeholder="Votre numéro" />
+                </div>
+                <div class="form-field full">
+                  <label for="company">Société / profession</label>
+                  <input id="company" name="company" autocomplete="organization" placeholder="Ex : organisme de formation, coach, club, restaurant..." />
                 </div>
                 <div class="form-field">
                   <label for="project">Type de projet</label>
@@ -565,7 +581,7 @@ const routes = {
                     <option>Projet sur mesure</option>
                   </select>
                 </div>
-                <div class="form-field full">
+                <div class="form-field">
                   <label for="budget">Budget estimé</label>
                   <select id="budget" name="budget" required>
                     <option value="">Sélectionner</option>
@@ -824,25 +840,85 @@ function initContactForm() {
   const form = document.querySelector("[data-contact-form]");
   if (!form) return;
 
-  form.addEventListener("submit", (event) => {
+  const status = form.querySelector("[data-form-status]");
+  const submitButton = form.querySelector("button[type='submit']");
+  const startedAtInput = form.querySelector("input[name='formStartedAt']");
+
+  const setStatus = (type, message) => {
+    if (!status) return;
+    status.className = `form-status is-visible is-${type}`;
+    status.textContent = message;
+  };
+
+  const setLoading = (isLoading) => {
+    if (submitButton) {
+      submitButton.disabled = isLoading;
+      submitButton.textContent = isLoading ? "Envoi en cours…" : "Envoyer ma demande";
+    }
+  };
+
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    if (!form.reportValidity()) return;
-
     const data = Object.fromEntries(new FormData(form).entries());
-    const subject = encodeURIComponent(`Demande Nocx Web - ${data.project || "Projet web"}`);
-    const body = encodeURIComponent(
-      `Nom : ${data.name}\nEmail : ${data.email}\nTéléphone : ${data.phone || "Non renseigné"}\nType de projet : ${data.project}\nBudget estimé : ${data.budget}\n\nMessage :\n${data.message}`
-    );
+    const firstName = String(data.firstName || "").trim();
+    const lastName = String(data.lastName || "").trim();
+    const email = String(data.email || "").trim();
+    const message = String(data.message || "").trim();
 
-    const status = form.querySelector("[data-form-status]");
-    if (status) {
-      status.classList.add("is-visible");
-      status.textContent = "Votre demande est prête. Une fenêtre email peut s’ouvrir pour l’envoyer.";
+    if (!firstName && !lastName) {
+      setStatus("error", "Merci d’indiquer au moins votre prénom ou votre nom.");
+      form.querySelector("#firstName")?.focus();
+      return;
     }
 
-    // Remplacez l'adresse ci-dessous par l'adresse officielle de Nocx Web.
-    window.location.href = `mailto:Viard.antony83@gmail.com?subject=${subject}&body=${body}`;
+    if (!email || !form.querySelector("#email")?.checkValidity()) {
+      setStatus("error", "Merci d’indiquer une adresse email valide.");
+      form.querySelector("#email")?.focus();
+      return;
+    }
+
+    if (!message) {
+      setStatus("error", "Merci d’ajouter un message.");
+      form.querySelector("#message")?.focus();
+      return;
+    }
+
+    setLoading(true);
+    setStatus("loading", "Envoi en cours…");
+
+    try {
+      const response = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          name: [firstName, lastName].filter(Boolean).join(" "),
+          email,
+          phone: String(data.phone || "").trim(),
+          company: String(data.company || "").trim(),
+          project: String(data.project || "").trim(),
+          budget: String(data.budget || "").trim(),
+          message,
+          website: String(data.website || "").trim(),
+          formStartedAt: Number(data.formStartedAt || 0)
+        })
+      });
+
+      if (!response.ok) throw new Error("CONTACT_SEND_FAILED");
+
+      form.reset();
+      if (startedAtInput) startedAtInput.value = String(Date.now());
+      setStatus("success", "Votre message a bien été envoyé.");
+    } catch (error) {
+      setStatus("error", "L’envoi est momentanément indisponible. Merci de réessayer ou de nous écrire directement.");
+    } finally {
+      setLoading(false);
+    }
   });
 }
 

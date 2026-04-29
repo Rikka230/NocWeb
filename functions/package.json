@@ -1,0 +1,17 @@
+{
+  "name": "nocx-web-functions",
+  "description": "Backend Firebase Functions pour le formulaire de contact Nocx Web.",
+  "private": true,
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions,hosting",
+    "deploy": "firebase deploy --only functions,hosting",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "firebase-functions": "^6.3.2"
+  }
+}
