@@ -20,3 +20,12 @@ Le site utilise une logique app-shell / PJAX simulée :
 Dans `script.js`, remplace :
 `contact@nocx-web.fr`
 par l’adresse email réelle.
+
+## Déploiement Firebase
+
+Toujours rapatrier `main` avant le déploiement :
+
+```bash
+git pull origin main
+firebase deploy --only hosting
+```
