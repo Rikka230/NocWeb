@@ -141,8 +141,6 @@ const routes = {
               "Tableau de bord professeur",
               "Tableau de bord administrateur",
               "Notifications",
-              "Gamification",
-              "Forum / Communauté",
               "Profils utilisateurs",
               "Accès sécurisés",
               "Design aux couleurs du client",
@@ -233,70 +231,81 @@ const routes = {
     `
   },
 
-  sites: {
-    title: "Site vitrine premium | Création site web professionnel | Nocx Web",
-    description: "Création de sites vitrines premium, responsive, rapides, SEO, avec design sur mesure, formulaire, galerie et mise en ligne.",
-    render: () => `
-      ${pageHero("Sites vitrines premium", "Des sites vitrines modernes qui donnent envie de vous contacter.", "Nocx Web crée des sites rapides, beaux, responsive et adaptés à votre image pour transformer vos visiteurs en prospects qualifiés.", "Créer mon site vitrine", "contact")}
+sites: {
+  title: "Site vitrine premium | Création site web professionnel | Nocx Web",
+  description: "Création de sites vitrines premium, responsive, rapides, SEO, avec design sur mesure, formulaire, galerie et mise en ligne.",
+  render: () => `
+    ${pageHero("Sites vitrines premium", "Des sites vitrines modernes qui donnent envie de vous contacter.", "Nocx Web crée des sites rapides, beaux, responsive et adaptés à votre image pour transformer vos visiteurs en prospects qualifiés.", "Créer mon site vitrine", "contact")}
 
-      <section class="section-tight">
-        <div class="container split-section">
-          <div class="highlight-panel" data-reveal>
-            <p class="kicker">Présence premium</p>
-            <h2>Un site vitrine doit rassurer avant même le premier contact.</h2>
-            <p>Un template générique peut exister. Un site premium doit vendre une impression : sérieux, clarté, niveau de service, confiance et cohérence avec votre marque.</p>
-            <ul class="check-list">
-              <li>Structure orientée conversion et prise de contact.</li>
-              <li>Design mobile-first pensé pour les vrais usages.</li>
-              <li>Contenus organisés pour expliquer rapidement votre valeur.</li>
-            </ul>
-          </div>
-          <div class="feature-grid">
-            ${[
-              ["Design sur mesure", "Une interface adaptée à votre identité et à votre niveau de positionnement."],
-              ["Responsive mobile", "Une expérience lisible et confortable sur smartphone, tablette et desktop."],
-              ["SEO de base", "Structure, titres, descriptions et contenus pensés pour une indexation propre."],
-              ["Pages services", "Des pages claires pour présenter vos offres, prestations et preuves."],
-              ["Galerie & médias", "Des visuels intégrés proprement pour valoriser vos réalisations."],
-              ["Formulaire & contact", "Des points de conversion visibles pour faciliter la demande de devis."]
-            ].map(([title, text], i) => feature(title, text, String(i + 1).padStart(2, "0"))).join("")}
+    <section class="section-tight">
+      <div class="container split-section split-section-sites">
+        <div class="highlight-panel highlight-panel-sites" data-reveal>
+          <p class="kicker">Présence premium</p>
+          <h2>Un site vitrine doit rassurer avant même le premier contact.</h2>
+          <p>Un template générique peut exister. Un site premium doit vendre une impression : sérieux, clarté, niveau de service, confiance et cohérence avec votre marque.</p>
+          <ul class="check-list">
+            <li>Structure orientée conversion et prise de contact.</li>
+            <li>Design mobile-first pensé pour les vrais usages.</li>
+            <li>Contenus organisés pour expliquer rapidement votre valeur.</li>
+          </ul>
+          <div class="mini-proof-grid">
+            <article class="mini-proof-card">
+              <strong>Crédible</strong>
+              <span>Une présence qui met votre niveau en face de vos tarifs.</span>
+            </article>
+            <article class="mini-proof-card">
+              <strong>Lisible</strong>
+              <span>Vos offres, preuves et contacts se comprennent en quelques secondes.</span>
+            </article>
           </div>
         </div>
-      </section>
+        <div class="feature-grid feature-grid-sites">
+          ${[
+            ["Design sur mesure", "Une interface adaptée à votre identité et à votre niveau de positionnement."],
+            ["Responsive mobile", "Une expérience lisible et confortable sur smartphone, tablette et desktop."],
+            ["SEO de base", "Structure, titres, descriptions et contenus pensés pour une indexation propre."],
+            ["Pages services", "Des pages claires pour présenter vos offres, prestations et preuves."],
+            ["Galerie & médias", "Des visuels intégrés proprement pour valoriser vos réalisations."],
+            ["Formulaire & contact", "Des points de conversion visibles pour faciliter la demande de devis."]
+          ].map(([title, text], i) => feature(title, text, String(i + 1).padStart(2, "0"))).join("")}
+        </div>
+      </div>
+    </section>
 
-      <section class="section">
-        <div class="container">
-          <div class="section-heading center" data-reveal>
-            <p class="kicker">Cibles</p>
-            <h2>Pour les marques locales et structures qui veulent paraître au niveau.</h2>
-          </div>
-          <div class="use-grid">
-            ${[
-              ["Restaurants", "Menus, ambiance, réservation, avis et présentation haut de gamme."],
-              ["Clubs sportifs", "Actualités, équipes, partenaires, résultats, inscriptions et identité."],
-              ["Artisans", "Prestations, zones d’intervention, réalisations et demandes qualifiées."],
-              ["Indépendants", "Positionnement clair, offres, preuves et contact rapide."],
-              ["Commerces locaux", "Présence moderne pour générer confiance et visites."],
-              ["Associations premium", "Image plus solide pour attirer membres, partenaires et sponsors."]
-            ].map(([title, text]) => useCard(title, text)).join("")}
+    <section class="section">
+      <div class="container">
+        <div class="section-heading center" data-reveal>
+          <p class="kicker">Cibles</p>
+          <h2>Pour les marques locales et structures qui veulent paraître au niveau.</h2>
+          <p>Le bon site vitrine ne sert pas juste à exister. Il sert à rassurer, filtrer les bons prospects et rendre votre activité plus claire.</p>
+        </div>
+        <div class="use-grid">
+          ${[
+            ["Restaurants", "Menus, ambiance, réservation, avis et présentation haut de gamme."],
+            ["Clubs sportifs", "Actualités, équipes, partenaires, résultats, inscriptions et identité."],
+            ["Artisans", "Prestations, zones d’intervention, réalisations et demandes qualifiées."],
+            ["Indépendants", "Positionnement clair, offres, preuves et contact rapide."],
+            ["Commerces locaux", "Présence moderne pour générer confiance et visites."],
+            ["Associations premium", "Image plus solide pour attirer membres, partenaires et sponsors."]
+          ].map(([title, text]) => useCard(title, text)).join("")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="cta-band" data-reveal>
+          <h2>Votre site doit travailler pour vous, pas juste être en ligne.</h2>
+          <p>Créons une base commerciale claire, rapide, responsive, exportable et prête à évoluer.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="?page=contact" data-link>Créer mon site vitrine</a>
+            <a class="btn btn-secondary" href="?page=pricing" data-link>Voir les tarifs</a>
           </div>
         </div>
-      </section>
-
-      <section class="section-tight">
-        <div class="container">
-          <div class="cta-band" data-reveal>
-            <h2>Votre site doit travailler pour vous, pas juste être en ligne.</h2>
-            <p>Créons une base commerciale claire, rapide, responsive, exportable et prête à évoluer.</p>
-            <div class="cta-row">
-              <a class="btn btn-primary" href="?page=contact" data-link>Créer mon site vitrine</a>
-              <a class="btn btn-secondary" href="?page=pricing" data-link>Voir les tarifs</a>
-            </div>
-          </div>
-        </div>
-      </section>
-    `
-  },
+      </div>
+    </section>
+  `
+},
 
   portals: {
     title: "Portail client et espace membre sur mesure | Nocx Web",
@@ -416,7 +425,7 @@ const routes = {
       <section class="section-tight">
         <div class="container">
           <div class="pricing-grid">
-            ${priceCard("Audit digital", "590\u202f€ HT", "à partir de", [
+            ${priceCard("Audit digital", "590 € HT", "à partir de", [
               "Analyse de votre besoin",
               "Recommandations",
               "Structure proposée",
@@ -424,7 +433,7 @@ const routes = {
               "Plan d’action"
             ], "Réserver un audit", "contact")}
 
-            ${priceCard("Site vitrine premium", "1\u202f490\u202f€ HT", "à partir de", [
+            ${priceCard("Site vitrine premium", "1 490 € HT", "à partir de", [
               "Design responsive",
               "Pages essentielles",
               "SEO de base",
@@ -432,7 +441,7 @@ const routes = {
               "Mise en ligne"
             ], "Créer mon site", "contact")}
 
-            ${priceCard("Campus Starter", "4\u202f900\u202f€ HT", "à partir de", [
+            ${priceCard("Campus Starter", "4 900 € HT", "à partir de", [
               "Espace privé",
               "Connexion utilisateurs",
               "Premiers modules de cours",
@@ -441,7 +450,7 @@ const routes = {
               "Accompagnement"
             ], "Créer mon campus", "contact", true)}
 
-            ${priceCard("Campus Pro", "12\u202f000\u202f€ HT", "à partir de", [
+            ${priceCard("Campus Pro", "12 000 € HT", "à partir de", [
               "Rôles élèves / professeurs / administrateurs",
               "Suivi de progression",
               "Dashboard",
