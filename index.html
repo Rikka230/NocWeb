@@ -3,33 +3,181 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nocx Web | Sites premium, campus en ligne et portails privés</title>
-  <meta name="description" content="Nocx Web crée des sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure, portails clients et espaces membres pour organismes, écoles, clubs et entreprises." />
+
+  <title>Nocx Web | Agence web premium, campus en ligne et portails privés</title>
+  <meta name="description" content="Nocx Web crée des sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure, portails clients et espaces membres pour organismes de formation, écoles, clubs et entreprises." />
+  <meta name="keywords" content="création site web professionnel, agence web, campus en ligne, plateforme e-learning sur mesure, organisme de formation, espace apprenant, plateforme de formation privée, site vitrine premium, portail client, espace membre, site web sur mesure, digitalisation formation" />
+  <meta name="author" content="Nocx Web" />
+  <meta name="publisher" content="Nocx Web" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <meta name="theme-color" content="#070814" />
-  <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://nocx-web.fr/" />
-  <meta property="og:title" content="Nocx Web | Campus en ligne privés et sites premium" />
-  <meta property="og:description" content="Création de sites premium, espaces privés, portails clients et plateformes de formation privées sur mesure." />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="fr_FR" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <link rel="canonical" href="https://nocxweb.netlify.app/" />
+  <link rel="alternate" hreflang="fr-FR" href="https://nocxweb.netlify.app/" />
+  <link rel="alternate" hreflang="x-default" href="https://nocxweb.netlify.app/" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+  <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
+
+  <meta property="og:site_name" content="Nocx Web" />
+  <meta property="og:title" content="Nocx Web | Sites premium, campus en ligne et portails privés" />
+  <meta property="og:description" content="Studio digital spécialisé dans la création de sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure et portails clients." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://nocxweb.netlify.app/" />
+  <meta property="og:image" content="https://nocxweb.netlify.app/og-image.svg" />
+  <meta property="og:image:type" content="image/svg+xml" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Nocx Web - Sites premium et campus en ligne privés" />
+  <meta property="og:locale" content="fr_FR" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Nocx Web | Campus en ligne privés et sites web premium" />
+  <meta name="twitter:description" content="Création de sites vitrines premium, espaces membres, portails clients et plateformes e-learning privées sur mesure." />
+  <meta name="twitter:image" content="https://nocxweb.netlify.app/og-image.svg" />
+  <meta name="twitter:image:alt" content="Nocx Web - Sites premium et campus en ligne privés" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Nocx Web",
-    "description": "Studio digital spécialisé dans la création de sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure, portails clients et espaces membres.",
-    "areaServed": "France",
-    "serviceType": [
-      "création site web professionnel",
-      "campus en ligne",
-      "plateforme e-learning sur mesure",
-      "site vitrine premium",
-      "portail client",
-      "espace membre"
-    ],
-    "url": "https://nocx-web.fr/"
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://nocxweb.netlify.app/#organization",
+        "name": "Nocx Web",
+        "url": "https://nocxweb.netlify.app/",
+        "logo": "https://nocxweb.netlify.app/favicon.svg",
+        "image": "https://nocxweb.netlify.app/og-image.svg",
+        "email": "Viard.antony83@gmail.com",
+        "description": "Micro-agence et studio digital spécialisé dans les sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure, portails clients et espaces membres.",
+        "areaServed": {
+          "@type": "Country",
+          "name": "France"
+        },
+        "knowsAbout": [
+          "création site web professionnel",
+          "agence web",
+          "campus en ligne",
+          "plateforme e-learning sur mesure",
+          "organisme de formation",
+          "espace apprenant",
+          "plateforme de formation privée",
+          "site vitrine premium",
+          "portail client",
+          "espace membre",
+          "site web sur mesure",
+          "digitalisation formation"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://nocxweb.netlify.app/#website",
+        "url": "https://nocxweb.netlify.app/",
+        "name": "Nocx Web",
+        "publisher": { "@id": "https://nocxweb.netlify.app/#organization" },
+        "inLanguage": "fr-FR",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://nocxweb.netlify.app/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.netlify.app/#webpage",
+        "url": "https://nocxweb.netlify.app/",
+        "name": "Nocx Web | Agence web premium, campus en ligne et portails privés",
+        "isPartOf": { "@id": "https://nocxweb.netlify.app/#website" },
+        "about": { "@id": "https://nocxweb.netlify.app/#organization" },
+        "description": "Nocx Web crée des sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure, portails clients et espaces membres.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://nocxweb.netlify.app/#service",
+        "name": "Nocx Web",
+        "url": "https://nocxweb.netlify.app/",
+        "image": "https://nocxweb.netlify.app/og-image.svg",
+        "email": "Viard.antony83@gmail.com",
+        "priceRange": "€€€",
+        "areaServed": "France",
+        "description": "Création de sites web premium, campus en ligne privés, plateformes e-learning sur mesure, espaces membres et portails clients.",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Offres Nocx Web",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "name": "Audit digital",
+              "price": "590",
+              "priceCurrency": "EUR",
+              "url": "https://nocxweb.netlify.app/?page=pricing",
+              "description": "Analyse du besoin, recommandations, structure proposée, estimation budgétaire et plan d’action."
+            },
+            {
+              "@type": "Offer",
+              "name": "Site vitrine premium",
+              "price": "1490",
+              "priceCurrency": "EUR",
+              "url": "https://nocxweb.netlify.app/?page=sites",
+              "description": "Création de site vitrine premium responsive avec SEO de base, formulaire et mise en ligne."
+            },
+            {
+              "@type": "Offer",
+              "name": "Campus Starter",
+              "price": "4900",
+              "priceCurrency": "EUR",
+              "url": "https://nocxweb.netlify.app/?page=campus",
+              "description": "Campus en ligne privé avec espace apprenant, connexion utilisateurs, premiers modules de cours et interface personnalisée."
+            },
+            {
+              "@type": "Offer",
+              "name": "Campus Pro",
+              "price": "12000",
+              "priceCurrency": "EUR",
+              "url": "https://nocxweb.netlify.app/?page=campus",
+              "description": "Plateforme e-learning sur mesure avec rôles utilisateurs, progression, dashboard, notifications et sécurité renforcée."
+            }
+          ]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://nocxweb.netlify.app/?page=faq#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Qu’est-ce qu’un campus en ligne privé ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Un campus en ligne privé est un espace web personnalisé où vos apprenants ou membres peuvent se connecter, accéder aux cours, vidéos, documents et suivre leur progression."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Est-ce que Nocx Web crée uniquement des sites vitrines ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Non. Nocx Web crée aussi des espaces privés, plateformes de formation, portails clients et interfaces sur mesure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Est-ce que le design est personnalisé ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Oui. Chaque interface est adaptée à l’identité visuelle du client pour renforcer la valeur perçue et éviter l’effet template."
+            }
+          }
+        ]
+      }
+    ]
   }
   </script>
 </head>
