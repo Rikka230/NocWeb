@@ -1,0 +1,21 @@
+{
+  "name": "Nocx Web - Studio digital premium",
+  "short_name": "Nocx Web",
+  "description": "Création de sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure, portails clients et espaces membres.",
+  "lang": "fr-FR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#070814",
+  "theme_color": "#070814",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity", "education"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
