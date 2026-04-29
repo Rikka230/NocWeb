@@ -1,3 +1,7 @@
 User-agent: *
 Allow: /
+
+# Pages internes PJAX indexables via URLs propres en query string.
+# Les paramètres non listés peuvent être ignorés par les robots si besoin.
+
 Sitemap: https://nocxweb.netlify.app/sitemap.xml
