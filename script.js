@@ -7,6 +7,48 @@
 
 const CONTACT_ENDPOINT = "/api/sendContactEmail";
 
+const trustedClients = [
+  {
+    name: "USM Football",
+    initials: "USM",
+    projectType: "Site vitrine premium",
+    status: "live",
+    url: "https://www.usmfootball.com",
+    visible: true,
+    featured: true
+  },
+  // Exemple à ajouter plus tard :
+  // {
+  //   name: "Nom du client",
+  //   initials: "NC",
+  //   logoUrl: "assets/clients/logo-client.svg",
+  //   projectType: "Portfolio intermittent",
+  //   status: "building",
+  //   url: "",
+  //   visible: true,
+  //   featured: false
+  // }
+];
+
+const clientTestimonials = [
+  // Exemple à activer plus tard :
+  // {
+  //   clientName: "USM Football",
+  //   author: "USM Football",
+  //   role: "Client Nocx Web",
+  //   text: "Un accompagnement clair, un rendu professionnel et une mise en ligne propre.",
+  //   rating: 5,
+  //   published: true
+  // }
+];
+
+const clientStatusMap = {
+  live: { label: "En ligne", cta: "Visiter le site", tone: "success" },
+  building: { label: "En cours de création", cta: "En cours de création", tone: "warning" },
+  private: { label: "Projet privé", cta: "Projet privé", tone: "neutral" },
+  soon: { label: "Bientôt disponible", cta: "Bientôt disponible", tone: "blue" }
+};
+
 const routes = {
   home: {
     title: "Nocx Web | Sites premium, campus en ligne et portails privés",
@@ -86,6 +128,8 @@ const routes = {
       </section>
 
       ${reassuranceSection()}
+
+      ${trustedClientsSection()}
 
       <section class="section">
         <div class="container">
@@ -880,6 +924,104 @@ function valueCard(title, text) {
     <article class="reassurance-card" data-reveal>
       <h3>${title}</h3>
       <p>${text}</p>
+    </article>
+  `;
+}
+
+function getClientStatus(status) {
+  return clientStatusMap[status] || clientStatusMap.soon;
+}
+
+function getClientInitials(client) {
+  if (client.initials) return client.initials;
+  return client.name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(word => word[0])
+    .join("")
+    .toUpperCase();
+}
+
+function trustedClientsSection() {
+  const visibleClients = trustedClients
+    .filter(client => client.visible)
+    .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
+
+  if (!visibleClients.length) return "";
+
+  return `
+    <section class="section clients-section" aria-labelledby="trusted-clients-title">
+      <div class="container">
+        <div class="section-heading center" data-reveal>
+          <p class="kicker">Ils nous ont fait confiance</p>
+          <h2 id="trusted-clients-title">Des projets conçus pour être montrés, partagés et retenus.</h2>
+          <p>Logos, portfolios, sites vitrines ou plateformes privées : chaque carte peut afficher son statut réel, son lien public ou rester volontairement confidentielle.</p>
+        </div>
+        <div class="clients-grid">
+          ${visibleClients.map(clientCard).join("")}
+        </div>
+        ${clientTestimonialsSection()}
+      </div>
+    </section>
+  `;
+}
+
+function clientCard(client) {
+  const status = getClientStatus(client.status);
+  const hasPublicLink = client.status === "live" && client.url;
+  const logo = client.logoUrl
+    ? `<img src="${client.logoUrl}" alt="Logo ${client.name}" loading="lazy">`
+    : `<span>${getClientInitials(client)}</span>`;
+  const action = hasPublicLink
+    ? `<a class="client-link" href="${client.url}" target="_blank" rel="noopener noreferrer">${status.cta}</a>`
+    : `<span class="client-link is-disabled" aria-disabled="true">${status.cta}</span>`;
+
+  return `
+    <article class="client-card ${client.featured ? "is-featured" : ""}" data-reveal>
+      <div class="client-card-top">
+        <div class="client-logo" aria-hidden="${client.logoUrl ? "false" : "true"}">${logo}</div>
+        <span class="client-status is-${status.tone}">${status.label}</span>
+      </div>
+      <div class="client-card-body">
+        <h3>${client.name}</h3>
+        <p>${client.projectType}</p>
+      </div>
+      ${action}
+    </article>
+  `;
+}
+
+function clientTestimonialsSection() {
+  const publishedReviews = clientTestimonials.filter(review => review.published);
+
+  if (!publishedReviews.length) return "";
+
+  return `
+    <div class="client-reviews" aria-labelledby="client-reviews-title">
+      <div class="client-reviews-heading" data-reveal>
+        <p class="kicker">Avis clients</p>
+        <h3 id="client-reviews-title">Ce qu’ils en disent</h3>
+      </div>
+      <div class="client-reviews-grid">
+        ${publishedReviews.map(clientReviewCard).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function clientReviewCard(review) {
+  const rating = Math.max(0, Math.min(5, Number(review.rating) || 0));
+  const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+
+  return `
+    <article class="client-review-card" data-reveal>
+      <div class="client-review-stars" aria-label="Note ${rating} sur 5">${stars}</div>
+      <p>“${review.text}”</p>
+      <footer>
+        <strong>${review.author}</strong>
+        <span>${review.role || review.clientName || "Client Nocx Web"}</span>
+      </footer>
     </article>
   `;
 }
