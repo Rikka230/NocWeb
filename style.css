@@ -2466,3 +2466,131 @@ h1 {
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================================
+   Patch typographie Intermittents
+   Cible uniquement les blocs texte de la page Portfolio Intermittents.
+   ========================================================= */
+
+.intermittents-intro-grid .copy-block,
+.dashboard-option-grid .copy-block {
+  max-width: 720px;
+}
+
+.intermittents-intro-grid .copy-block h2,
+.dashboard-option-grid .copy-block h2 {
+  max-width: 720px;
+  margin: 0 0 1.05rem;
+  color: var(--text);
+  font-size: clamp(2rem, 3.9vw, 3.45rem);
+  line-height: .98;
+  letter-spacing: -.065em;
+  font-weight: 900;
+}
+
+.intermittents-intro-grid .copy-block > p:not(.kicker),
+.dashboard-option-grid .copy-block > p:not(.kicker) {
+  max-width: 680px;
+  margin: 0;
+  color: #d4dcf2;
+  font-size: clamp(1rem, 1.2vw, 1.08rem);
+  line-height: 1.74;
+  font-weight: 500;
+}
+
+.intermittents-intro-grid .bullet-stack {
+  display: grid;
+  gap: .9rem;
+  margin: 1.35rem 0 1.45rem;
+}
+
+.intermittents-intro-grid .bullet-row {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr);
+  gap: .85rem;
+  align-items: start;
+}
+
+.intermittents-intro-grid .bullet-row span {
+  width: 8px;
+  height: 8px;
+  margin-top: .72rem;
+  border-radius: 999px;
+  background: var(--cyan);
+  box-shadow: 0 0 16px rgba(54, 216, 255, .85);
+}
+
+.intermittents-intro-grid .bullet-row p {
+  max-width: 660px;
+  margin: 0;
+  color: #d4dcf2;
+  font-size: clamp(1rem, 1.2vw, 1.08rem);
+  line-height: 1.68;
+  font-weight: 500;
+}
+
+.dashboard-option-grid .check-list {
+  gap: .85rem;
+  margin-top: 1.35rem;
+}
+
+.dashboard-option-grid .check-list li {
+  max-width: 650px;
+  color: #e9edfb;
+  font-size: clamp(1rem, 1.15vw, 1.06rem);
+  line-height: 1.62;
+  font-weight: 600;
+}
+
+.artist-dashboard-panel {
+  padding: clamp(1.25rem, 2.6vw, 1.75rem);
+}
+
+.artist-dashboard-top span,
+.artist-dashboard-grid small {
+  letter-spacing: .095em;
+}
+
+.artist-dashboard-top strong {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  letter-spacing: -.025em;
+}
+
+.artist-dashboard-grid strong {
+  font-size: clamp(1.02rem, 1.45vw, 1.18rem);
+  letter-spacing: -.03em;
+}
+
+.compare-grid > .compare-card:not(.before):not(.after) {
+  padding: clamp(1.25rem, 2vw, 1.55rem);
+  border-radius: var(--radius-lg);
+}
+
+.compare-grid > .compare-card:not(.before):not(.after) h3 {
+  margin: .25rem 0 .85rem;
+  color: var(--text);
+  font-size: clamp(1.35rem, 2vw, 1.72rem);
+  line-height: 1.12;
+  letter-spacing: -.052em;
+  font-weight: 850;
+}
+
+.compare-grid > .compare-card:not(.before):not(.after) p:not(.kicker) {
+  color: #cfd7ec;
+  font-size: clamp(.98rem, 1.15vw, 1.04rem);
+  line-height: 1.62;
+  font-weight: 500;
+}
+
+@media (max-width: 760px) {
+  .intermittents-intro-grid .copy-block h2,
+  .dashboard-option-grid .copy-block h2 {
+    font-size: clamp(2rem, 10vw, 2.75rem);
+    line-height: 1.02;
+  }
+
+  .dashboard-option-grid .copy-block,
+  .intermittents-intro-grid .copy-block {
+    max-width: none;
+  }
+}
