@@ -242,7 +242,7 @@ const routes = {
       ${pageHero("Sites vitrines premium", "Des sites vitrines modernes qui donnent envie de vous contacter.", "Nocx Web crée des sites rapides, beaux, responsive et adaptés à votre image pour transformer vos visiteurs en prospects qualifiés.", "Créer mon site vitrine", "contact")}
 
       <section class="section-tight">
-        <div class="container intermittents-offer-grid">
+        <div class="container split-section split-section-sites">
           <div class="highlight-panel highlight-panel-sites" data-reveal>
             <p class="kicker">Présence premium</p>
             <h2>Un site vitrine doit rassurer avant même le premier contact.</h2>
@@ -263,7 +263,7 @@ const routes = {
               </article>
             </div>
           </div>
-          <div class="intermittents-target-grid">
+          <div class="feature-grid feature-grid-sites">
             ${[
               ["Design sur mesure", "Une interface adaptée à votre identité et à votre niveau de positionnement."],
               ["Responsive mobile", "Une expérience lisible et confortable sur smartphone, tablette et desktop."],
@@ -531,7 +531,7 @@ const routes = {
       </section>
 
       <section class="section-tight">
-        <div class="container intermittents-offer-grid">
+        <div class="container split-section split-section-sites">
           <div class="highlight-panel portfolio-highlight" data-reveal>
             <span class="price-badge portfolio-inline-badge">Créatifs & spectacle</span>
             <h3>Portfolio Intermittents</h3>
@@ -551,7 +551,7 @@ const routes = {
             <a class="btn btn-primary" href="?page=contact" data-link>Demander ce portfolio</a>
           </div>
 
-          <div class="intermittents-target-grid">
+          <div class="feature-grid feature-grid-sites">
             ${feature("Acteurs & actrices", "Profil casting, bande démo, photos, rôles, expériences, agent ou contact direct.", "01")}
             ${feature("Modèles & artistes", "Galerie visuelle, séries photo, univers artistique, réseaux et demandes professionnelles.", "02")}
             ${feature("Techniciens & créatifs", "CV clair, références, projets, compétences, bande démo ou sélection de réalisations.", "03")}
@@ -1113,8 +1113,6 @@ function renderPage(page, options = {}) {
   if (!app || currentPage === page && !options.force) return;
 
   currentPage = page;
-  document.body.dataset.page = page;
-  document.body.classList.toggle("is-intermittents-page", page === "intermittents");
   updateMeta(route);
   setActiveNav(page);
   closeMenu();
