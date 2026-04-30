@@ -7,6 +7,26 @@
 
 const CONTACT_ENDPOINT = "/api/sendContactEmail";
 
+const NOCX_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAQtIuTgqEdVBVa7dDNCfjh4oL4af9OY54",
+  authDomain: "nocx-web.firebaseapp.com",
+  projectId: "nocx-web",
+  storageBucket: "nocx-web.firebasestorage.app",
+  messagingSenderId: "451683369594",
+  appId: "1:451683369594:web:dca343ef78519cb55ef1c3",
+  measurementId: "G-WY3DX5CQ8D"
+};
+
+const NOCX_ADMIN_EMAILS = [
+  "viard.antony83@gmail.com",
+  "Viard.antony83@gmail.com"
+];
+
+const FIREBASE_COLLECTIONS = {
+  clients: "trustedClients",
+  reviews: "clientReviews"
+};
+
 const trustedClients = [
   {
     name: "USM Football",
@@ -15,7 +35,8 @@ const trustedClients = [
     status: "live",
     url: "https://www.usmfootball.com",
     visible: true,
-    featured: true
+    featured: true,
+    sortOrder: 1
   },
   // Exemple à ajouter plus tard :
   // {
@@ -26,7 +47,8 @@ const trustedClients = [
   //   status: "building",
   //   url: "",
   //   visible: true,
-  //   featured: false
+  //   featured: false,
+  //   sortOrder: 2
   // }
 ];
 
@@ -708,6 +730,18 @@ const routes = {
     `
   },
 
+  "avis-client": {
+    title: "Avis client | Nocx Web",
+    description: "Laissez un avis à Nocx Web après la livraison d’un site, portfolio, campus ou portail privé.",
+    render: () => reviewPage()
+  },
+
+  "nocx-admin": {
+    title: "Admin clients | Nocx Web",
+    description: "Espace privé Nocx Web pour gérer les clients de confiance et les avis publiés.",
+    render: () => adminPage()
+  },
+
   contact: {
     title: "Contact Nocx Web | Demander un audit ou une démonstration",
     description: "Contactez Nocx Web pour un audit, un site vitrine premium, un campus en ligne privé, une plateforme e-learning ou un portail client.",
@@ -928,13 +962,40 @@ function valueCard(title, text) {
   `;
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function safeExternalUrl(value) {
+  const url = String(value || "").trim();
+  if (!url) return "";
+  try {
+    const parsed = new URL(url);
+    return ["http:", "https:"].includes(parsed.protocol) ? parsed.href : "";
+  } catch (error) {
+    return "";
+  }
+}
+
+function safeLogoUrl(value) {
+  const url = String(value || "").trim();
+  if (!url) return "";
+  if (url.startsWith("assets/") || url.startsWith("/assets/") || url.startsWith("/")) return url;
+  return safeExternalUrl(url);
+}
+
 function getClientStatus(status) {
   return clientStatusMap[status] || clientStatusMap.soon;
 }
 
 function getClientInitials(client) {
-  if (client.initials) return client.initials;
-  return client.name
+  if (client.initials) return String(client.initials).slice(0, 4).toUpperCase();
+  return String(client.name || "NW")
     .split(" ")
     .filter(Boolean)
     .slice(0, 2)
@@ -943,57 +1004,75 @@ function getClientInitials(client) {
     .toUpperCase();
 }
 
-function trustedClientsSection() {
-  const visibleClients = trustedClients
-    .filter(client => client.visible)
-    .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
+function sortTrustedClients(clients) {
+  return [...clients].sort((a, b) => {
+    const featured = Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+    if (featured) return featured;
+    const order = Number(a.sortOrder || 999) - Number(b.sortOrder || 999);
+    if (order) return order;
+    return String(a.name || "").localeCompare(String(b.name || ""), "fr");
+  });
+}
 
+function trustedClientsSection() {
+  const visibleClients = sortTrustedClients(trustedClients.filter(client => client.visible));
   if (!visibleClients.length) return "";
 
   return `
-    <section class="section clients-section" aria-labelledby="trusted-clients-title">
-      <div class="container">
-        <div class="section-heading center" data-reveal>
-          <p class="kicker">Ils nous ont fait confiance</p>
-          <h2 id="trusted-clients-title">Des projets conçus pour être montrés, partagés et retenus.</h2>
-          <p>Logos, portfolios, sites vitrines ou plateformes privées : chaque carte peut afficher son statut réel, son lien public ou rester volontairement confidentielle.</p>
-        </div>
-        <div class="clients-grid">
-          ${visibleClients.map(clientCard).join("")}
-        </div>
-        ${clientTestimonialsSection()}
-      </div>
+    <section class="section clients-section" aria-labelledby="trusted-clients-title" data-trusted-clients-root>
+      ${trustedClientsContent(visibleClients, clientTestimonials)}
     </section>
+  `;
+}
+
+function trustedClientsContent(clients, reviews = []) {
+  if (!clients.length) return "";
+  return `
+    <div class="container">
+      <div class="section-heading center" data-reveal>
+        <p class="kicker">Ils nous ont fait confiance</p>
+        <h2 id="trusted-clients-title">Des projets conçus pour être montrés, partagés et retenus.</h2>
+        <p>Logos, portfolios, sites vitrines ou plateformes privées : chaque carte peut afficher son statut réel, son lien public ou rester volontairement confidentielle.</p>
+      </div>
+      <div class="clients-grid">
+        ${sortTrustedClients(clients).map(clientCard).join("")}
+      </div>
+      ${clientTestimonialsSection(reviews)}
+    </div>
   `;
 }
 
 function clientCard(client) {
   const status = getClientStatus(client.status);
-  const hasPublicLink = client.status === "live" && client.url;
-  const logo = client.logoUrl
-    ? `<img src="${client.logoUrl}" alt="Logo ${client.name}" loading="lazy">`
-    : `<span>${getClientInitials(client)}</span>`;
+  const linkUrl = safeExternalUrl(client.url);
+  const logoUrl = safeLogoUrl(client.logoUrl);
+  const name = escapeHtml(client.name || "Projet Nocx Web");
+  const projectType = escapeHtml(client.projectType || "Projet digital premium");
+  const hasPublicLink = client.status === "live" && linkUrl;
+  const logo = logoUrl
+    ? `<img src="${escapeHtml(logoUrl)}" alt="Logo ${name}" loading="lazy">`
+    : `<span>${escapeHtml(getClientInitials(client))}</span>`;
   const action = hasPublicLink
-    ? `<a class="client-link" href="${client.url}" target="_blank" rel="noopener noreferrer">${status.cta}</a>`
-    : `<span class="client-link is-disabled" aria-disabled="true">${status.cta}</span>`;
+    ? `<a class="client-link" href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(status.cta)}</a>`
+    : `<span class="client-link is-disabled" aria-disabled="true">${escapeHtml(status.cta)}</span>`;
 
   return `
     <article class="client-card ${client.featured ? "is-featured" : ""}" data-reveal>
       <div class="client-card-top">
-        <div class="client-logo" aria-hidden="${client.logoUrl ? "false" : "true"}">${logo}</div>
-        <span class="client-status is-${status.tone}">${status.label}</span>
+        <div class="client-logo" aria-hidden="${logoUrl ? "false" : "true"}">${logo}</div>
+        <span class="client-status is-${escapeHtml(status.tone)}">${escapeHtml(status.label)}</span>
       </div>
       <div class="client-card-body">
-        <h3>${client.name}</h3>
-        <p>${client.projectType}</p>
+        <h3>${name}</h3>
+        <p>${projectType}</p>
       </div>
       ${action}
     </article>
   `;
 }
 
-function clientTestimonialsSection() {
-  const publishedReviews = clientTestimonials.filter(review => review.published);
+function clientTestimonialsSection(reviews = clientTestimonials) {
+  const publishedReviews = reviews.filter(review => review.published);
 
   if (!publishedReviews.length) return "";
 
@@ -1013,14 +1092,17 @@ function clientTestimonialsSection() {
 function clientReviewCard(review) {
   const rating = Math.max(0, Math.min(5, Number(review.rating) || 0));
   const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+  const text = escapeHtml(review.text || "");
+  const author = escapeHtml(review.author || "Client Nocx Web");
+  const role = escapeHtml(review.role || review.clientName || "Client Nocx Web");
 
   return `
     <article class="client-review-card" data-reveal>
       <div class="client-review-stars" aria-label="Note ${rating} sur 5">${stars}</div>
-      <p>“${review.text}”</p>
+      <p>“${text}”</p>
       <footer>
-        <strong>${review.author}</strong>
-        <span>${review.role || review.clientName || "Client Nocx Web"}</span>
+        <strong>${author}</strong>
+        <span>${role}</span>
       </footer>
     </article>
   `;
@@ -1083,6 +1165,564 @@ function reassuranceSection() {
         </div>
       </div>
     </section>
+  `;
+}
+
+function reviewPage() {
+  return `
+    ${pageHero("Avis client", "Votre retour nous aide à améliorer Nocx Web.", "Cet espace permet aux clients de laisser un avis après un projet. L’avis reste invisible tant qu’il n’a pas été validé depuis l’espace admin.", "", "")}
+
+    <section class="section-tight review-page-section">
+      <div class="container contact-grid">
+        <aside class="contact-panel" data-reveal>
+          <p class="kicker">Modération</p>
+          <h2>Aucun avis n’est publié automatiquement.</h2>
+          <p class="page-lead">Votre message arrive en attente. Nocx Web peut ensuite le relire, le corriger légèrement si besoin, puis choisir de le publier ou non sur le site.</p>
+          <div class="reassurance-stack">
+            <div class="reassurance-item"><strong>Validation manuelle</strong><p>Les avis reçus restent privés tant qu’ils ne sont pas approuvés.</p></div>
+            <div class="reassurance-item"><strong>Affichage conditionnel</strong><p>La section avis du site reste masquée s’il n’y a aucun avis publié.</p></div>
+            <div class="reassurance-item"><strong>Usage clair</strong><p>Votre avis peut être affiché avec votre nom, société ou rôle si vous l’autorisez.</p></div>
+          </div>
+        </aside>
+
+        <section class="contact-panel" data-reveal>
+          <form class="contact-form" data-client-review-form novalidate>
+            <div class="form-status is-visible" data-review-status>Formulaire prêt.</div>
+            <div class="form-field contact-honeypot" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden;pointer-events:none;">
+              <label for="reviewWebsite">Site web</label>
+              <input id="reviewWebsite" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="reviewAuthor">Nom affiché</label>
+                <input id="reviewAuthor" name="author" required placeholder="Ex : USM Football" />
+              </div>
+              <div class="form-field">
+                <label for="reviewRole">Rôle / société</label>
+                <input id="reviewRole" name="role" placeholder="Ex : Client Nocx Web" />
+              </div>
+              <div class="form-field">
+                <label for="reviewClientName">Projet concerné</label>
+                <input id="reviewClientName" name="clientName" placeholder="Ex : Site vitrine premium" />
+              </div>
+              <div class="form-field">
+                <label for="reviewRating">Note</label>
+                <select id="reviewRating" name="rating" required>
+                  <option value="5">5 / 5</option>
+                  <option value="4">4 / 5</option>
+                  <option value="3">3 / 5</option>
+                </select>
+              </div>
+              <div class="form-field full">
+                <label for="reviewText">Avis</label>
+                <textarea id="reviewText" name="text" required maxlength="700" placeholder="Votre retour en quelques phrases."></textarea>
+              </div>
+              <label class="form-check full">
+                <input type="checkbox" name="consent" required />
+                <span>J’autorise Nocx Web à afficher cet avis sur son site après validation.</span>
+              </label>
+            </div>
+            <button class="btn btn-primary" type="submit">Envoyer mon avis</button>
+          </form>
+        </section>
+      </div>
+    </section>
+  `;
+}
+
+function adminPage() {
+  return `
+    ${pageHero("Espace admin", "Gestion des clients et avis Nocx Web.", "Cet espace permet d’ajouter les clients visibles sur la home, de changer leur statut et de modérer les avis reçus.", "", "")}
+    <section class="section-tight admin-page-section">
+      <div class="container">
+        <div class="admin-panel" data-admin-panel>
+          <div class="admin-placeholder">Chargement de l’espace admin…</div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function isFirebaseConfigured() {
+  return Boolean(
+    NOCX_FIREBASE_CONFIG.apiKey &&
+    NOCX_FIREBASE_CONFIG.projectId &&
+    NOCX_FIREBASE_CONFIG.appId
+  );
+}
+
+let firebaseClientPromise = null;
+
+async function getFirebaseClient() {
+  if (!isFirebaseConfigured()) {
+    throw new Error("FIREBASE_CONFIG_MISSING");
+  }
+
+  if (firebaseClientPromise) return firebaseClientPromise;
+
+  firebaseClientPromise = Promise.all([
+    import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"),
+    import("https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"),
+    import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js")
+  ]).then(([appModule, authModule, firestoreModule]) => {
+    const appInstance = appModule.getApps().length
+      ? appModule.getApp()
+      : appModule.initializeApp(NOCX_FIREBASE_CONFIG);
+
+    return {
+      app: appInstance,
+      auth: authModule.getAuth(appInstance),
+      db: firestoreModule.getFirestore(appInstance),
+      signInWithEmailAndPassword: authModule.signInWithEmailAndPassword,
+      signOut: authModule.signOut,
+      onAuthStateChanged: authModule.onAuthStateChanged,
+      collection: firestoreModule.collection,
+      doc: firestoreModule.doc,
+      addDoc: firestoreModule.addDoc,
+      updateDoc: firestoreModule.updateDoc,
+      deleteDoc: firestoreModule.deleteDoc,
+      getDocs: firestoreModule.getDocs,
+      query: firestoreModule.query,
+      where: firestoreModule.where,
+      serverTimestamp: firestoreModule.serverTimestamp
+    };
+  });
+
+  return firebaseClientPromise;
+}
+
+function normalizeClientDoc(docSnap) {
+  const data = docSnap.data ? docSnap.data() : docSnap;
+  return {
+    id: docSnap.id || data.id || "",
+    name: String(data.name || "").trim(),
+    initials: String(data.initials || "").trim(),
+    logoUrl: String(data.logoUrl || "").trim(),
+    projectType: String(data.projectType || "").trim(),
+    status: ["live", "building", "private", "soon"].includes(data.status) ? data.status : "soon",
+    url: String(data.url || "").trim(),
+    visible: Boolean(data.visible),
+    featured: Boolean(data.featured),
+    sortOrder: Number(data.sortOrder || 999)
+  };
+}
+
+function normalizeReviewDoc(docSnap) {
+  const data = docSnap.data ? docSnap.data() : docSnap;
+  return {
+    id: docSnap.id || data.id || "",
+    author: String(data.author || "").trim(),
+    role: String(data.role || "").trim(),
+    clientName: String(data.clientName || "").trim(),
+    text: String(data.text || "").trim(),
+    rating: Number(data.rating || 5),
+    published: Boolean(data.published),
+    status: data.status || (data.published ? "published" : "pending")
+  };
+}
+
+async function loadPublishedTrustData() {
+  const fb = await getFirebaseClient();
+  const clientsQuery = fb.query(
+    fb.collection(fb.db, FIREBASE_COLLECTIONS.clients),
+    fb.where("visible", "==", true)
+  );
+  const reviewsQuery = fb.query(
+    fb.collection(fb.db, FIREBASE_COLLECTIONS.reviews),
+    fb.where("published", "==", true)
+  );
+
+  const [clientSnap, reviewSnap] = await Promise.all([
+    fb.getDocs(clientsQuery),
+    fb.getDocs(reviewsQuery)
+  ]);
+
+  return {
+    clients: sortTrustedClients(clientSnap.docs.map(normalizeClientDoc)),
+    reviews: reviewSnap.docs.map(normalizeReviewDoc)
+  };
+}
+
+async function initTrustedClients() {
+  const root = document.querySelector("[data-trusted-clients-root]");
+  if (!root || !isFirebaseConfigured()) return;
+
+  try {
+    const { clients, reviews } = await loadPublishedTrustData();
+    if (!clients.length) {
+      root.remove();
+      return;
+    }
+    root.innerHTML = trustedClientsContent(clients, reviews);
+    initRevealAnimations();
+  } catch (error) {
+    console.warn("Clients Nocx Web : chargement Firebase indisponible, données locales conservées.", error);
+  }
+}
+
+function setPanelStatus(node, type, message) {
+  if (!node) return;
+  node.className = `form-status is-visible is-${type}`;
+  node.textContent = message;
+}
+
+function initClientReviewForm() {
+  const form = document.querySelector("[data-client-review-form]");
+  if (!form) return;
+
+  const status = form.querySelector("[data-review-status]");
+  const button = form.querySelector("button[type='submit']");
+
+  if (!isFirebaseConfigured()) {
+    setPanelStatus(status, "error", "Le formulaire d’avis sera activé dès que Firebase sera configuré dans script.js.");
+    if (button) button.disabled = true;
+    return;
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    const author = String(data.author || "").trim();
+    const text = String(data.text || "").trim();
+    const consent = Boolean(data.consent);
+    const website = String(data.website || "").trim();
+
+    if (website) return;
+    if (!author) {
+      setPanelStatus(status, "error", "Merci d’indiquer le nom à afficher.");
+      form.querySelector("#reviewAuthor")?.focus();
+      return;
+    }
+    if (!text) {
+      setPanelStatus(status, "error", "Merci d’ajouter un avis.");
+      form.querySelector("#reviewText")?.focus();
+      return;
+    }
+    if (!consent) {
+      setPanelStatus(status, "error", "Merci de cocher l’autorisation d’affichage.");
+      return;
+    }
+
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Envoi en cours…";
+    }
+    setPanelStatus(status, "loading", "Envoi de votre avis…");
+
+    try {
+      const fb = await getFirebaseClient();
+      await fb.addDoc(fb.collection(fb.db, FIREBASE_COLLECTIONS.reviews), {
+        author,
+        role: String(data.role || "").trim(),
+        clientName: String(data.clientName || "").trim(),
+        rating: Math.max(1, Math.min(5, Number(data.rating) || 5)),
+        text: text.slice(0, 700),
+        consent: true,
+        published: false,
+        status: "pending",
+        createdAt: fb.serverTimestamp(),
+        updatedAt: fb.serverTimestamp()
+      });
+      form.reset();
+      setPanelStatus(status, "success", "Merci, votre avis a bien été envoyé. Il restera privé jusqu’à validation.");
+    } catch (error) {
+      setPanelStatus(status, "error", "Impossible d’envoyer l’avis pour le moment. Vérifiez la configuration Firebase.");
+    } finally {
+      if (button) {
+        button.disabled = false;
+        button.textContent = "Envoyer mon avis";
+      }
+    }
+  });
+}
+
+function isAllowedAdminEmail(email) {
+  return NOCX_ADMIN_EMAILS.map(item => item.toLowerCase()).includes(String(email || "").toLowerCase());
+}
+
+function initAdminPanel() {
+  const panel = document.querySelector("[data-admin-panel]");
+  if (!panel) return;
+
+  if (!isFirebaseConfigured()) {
+    renderAdminSetupNotice(panel);
+    return;
+  }
+
+  getFirebaseClient()
+    .then((fb) => {
+      fb.onAuthStateChanged(fb.auth, (user) => {
+        if (!user) {
+          renderAdminLogin(panel, fb);
+          return;
+        }
+        if (!isAllowedAdminEmail(user.email)) {
+          panel.innerHTML = `
+            <div class="admin-card">
+              <p class="kicker">Accès refusé</p>
+              <h2>Email non autorisé</h2>
+              <p>Connecté avec ${escapeHtml(user.email)}. Cet email n’est pas dans la liste des admins Nocx Web.</p>
+              <button class="btn btn-secondary" type="button" data-admin-logout>Se déconnecter</button>
+            </div>
+          `;
+          panel.querySelector("[data-admin-logout]")?.addEventListener("click", () => fb.signOut(fb.auth));
+          return;
+        }
+        renderAdminDashboard(panel, fb, user);
+      });
+    })
+    .catch(() => renderAdminSetupNotice(panel));
+}
+
+function renderAdminSetupNotice(panel) {
+  panel.innerHTML = `
+    <div class="admin-card">
+      <p class="kicker">Configuration requise</p>
+      <h2>Firebase n’est pas encore configuré côté front.</h2>
+      <p>Renseignez <code>NOCX_FIREBASE_CONFIG</code> dans <code>script.js</code>, activez Email/Password dans Firebase Auth, puis déployez les règles Firestore fournies dans le patch.</p>
+    </div>
+  `;
+}
+
+function renderAdminLogin(panel, fb) {
+  panel.innerHTML = `
+    <div class="admin-card admin-login-card">
+      <p class="kicker">Connexion privée</p>
+      <h2>Connexion admin Nocx Web</h2>
+      <form class="contact-form admin-login-form" data-admin-login>
+        <div class="form-status is-visible" data-admin-login-status>Connectez-vous avec l’email admin autorisé.</div>
+        <div class="form-grid">
+          <div class="form-field full">
+            <label for="adminEmail">Email</label>
+            <input id="adminEmail" name="email" type="email" autocomplete="email" required placeholder="viard.antony83@gmail.com" />
+          </div>
+          <div class="form-field full">
+            <label for="adminPassword">Mot de passe</label>
+            <input id="adminPassword" name="password" type="password" autocomplete="current-password" required />
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Se connecter</button>
+      </form>
+    </div>
+  `;
+
+  const form = panel.querySelector("[data-admin-login]");
+  const status = panel.querySelector("[data-admin-login-status]");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    try {
+      setPanelStatus(status, "loading", "Connexion en cours…");
+      await fb.signInWithEmailAndPassword(fb.auth, String(data.email || "").trim(), String(data.password || ""));
+    } catch (error) {
+      setPanelStatus(status, "error", "Connexion impossible. Vérifiez l’email, le mot de passe et l’activation Firebase Auth.");
+    }
+  });
+}
+
+async function loadAdminCollections(fb) {
+  const [clientSnap, reviewSnap] = await Promise.all([
+    fb.getDocs(fb.collection(fb.db, FIREBASE_COLLECTIONS.clients)),
+    fb.getDocs(fb.collection(fb.db, FIREBASE_COLLECTIONS.reviews))
+  ]);
+  return {
+    clients: sortTrustedClients(clientSnap.docs.map(normalizeClientDoc)),
+    reviews: reviewSnap.docs.map(normalizeReviewDoc)
+  };
+}
+
+async function renderAdminDashboard(panel, fb, user) {
+  panel.innerHTML = `
+    <div class="admin-header-card">
+      <div>
+        <p class="kicker">Admin connecté</p>
+        <h2>Clients de confiance & avis</h2>
+        <p>Connecté avec ${escapeHtml(user.email)}.</p>
+      </div>
+      <button class="btn btn-secondary" type="button" data-admin-logout>Se déconnecter</button>
+    </div>
+    <div class="admin-grid">
+      <section class="admin-card">
+        <p class="kicker">Clients</p>
+        <h3>Ajouter ou modifier une carte</h3>
+        <form class="contact-form admin-client-form" data-admin-client-form>
+          <input type="hidden" name="id" />
+          <div class="form-grid">
+            <div class="form-field"><label>Nom</label><input name="name" required placeholder="USM Football" /></div>
+            <div class="form-field"><label>Initiales</label><input name="initials" maxlength="4" placeholder="USM" /></div>
+            <div class="form-field full"><label>Logo URL</label><input name="logoUrl" placeholder="assets/clients/logo.svg ou https://..." /></div>
+            <div class="form-field full"><label>Type de projet</label><input name="projectType" required placeholder="Site vitrine premium" /></div>
+            <div class="form-field"><label>Statut</label><select name="status"><option value="live">En ligne</option><option value="building">En cours de création</option><option value="private">Projet privé</option><option value="soon">Bientôt disponible</option></select></div>
+            <div class="form-field"><label>Ordre</label><input name="sortOrder" type="number" min="1" value="1" /></div>
+            <div class="form-field full"><label>Lien public</label><input name="url" placeholder="https://..." /></div>
+            <label class="form-check"><input name="visible" type="checkbox" checked /> <span>Visible sur le site</span></label>
+            <label class="form-check"><input name="featured" type="checkbox" /> <span>Projet mis en avant</span></label>
+          </div>
+          <div class="admin-actions-row">
+            <button class="btn btn-primary" type="submit">Enregistrer le client</button>
+            <button class="btn btn-secondary" type="button" data-client-form-reset>Réinitialiser</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-card">
+        <p class="kicker">Liste</p>
+        <h3>Clients enregistrés</h3>
+        <div class="admin-list" data-admin-clients-list>Chargement…</div>
+      </section>
+    </div>
+
+    <section class="admin-card admin-reviews-card">
+      <p class="kicker">Avis</p>
+      <h3>Modération des avis reçus</h3>
+      <div class="admin-list" data-admin-reviews-list>Chargement…</div>
+    </section>
+  `;
+
+  panel.querySelector("[data-admin-logout]")?.addEventListener("click", () => fb.signOut(fb.auth));
+  await refreshAdminLists(panel, fb);
+}
+
+function clientPayloadFromForm(form, fb) {
+  const data = Object.fromEntries(new FormData(form).entries());
+  return {
+    name: String(data.name || "").trim(),
+    initials: String(data.initials || "").trim().toUpperCase().slice(0, 4),
+    logoUrl: String(data.logoUrl || "").trim(),
+    projectType: String(data.projectType || "").trim(),
+    status: String(data.status || "soon"),
+    url: String(data.url || "").trim(),
+    visible: Boolean(data.visible),
+    featured: Boolean(data.featured),
+    sortOrder: Number(data.sortOrder || 999),
+    updatedAt: fb.serverTimestamp()
+  };
+}
+
+async function refreshAdminLists(panel, fb) {
+  const form = panel.querySelector("[data-admin-client-form]");
+  const resetButton = panel.querySelector("[data-client-form-reset]");
+  const clientsList = panel.querySelector("[data-admin-clients-list]");
+  const reviewsList = panel.querySelector("[data-admin-reviews-list]");
+
+  const { clients, reviews } = await loadAdminCollections(fb);
+  clientsList.innerHTML = clients.length ? clients.map(adminClientRow).join("") : `<p class="admin-empty">Aucun client enregistré.</p>`;
+  reviewsList.innerHTML = reviews.length ? reviews.map(adminReviewRow).join("") : `<p class="admin-empty">Aucun avis reçu.</p>`;
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const id = form.elements.id.value;
+    const payload = clientPayloadFromForm(form, fb);
+    if (!payload.name || !payload.projectType) return;
+
+    if (id) {
+      await fb.updateDoc(fb.doc(fb.db, FIREBASE_COLLECTIONS.clients, id), payload);
+    } else {
+      await fb.addDoc(fb.collection(fb.db, FIREBASE_COLLECTIONS.clients), {
+        ...payload,
+        createdAt: fb.serverTimestamp()
+      });
+    }
+    form.reset();
+    form.elements.visible.checked = true;
+    form.elements.sortOrder.value = "1";
+    form.elements.id.value = "";
+    await refreshAdminLists(panel, fb);
+  }, { once: true });
+
+  resetButton?.addEventListener("click", () => {
+    form.reset();
+    form.elements.visible.checked = true;
+    form.elements.sortOrder.value = "1";
+    form.elements.id.value = "";
+  }, { once: true });
+
+  clientsList.querySelectorAll("[data-edit-client]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const client = clients.find(item => item.id === button.dataset.editClient);
+      if (!client || !form) return;
+      form.elements.id.value = client.id;
+      form.elements.name.value = client.name;
+      form.elements.initials.value = client.initials;
+      form.elements.logoUrl.value = client.logoUrl;
+      form.elements.projectType.value = client.projectType;
+      form.elements.status.value = client.status;
+      form.elements.url.value = client.url;
+      form.elements.sortOrder.value = client.sortOrder || 999;
+      form.elements.visible.checked = client.visible;
+      form.elements.featured.checked = client.featured;
+      form.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  clientsList.querySelectorAll("[data-toggle-client]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const client = clients.find(item => item.id === button.dataset.toggleClient);
+      if (!client) return;
+      await fb.updateDoc(fb.doc(fb.db, FIREBASE_COLLECTIONS.clients, client.id), {
+        visible: !client.visible,
+        updatedAt: fb.serverTimestamp()
+      });
+      await refreshAdminLists(panel, fb);
+    });
+  });
+
+  clientsList.querySelectorAll("[data-delete-client]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      if (!confirm("Supprimer ce client ?")) return;
+      await fb.deleteDoc(fb.doc(fb.db, FIREBASE_COLLECTIONS.clients, button.dataset.deleteClient));
+      await refreshAdminLists(panel, fb);
+    });
+  });
+
+  reviewsList.querySelectorAll("[data-review-action]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const { reviewId, reviewAction } = button.dataset;
+      const ref = fb.doc(fb.db, FIREBASE_COLLECTIONS.reviews, reviewId);
+      if (reviewAction === "delete") {
+        if (!confirm("Supprimer cet avis ?")) return;
+        await fb.deleteDoc(ref);
+      } else if (reviewAction === "publish") {
+        await fb.updateDoc(ref, { published: true, status: "published", updatedAt: fb.serverTimestamp() });
+      } else if (reviewAction === "hide") {
+        await fb.updateDoc(ref, { published: false, status: "hidden", updatedAt: fb.serverTimestamp() });
+      }
+      await refreshAdminLists(panel, fb);
+    });
+  });
+}
+
+function adminClientRow(client) {
+  const status = getClientStatus(client.status);
+  return `
+    <article class="admin-row">
+      <div>
+        <strong>${escapeHtml(client.name)}</strong>
+        <span>${escapeHtml(client.projectType)} · ${escapeHtml(status.label)} · ordre ${escapeHtml(client.sortOrder)}</span>
+      </div>
+      <div class="admin-row-actions">
+        <button type="button" data-edit-client="${escapeHtml(client.id)}">Modifier</button>
+        <button type="button" data-toggle-client="${escapeHtml(client.id)}">${client.visible ? "Masquer" : "Afficher"}</button>
+        <button type="button" data-delete-client="${escapeHtml(client.id)}">Supprimer</button>
+      </div>
+    </article>
+  `;
+}
+
+function adminReviewRow(review) {
+  return `
+    <article class="admin-row admin-review-row">
+      <div>
+        <strong>${escapeHtml(review.author || "Avis sans nom")}</strong>
+        <span>${escapeHtml(review.clientName || review.role || "Projet non précisé")} · ${escapeHtml(review.status)}</span>
+        <p>${escapeHtml(review.text)}</p>
+      </div>
+      <div class="admin-row-actions">
+        <button type="button" data-review-action="publish" data-review-id="${escapeHtml(review.id)}">Publier</button>
+        <button type="button" data-review-action="hide" data-review-id="${escapeHtml(review.id)}">Masquer</button>
+        <button type="button" data-review-action="delete" data-review-id="${escapeHtml(review.id)}">Supprimer</button>
+      </div>
+    </article>
   `;
 }
 
@@ -1269,6 +1909,9 @@ function renderPage(page, options = {}) {
     initRevealAnimations();
     initFaq();
     initContactForm();
+    initTrustedClients();
+    initClientReviewForm();
+    initAdminPanel();
 
     if (!options.skipScroll) scrollToTopIfNeeded();
 

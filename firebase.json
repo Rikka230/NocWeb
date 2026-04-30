@@ -7,7 +7,9 @@
       ".firebaseignore",
       "**/.*",
       "**/node_modules/**",
-      "README.md"
+      "README.md",
+      "firestore.rules",
+      "firestore.indexes.json"
     ],
     "cleanUrls": false,
     "trailingSlash": false,
@@ -84,5 +86,8 @@
       "firebase-debug.*.log",
       "*.local"
     ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
   }
 }
