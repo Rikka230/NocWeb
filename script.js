@@ -1060,7 +1060,7 @@ function clientCard(client) {
   return `
     <article class="client-card ${client.featured ? "is-featured" : ""}" data-reveal>
       <div class="client-card-top">
-        <div class="client-logo" aria-hidden="${logoUrl ? "false" : "true"}">${logo}</div>
+        <div class="client-logo ${logoUrl ? "has-image" : ""}" aria-hidden="${logoUrl ? "false" : "true"}">${logo}</div>
         <span class="client-status is-${escapeHtml(status.tone)}">${escapeHtml(status.label)}</span>
       </div>
       <div class="client-card-body">

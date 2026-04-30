@@ -1622,6 +1622,19 @@ h1 {
   padding: .78rem;
 }
 
+.client-logo.has-image {
+  padding: 0;
+  background: rgba(5, 8, 23, .72);
+}
+
+.client-logo.has-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  object-fit: cover;
+}
+
 .client-logo span {
   font-size: 1rem;
   font-weight: 950;
@@ -3742,4 +3755,13 @@ h1 {
   .admin-copy-status {
     text-align: left;
   }
+}
+
+
+.footer-admin-shortcut {
+  cursor: default;
+}
+
+.footer-admin-shortcut:hover {
+  opacity: .98;
 }
