@@ -503,21 +503,21 @@ const routes = {
 
 
   intermittents: {
-    title: "Portfolio Intermittents | Site portfolio artiste, comédien, modèle ou créatif",
-    description: "Offre Portfolio Intermittents Nocx Web : site portfolio premium pour artistes, comédiens, actrices, modèles, musiciens, techniciens, intermittents du spectacle et créatifs.",
+    title: "Portfolio Intermittents | Site portfolio artiste, acteur, modèle ou créatif",
+    description: "Offre Portfolio Intermittents Nocx Web : site portfolio premium pour acteurs, actrices, modèles, artistes, musiciens, techniciens, créatifs et intermittents du spectacle.",
     render: () => `
-      ${pageHero("Portfolio Intermittents", "Un portfolio premium pour être vu, compris et contacté vite.", "Pensé pour les acteurs, actrices, modèles, artistes, musiciens, techniciens, créatifs et intermittents du spectacle qui ont besoin d’un lien professionnel à envoyer aux castings, productions, agences ou partenaires.", "Demander ce portfolio", "contact")}
+      ${pageHero("Portfolio Intermittents", "Un portfolio premium pour être vu, compris et contacté vite.", "Une offre pensée pour les acteurs, actrices, modèles, artistes, musiciens, techniciens, créatifs et intermittents du spectacle qui veulent un lien professionnel à envoyer aux castings, productions, agences ou partenaires.", "Demander ce portfolio", "contact")}
 
       <section class="section-tight">
-        <div class="container intermittents-hero-grid">
+        <div class="container intermittents-intro-grid">
           <div class="copy-block" data-reveal>
             <p class="kicker">Studio · casting · showreel</p>
-            <h2>Une présence plus vivante qu’un PDF, plus maîtrisée qu’un profil social.</h2>
-            <p>Le portfolio doit montrer votre univers rapidement : une photo forte, une bio courte, vos médias essentiels, votre CV ou filmographie, puis un contact clair. L’objectif n’est pas de faire un gros site corporate, mais une vitrine artistique propre, mobile et crédible.</p>
+            <h2>Plus vivant qu’un PDF, plus maîtrisé qu’un profil social.</h2>
+            <p>Le but est simple : présenter votre univers en quelques secondes avec une photo forte, une bio courte, vos médias essentiels, un CV ou une filmographie, puis un contact clair. Pas une usine à gaz, mais une vitrine artistique propre, rapide et crédible.</p>
             <div class="bullet-stack">
-              <div class="bullet-row"><span></span><p>Un lien unique pour présenter votre profil à une agence, une production, un casting ou un client.</p></div>
-              <div class="bullet-row"><span></span><p>Une galerie pensée pour valoriser les photos, vidéos, showreels et extraits sans perdre le visiteur.</p></div>
-              <div class="bullet-row"><span></span><p>Une structure courte, premium et évolutive, sans vendre un CMS énorme inutile dès le départ.</p></div>
+              <div class="bullet-row"><span></span><p>Un lien unique à envoyer à une production, une agence, un casting, un client ou un partenaire.</p></div>
+              <div class="bullet-row"><span></span><p>Une mise en scène visuelle pour vos photos, vidéos, showreel, bande démo, dates ou références.</p></div>
+              <div class="bullet-row"><span></span><p>Une base courte et premium, évolutive si vous souhaitez ensuite ajouter plus de contenus.</p></div>
             </div>
             <div class="hero-actions">
               <a class="btn btn-primary" href="?page=contact" data-link>Créer mon portfolio</a>
@@ -525,7 +525,7 @@ const routes = {
             </div>
           </div>
 
-          ${intermittentsStudioVisual()}
+          ${intermittentsStageVisual()}
         </div>
       </section>
 
@@ -542,10 +542,10 @@ const routes = {
             <ul class="offer-checklist">
               <li>Page d’accueil artistique</li>
               <li>Galerie photos / vidéos</li>
-              <li>Showreel ou bande démo mise en avant</li>
+              <li>Showreel ou bande démo</li>
               <li>Bio, CV, filmographie ou références</li>
               <li>Page contact professionnelle</li>
-              <li>SEO de base sur nom, métier et univers</li>
+              <li>SEO de base sur nom et métier</li>
             </ul>
             <a class="btn btn-primary" href="?page=contact" data-link>Demander ce portfolio</a>
           </div>
@@ -564,15 +564,15 @@ const routes = {
           <div class="section-heading center" data-reveal>
             <p class="kicker">Contenu essentiel</p>
             <h2>Une page artistique complète, claire, rapide à parcourir.</h2>
-            <p>On garde le site lisible, mais on le rend suffisamment expressif pour que votre univers ne ressemble pas à une fiche administrative.</p>
+            <p>Le site reste lisible, mais il raconte mieux votre profil qu’une fiche froide ou un PDF perdu en pièce jointe.</p>
           </div>
           <div class="grid-3">
-            ${valueCard("Accueil impactant", "Une première impression forte avec photo, accroche, métier, localisation et accès rapide aux médias.")}
-            ${valueCard("Galerie vivante", "Photos, vidéos, extraits, catégories de médias et sélection de contenus présentés avec un rythme visuel premium.")}
-            ${valueCard("Showreel visible", "La bande démo ou vidéo principale peut être mise en avant sans forcer le visiteur à chercher.")}
-            ${valueCard("Bio & parcours", "Une bio courte, un CV, une filmographie, des références ou expériences selon votre métier.")}
-            ${valueCard("Contact direct", "Un bouton clair pour être contacté par une production, un agent, une agence, un client ou un partenaire.")}
-            ${valueCard("Base évolutive", "Le portfolio peut ensuite recevoir plus de pages, plus de médias ou des options privées selon le besoin réel.")}
+            ${valueCard("Accueil artistique", "Photo principale, accroche, métier, ville, disponibilité, ambiance et informations clés.")}
+            ${valueCard("Galerie & médias", "Photos, vidéos, extraits, showreel ou sélection de travaux présentés proprement sur mobile.")}
+            ${valueCard("CV / filmographie", "Rôles, expériences, projets, compétences, collaborations ou références importantes.")}
+            ${valueCard("Contact professionnel", "Un point de contact visible pour être joint par une production, un agent ou un client.")}
+            ${valueCard("SEO de base", "Optimisation du nom, du métier et des informations principales pour améliorer la recherche Google.")}
+            ${valueCard("Base évolutive", "La structure peut évoluer vers plus de pages, plus de médias ou des options privées.")}
           </div>
         </div>
       </section>
@@ -581,25 +581,24 @@ const routes = {
         <div class="container dashboard-option-grid">
           <div class="copy-block" data-reveal>
             <p class="kicker">Option dashboard privé</p>
-            <h2>Un espace simple pour gérer les contenus clés, sans promettre une usine à gaz.</h2>
-            <p>Selon le cadrage, le portfolio peut intégrer une brique privée légère : un tableau de bord pour préparer ou gérer certains contenus structurés. L’idée est de garder le projet réaliste, propre et maintenable.</p>
+            <h2>Gérer ses contenus sans demander une refonte à chaque changement.</h2>
+            <p>Selon le cadrage, on peut ajouter une brique privée simple pour mettre à jour certains contenus. L’idée n’est pas de promettre un CMS géant, mais un tableau de bord propre pour les besoins utiles.</p>
             <ul class="check-list">
               <li>Photos, vidéos, showreel et catégories de médias.</li>
-              <li>Bio, CV, filmographie, expériences ou actualités.</li>
-              <li>Accès privé adapté au périmètre validé, avec évolution possible ensuite.</li>
+              <li>Bio, CV, filmographie, références et actualités.</li>
+              <li>Gestion pensée comme une option ou une brique incluse selon le budget.</li>
             </ul>
           </div>
-
           <div class="artist-dashboard-panel" data-reveal>
             <div class="artist-dashboard-top">
               <span>Dashboard privé</span>
-              <strong>Contenus portfolio</strong>
+              <strong>Contenus artiste</strong>
             </div>
             <div class="artist-dashboard-grid">
               <div><small>Photos</small><strong>24 médias</strong></div>
-              <div><small>Vidéos</small><strong>3 extraits</strong></div>
-              <div><small>Bio</small><strong>À jour</strong></div>
-              <div><small>CV</small><strong>2026</strong></div>
+              <div><small>Vidéos</small><strong>5 extraits</strong></div>
+              <div><small>Showreel</small><strong>À jour</strong></div>
+              <div><small>Bio / CV</small><strong>Modifiable</strong></div>
             </div>
             <div class="artist-dashboard-lines"><span></span><span></span><span></span></div>
           </div>
@@ -793,38 +792,24 @@ function dashboardVisual() {
   `;
 }
 
-
-function intermittentsStudioVisual() {
+function intermittentsStageVisual() {
   return `
-    <div class="intermittents-visual" aria-label="Aperçu visuel d’un portfolio artistique" data-reveal>
-      <div class="stage-glow"></div>
-      <div class="artist-profile-card">
-        <div class="artist-photo-frame">
-          <span class="artist-silhouette"></span>
-          <i></i><i></i><i></i>
-        </div>
+    <div class="intermittents-stage-card" aria-label="Aperçu d’un portfolio artistique" data-reveal>
+      <div class="stage-light stage-light-a"></div>
+      <div class="stage-light stage-light-b"></div>
+      <div class="artist-main-card">
+        <div class="artist-portrait"><span></span></div>
         <div>
           <small>Profil artiste</small>
           <strong>Nom · métier · ville</strong>
-          <p>Showreel, galerie, CV et contact direct.</p>
+          <p>Bio courte, showreel, galerie et contact direct.</p>
         </div>
       </div>
-      <div class="media-wall-card">
-        <div class="media-wall-head">
-          <span>Galerie</span>
-          <strong>Photos · vidéos · scène</strong>
-        </div>
-        <div class="media-wall-grid">
-          <span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
+      <div class="artist-media-card">
+        <div class="media-card-top"><span>Galerie</span><strong>Photos · vidéos · scène</strong></div>
+        <div class="artist-media-grid"><span></span><span></span><span></span><span></span><span></span><span></span></div>
       </div>
-      <div class="showreel-card">
-        <span class="play"></span>
-        <div>
-          <small>Showreel</small>
-          <strong>01:42</strong>
-        </div>
-      </div>
+      <div class="showreel-pill"><span class="play"></span><div><small>Showreel</small><strong>01:42</strong></div></div>
       <div class="casting-chip chip-a">Casting</div>
       <div class="casting-chip chip-b">Portfolio privé</div>
     </div>
