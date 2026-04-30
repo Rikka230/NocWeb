@@ -1883,3 +1883,136 @@ h1 {
     font-size: .7rem;
   }
 }
+
+
+/* =========================================================
+   OFFRE INTERMITTENTS
+   Ajout non destructif : l'offre est séparée de la grille pour
+   préserver les tailles et alignements des cartes principales.
+   ========================================================= */
+
+.portfolio-offer-band {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  padding: clamp(1.1rem, 2.4vw, 1.55rem);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 208, 112, .24);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 208, 112, .14), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, .095), rgba(255, 255, 255, .035));
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.portfolio-offer-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 22% 0%, rgba(255, 208, 112, .12), transparent 32%);
+  pointer-events: none;
+}
+
+.portfolio-offer-band > * {
+  position: relative;
+}
+
+.portfolio-offer-band h2 {
+  margin: .65rem 0 .45rem;
+  font-size: clamp(1.45rem, 2.8vw, 2.15rem);
+  line-height: 1;
+  letter-spacing: -.055em;
+}
+
+.portfolio-offer-band p {
+  max-width: 64ch;
+  margin: 0;
+  color: #cfd7ec;
+  line-height: 1.65;
+}
+
+.portfolio-inline-badge {
+  position: relative;
+  inset: auto;
+  left: auto;
+  top: auto;
+  display: inline-flex;
+  width: fit-content;
+  transform: none;
+  animation: none;
+  margin: 0;
+  color: #1c1303;
+  background: linear-gradient(135deg, var(--warning), #ffe6a1);
+  box-shadow: 0 10px 24px rgba(255, 209, 102, .16);
+}
+
+.portfolio-offer-price {
+  min-width: 170px;
+  text-align: center;
+}
+
+.portfolio-offer-price small,
+.portfolio-offer-price span {
+  display: block;
+  color: var(--muted-2);
+  font-weight: 800;
+}
+
+.portfolio-offer-price strong {
+  display: block;
+  color: #fff;
+  font-size: clamp(2rem, 3.2vw, 2.7rem);
+  line-height: .96;
+  letter-spacing: -.065em;
+  white-space: nowrap;
+}
+
+.portfolio-highlight .price-badge {
+  margin-bottom: 1rem;
+}
+
+.offer-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 1.35rem;
+  display: grid;
+  gap: .72rem;
+}
+
+.offer-checklist li {
+  color: #dfe5f7;
+  display: flex;
+  gap: .62rem;
+  line-height: 1.5;
+}
+
+.offer-checklist li::before {
+  content: "•";
+  color: var(--cyan);
+  font-size: 1.3rem;
+  line-height: .9;
+}
+
+@media (max-width: 920px) {
+  .portfolio-offer-band {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-offer-price {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .portfolio-offer-price small,
+  .portfolio-offer-price span,
+  .portfolio-offer-price strong {
+    text-align: left;
+  }
+
+  .portfolio-offer-band .btn {
+    width: 100%;
+  }
+}

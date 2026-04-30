@@ -422,7 +422,7 @@ const routes = {
 
   pricing: {
     title: "Tarifs Nocx Web | Audit, site vitrine, campus en ligne et projet sur mesure",
-    description: "Tarifs à partir de pour audit digital, site vitrine premium, Campus Starter, Campus Pro et projet web sur mesure.",
+    description: "Tarifs à partir de pour audit digital, site vitrine premium, portfolio intermittents, Campus Starter, Campus Pro et projet web sur mesure.",
     render: () => `
       ${pageHero("Tarifs", "Des offres pensées pour créer une vraie base commerciale, pas une coquille vide.", "Chaque projet est adapté à votre structure, vos contenus et vos objectifs. Les tarifs varient selon la complexité, les fonctionnalités et le niveau d’accompagnement souhaité.", "Parler de mon projet", "contact")}
 
@@ -475,11 +475,116 @@ const routes = {
             ], "Parler de mon projet", "contact")}
           </div>
 
+          <div class="portfolio-offer-band" data-reveal>
+            <div>
+              <span class="price-badge portfolio-inline-badge">Créatifs & spectacle</span>
+              <h2>Portfolio Intermittents</h2>
+              <p>Une offre spécialisée pour comédiens, artistes, techniciens, modèles, musiciens et créatifs qui veulent un lien professionnel à envoyer aux castings, productions, agences ou partenaires.</p>
+            </div>
+            <div class="portfolio-offer-price">
+              <small>à partir de</small>
+              <strong>790 € HT</strong>
+              <span>hors taxes</span>
+            </div>
+            <a class="btn btn-secondary" href="?page=intermittents" data-link>Découvrir l’offre</a>
+          </div>
+
           <div class="section-tight">
             <div class="cta-band" data-reveal>
               <h2>Pourquoi un site premium coûte plus cher qu’un template ?</h2>
               <p>Parce qu’il ne s’agit pas seulement de poser des blocs. Il faut clarifier votre offre, structurer les parcours, adapter le design à votre marque, penser mobile, performance, SEO, conversion, évolutivité et maintenance.</p>
               <a class="btn btn-secondary" href="?page=method" data-link>Voir la méthode</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    `
+  },
+
+
+  intermittents: {
+    title: "Portfolio Intermittents | Site portfolio artiste, comédien, modèle ou créatif",
+    description: "Offre portfolio intermittents Nocx Web : un site portfolio premium pour artistes, comédiens, intermittents du spectacle et créatifs qui veulent une présence claire et professionnelle.",
+    render: () => `
+      ${pageHero("Portfolio Intermittents", "Une offre pensée pour les profils artistiques qui doivent être vus, compris et contactés vite.", "Pour un comédien, mannequin, artiste, musicien, technicien ou créatif, un site simple mais propre peut faire toute la différence : une présence professionnelle, lisible et facile à partager avec un casting, une production, une agence ou un partenaire.", "Demander ce portfolio", "contact")}
+
+      <section class="section-tight">
+        <div class="container split-section split-section-sites">
+          <div class="copy-block" data-reveal>
+            <p class="kicker">Pour qui</p>
+            <h2>Un site court, élégant et orienté prise de contact.</h2>
+            <p>Cette offre s’adresse aux intermittents du spectacle, artistes, acteurs, actrices, modèles, danseurs, musiciens, techniciens, créateurs de contenu et profils hybrides qui veulent présenter leur univers sans se perdre dans un site trop lourd.</p>
+            <div class="bullet-stack">
+              <div class="bullet-row"><span></span><p>Un lien unique à envoyer facilement aux castings, agents, productions ou partenaires.</p></div>
+              <div class="bullet-row"><span></span><p>Un design plus crédible qu’un simple profil réseau social, avec une vraie hiérarchie d’informations.</p></div>
+              <div class="bullet-row"><span></span><p>Une base évolutive si vous souhaitez ensuite ajouter davantage de médias, pages ou références.</p></div>
+            </div>
+          </div>
+
+          <div class="highlight-panel portfolio-highlight" data-reveal>
+            <span class="price-badge portfolio-inline-badge">Créatifs & spectacle</span>
+            <h3>Portfolio Intermittents</h3>
+            <div class="price">
+              <small>à partir de</small>
+              <strong>790 € HT</strong>
+              <span>hors taxes</span>
+            </div>
+            <ul class="offer-checklist">
+              <li>Page d’accueil artistique</li>
+              <li>Galerie photos / vidéos</li>
+              <li>CV ou filmographie</li>
+              <li>Page contact professionnelle</li>
+              <li>SEO nom / métier</li>
+              <li>Mise en ligne</li>
+            </ul>
+            <a class="btn btn-primary" href="?page=contact" data-link>Demander ce portfolio</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-tight">
+        <div class="container">
+          <div class="section-heading center" data-reveal>
+            <p class="kicker">Ce qui est inclus</p>
+            <h2>Le bon niveau de contenu pour donner une image pro sans complexifier le projet.</h2>
+            <p>Le but n’est pas d’empiler des pages inutiles, mais de créer une base propre qui présente votre identité, vos visuels et vos informations essentielles.</p>
+          </div>
+          <div class="grid-3">
+            ${valueCard("Accueil artistique", "Une première impression forte avec photo, univers, accroche et éléments clés pour comprendre rapidement votre profil.")}
+            ${valueCard("Galerie & médias", "Vos photos, extraits vidéo, showreel ou sélections visuelles présentés proprement et de façon fluide sur mobile.")}
+            ${valueCard("CV ou filmographie", "Une section claire pour résumer votre parcours, vos rôles, expériences, compétences ou collaborations.")}
+            ${valueCard("Contact professionnel", "Un point de contact visible pour être joint facilement par une production, un agent ou un client.")}
+            ${valueCard("SEO de base", "Optimisation du nom, du métier et des informations principales pour améliorer votre présence sur Google.")}
+            ${valueCard("Base évolutive", "La structure peut ensuite évoluer avec plus de pages, plus de références ou des options sur mesure si votre activité grandit.")}
+          </div>
+        </div>
+      </section>
+
+      <section class="section-tight">
+        <div class="container">
+          <div class="compare-grid">
+            <article class="compare-card" data-reveal>
+              <p class="kicker">Pourquoi cette offre</p>
+              <h3>Plus crédible qu’un simple profil social.</h3>
+              <p>Un site portfolio donne un espace centralisé, plus qualitatif et plus professionnel pour présenter vos visuels, votre parcours et vos coordonnées. Il vous aide à sortir du flux permanent des réseaux sociaux.</p>
+            </article>
+            <article class="compare-card" data-reveal>
+              <p class="kicker">Positionnement</p>
+              <h3>Entre carte de visite et site vitrine complet.</h3>
+              <p>Elle est conçue pour les profils qui n’ont pas besoin d’un gros site corporate, mais veulent mieux qu’une simple bio Instagram ou un PDF envoyé à part.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-tight">
+        <div class="container">
+          <div class="cta-band" data-reveal>
+            <h2>Vous voulez un portfolio plus crédible, plus élégant et plus facile à envoyer ?</h2>
+            <p>On peut partir de cette base intermittents puis l’adapter à votre univers, vos visuels et votre objectif professionnel.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="?page=contact" data-link>Demander ce portfolio</a>
+              <a class="btn btn-secondary" href="?page=pricing" data-link>Revenir aux tarifs</a>
             </div>
           </div>
         </div>
@@ -577,6 +682,7 @@ const routes = {
                     <option value="">Sélectionner</option>
                     <option>Campus en ligne</option>
                     <option>Site vitrine</option>
+                    <option>Portfolio intermittents</option>
                     <option>Portail client</option>
                     <option>Projet sur mesure</option>
                   </select>

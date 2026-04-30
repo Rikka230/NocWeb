@@ -19,6 +19,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://nocxweb.fr/?page=intermittents</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
     <loc>https://nocxweb.fr/?page=portals</loc>
     <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
