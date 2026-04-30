@@ -2594,3 +2594,166 @@ h1 {
     max-width: none;
   }
 }
+
+/* =========================================================
+   Patch mobile Intermittents
+   Empêche les cartes artistiques et le dashboard de sortir du cadre.
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .intermittents-intro-grid,
+  .dashboard-option-grid,
+  .intermittents-intro-grid > *,
+  .dashboard-option-grid > *,
+  .intermittents-stage-card,
+  .artist-dashboard-panel,
+  .portfolio-highlight,
+  .feature-grid-sites,
+  .compare-grid > .compare-card {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .intermittents-stage-card {
+    width: 100%;
+    min-height: 0;
+    display: grid;
+    gap: .8rem;
+    padding: .85rem;
+    overflow: hidden;
+  }
+
+  .artist-main-card,
+  .artist-media-card,
+  .showreel-pill,
+  .casting-chip,
+  .casting-chip.chip-a,
+  .casting-chip.chip-b {
+    position: relative;
+    inset: auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    animation: none;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .artist-main-card,
+  .artist-media-card,
+  .showreel-pill {
+    width: 100%;
+  }
+
+  .artist-main-card {
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: .75rem;
+    padding: .85rem;
+    border-radius: 22px;
+  }
+
+  .artist-main-card > div,
+  .artist-main-card p,
+  .artist-main-card strong,
+  .artist-media-card strong,
+  .showreel-pill strong,
+  .artist-dashboard-grid strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .artist-portrait {
+    min-height: 106px;
+    border-radius: 18px;
+  }
+
+  .artist-portrait span {
+    width: 58px;
+    height: 92px;
+  }
+
+  .artist-media-card {
+    padding: .85rem;
+    border-radius: 22px;
+  }
+
+  .media-card-top {
+    display: grid;
+    align-items: start;
+    gap: .25rem;
+  }
+
+  .artist-media-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .artist-media-grid span {
+    min-height: 56px;
+    border-radius: 15px;
+  }
+
+  .showreel-pill {
+    justify-content: flex-start;
+    border-radius: 22px;
+    padding: .72rem .85rem;
+  }
+
+  .showreel-pill .play {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .casting-chip {
+    width: fit-content;
+    justify-self: start;
+  }
+
+  .artist-dashboard-panel {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .artist-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-option-grid .check-list li {
+    min-width: 0;
+  }
+
+  .dashboard-option-grid .check-list li::before {
+    flex: 0 0 1.2rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .intermittents-stage-card {
+    padding: .72rem;
+    border-radius: 24px;
+  }
+
+  .artist-main-card {
+    grid-template-columns: 68px minmax(0, 1fr);
+  }
+
+  .artist-main-card small,
+  .media-card-top span,
+  .showreel-pill small,
+  .artist-dashboard-top span,
+  .artist-dashboard-grid small {
+    font-size: .68rem;
+    letter-spacing: .065em;
+  }
+
+  .artist-main-card p {
+    font-size: .86rem;
+    line-height: 1.45;
+  }
+
+  .media-card-top strong {
+    font-size: .95rem;
+  }
+}
