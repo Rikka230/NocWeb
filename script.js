@@ -28,6 +28,8 @@ const FIREBASE_COLLECTIONS = {
   reviews: "clientReviews"
 };
 
+const DEFAULT_CLIENT_GLOW_COLOR = "#36d8ff";
+
 const trustedClients = [
   {
     name: "USM Football",
@@ -37,7 +39,8 @@ const trustedClients = [
     url: "https://www.usmfootball.com",
     visible: true,
     featured: true,
-    sortOrder: 1
+    sortOrder: 1,
+    glowColor: "#2a57ff"
   },
   // Exemple à ajouter plus tard :
   // {
@@ -49,7 +52,8 @@ const trustedClients = [
   //   url: "",
   //   visible: true,
   //   featured: false,
-  //   sortOrder: 2
+  //   sortOrder: 2,
+  //   glowColor: "#36d8ff"
   // }
 ];
 
@@ -994,6 +998,12 @@ function getClientStatus(status) {
   return clientStatusMap[status] || clientStatusMap.soon;
 }
 
+
+function safeClientGlowColor(value) {
+  const color = String(value || "").trim();
+  return /^#[0-9a-fA-F]{6}$/.test(color) ? color.toLowerCase() : DEFAULT_CLIENT_GLOW_COLOR;
+}
+
 function getClientInitials(client) {
   if (client.initials) return String(client.initials).slice(0, 4).toUpperCase();
   return String(client.name || "NW")
@@ -1049,6 +1059,7 @@ function clientCard(client) {
   const logoUrl = safeLogoUrl(client.logoUrl);
   const name = escapeHtml(client.name || "Projet Nocx Web");
   const projectType = escapeHtml(client.projectType || "Projet digital premium");
+  const glowColor = safeClientGlowColor(client.glowColor);
   const hasPublicLink = client.status === "live" && linkUrl;
   const logo = logoUrl
     ? `<img src="${escapeHtml(logoUrl)}" alt="Logo ${name}" loading="lazy">`
@@ -1058,7 +1069,7 @@ function clientCard(client) {
     : `<span class="client-link is-disabled" aria-disabled="true">${escapeHtml(status.cta)}</span>`;
 
   return `
-    <article class="client-card ${client.featured ? "is-featured" : ""}" data-reveal>
+    <article class="client-card ${client.featured ? "is-featured" : ""}" style="--client-glow: ${escapeHtml(glowColor)};" data-reveal>
       <div class="client-card-top">
         <div class="client-logo ${logoUrl ? "has-image" : ""}" aria-hidden="${logoUrl ? "false" : "true"}">${logo}</div>
         <span class="client-status is-${escapeHtml(status.tone)}">${escapeHtml(status.label)}</span>
@@ -1330,7 +1341,8 @@ function normalizeClientDoc(docSnap) {
     url: String(data.url || "").trim(),
     visible: Boolean(data.visible),
     featured: Boolean(data.featured),
-    sortOrder: Number(data.sortOrder || 999)
+    sortOrder: Number(data.sortOrder || 999),
+    glowColor: safeClientGlowColor(data.glowColor)
   };
 }
 
@@ -1683,6 +1695,23 @@ async function renderAdminDashboard(panel, fb, user) {
               <small class="field-hint">PNG, JPG, SVG ou WebP. Max conseillé : 3 Mo.</small>
               <div class="logo-upload-preview" data-logo-upload-preview></div>
             </div>
+            <div class="form-field full client-glow-picker">
+              <label>Teinte de lueur du logo</label>
+              <div class="color-control">
+                <input name="glowColor" type="color" value="${DEFAULT_CLIENT_GLOW_COLOR}" aria-label="Couleur de lueur du logo" />
+                <span data-glow-color-value>${DEFAULT_CLIENT_GLOW_COLOR}</span>
+              </div>
+              <div class="color-palette" aria-label="Palette de couleurs rapides">
+                <button type="button" data-glow-preset="#2a57ff" style="--swatch:#2a57ff" aria-label="Bleu Nocx"></button>
+                <button type="button" data-glow-preset="#36d8ff" style="--swatch:#36d8ff" aria-label="Cyan"></button>
+                <button type="button" data-glow-preset="#8f5cff" style="--swatch:#8f5cff" aria-label="Violet"></button>
+                <button type="button" data-glow-preset="#ff4ed8" style="--swatch:#ff4ed8" aria-label="Rose"></button>
+                <button type="button" data-glow-preset="#73f7b6" style="--swatch:#73f7b6" aria-label="Vert"></button>
+                <button type="button" data-glow-preset="#ffd166" style="--swatch:#ffd166" aria-label="Or"></button>
+                <button type="button" data-glow-preset="#ff6978" style="--swatch:#ff6978" aria-label="Rouge"></button>
+              </div>
+              <small class="field-hint">Choisissez la lueur qui ancre le logo dans la carte client.</small>
+            </div>
             <div class="form-field full"><label>Type de projet</label><input name="projectType" required placeholder="Site vitrine premium" /></div>
             <div class="form-field"><label>Statut</label><select name="status"><option value="live">En ligne</option><option value="building">En cours de création</option><option value="private">Projet privé</option><option value="soon">Bientôt disponible</option></select></div>
             <div class="form-field"><label>Ordre</label><input name="sortOrder" type="number" min="1" value="1" /></div>
@@ -1745,6 +1774,7 @@ function clientPayloadFromForm(form, fb, uploadedLogoUrl = "") {
     visible: Boolean(data.visible),
     featured: Boolean(data.featured),
     sortOrder: Number(data.sortOrder || 999),
+    glowColor: safeClientGlowColor(data.glowColor),
     updatedAt: fb.serverTimestamp()
   };
 }
@@ -1756,6 +1786,28 @@ async function refreshAdminLists(panel, fb) {
   const reviewsList = panel.querySelector("[data-admin-reviews-list]");
   const clientFormStatus = panel.querySelector("[data-client-form-status]");
   const logoFileInput = form?.elements.logoFile;
+  const glowColorInput = form?.elements.glowColor;
+  const glowColorValue = form?.querySelector("[data-glow-color-value]");
+
+  const syncGlowColorLabel = () => {
+    if (glowColorValue && glowColorInput) glowColorValue.textContent = safeClientGlowColor(glowColorInput.value);
+  };
+
+  if (glowColorInput && !glowColorInput.dataset.glowBound) {
+    glowColorInput.dataset.glowBound = "true";
+    glowColorInput.addEventListener("input", syncGlowColorLabel);
+    syncGlowColorLabel();
+  }
+
+  form?.querySelectorAll("[data-glow-preset]").forEach((button) => {
+    if (button.dataset.glowPresetBound === "true") return;
+    button.dataset.glowPresetBound = "true";
+    button.addEventListener("click", () => {
+      if (!glowColorInput) return;
+      glowColorInput.value = safeClientGlowColor(button.dataset.glowPreset);
+      syncGlowColorLabel();
+    });
+  });
 
   if (logoFileInput && !logoFileInput.dataset.previewBound) {
     logoFileInput.dataset.previewBound = "true";
@@ -1833,6 +1885,8 @@ async function refreshAdminLists(panel, fb) {
     form.reset();
     form.elements.visible.checked = true;
     form.elements.sortOrder.value = "1";
+    if (form.elements.glowColor) form.elements.glowColor.value = DEFAULT_CLIENT_GLOW_COLOR;
+    form.querySelector("[data-glow-color-value]")?.replaceChildren(document.createTextNode(DEFAULT_CLIENT_GLOW_COLOR));
     form.elements.id.value = "";
     clearClientLogoPreview(form);
   });
@@ -1852,6 +1906,8 @@ async function refreshAdminLists(panel, fb) {
       form.elements.status.value = client.status;
       form.elements.url.value = client.url;
       form.elements.sortOrder.value = client.sortOrder || 999;
+      if (form.elements.glowColor) form.elements.glowColor.value = safeClientGlowColor(client.glowColor);
+      form.querySelector("[data-glow-color-value]")?.replaceChildren(document.createTextNode(safeClientGlowColor(client.glowColor)));
       form.elements.visible.checked = client.visible;
       form.elements.featured.checked = client.featured;
       form.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1902,6 +1958,7 @@ function adminClientRow(client) {
       <div>
         <strong>${escapeHtml(client.name)}</strong>
         <span>${escapeHtml(client.projectType)} · ${escapeHtml(status.label)} · ordre ${escapeHtml(client.sortOrder)}</span>
+        <i class="admin-color-chip" style="--chip:${escapeHtml(safeClientGlowColor(client.glowColor))};">${escapeHtml(safeClientGlowColor(client.glowColor))}</i>
       </div>
       <div class="admin-row-actions">
         <button type="button" data-edit-client="${escapeHtml(client.id)}">Modifier</button>

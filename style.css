@@ -1548,6 +1548,7 @@ h1 {
 }
 
 .client-card {
+  --client-glow: var(--cyan);
   position: relative;
   overflow: hidden;
   min-height: 246px;
@@ -1571,9 +1572,9 @@ h1 {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(circle at 18% 0%, rgba(54, 216, 255, .18), transparent 13rem),
-    radial-gradient(circle at 100% 100%, rgba(143, 92, 255, .16), transparent 15rem);
-  opacity: .75;
+    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--client-glow) 28%, transparent), transparent 13rem),
+    radial-gradient(circle at 100% 100%, rgba(143, 92, 255, .14), transparent 15rem);
+  opacity: .78;
   pointer-events: none;
 }
 
@@ -1612,7 +1613,11 @@ h1 {
   background:
     linear-gradient(135deg, rgba(42, 87, 255, .28), rgba(143, 92, 255, .18) 52%, rgba(255, 78, 216, .14)),
     rgba(255, 255, 255, .055);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 16px 34px rgba(0, 0, 0, .18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .14),
+    0 16px 34px rgba(0, 0, 0, .18),
+    0 0 22px color-mix(in srgb, var(--client-glow) 26%, transparent),
+    0 0 46px color-mix(in srgb, var(--client-glow) 14%, transparent);
 }
 
 .client-logo img {
@@ -1665,7 +1670,7 @@ h1 {
 
 .client-logo.has-image {
   background:
-    radial-gradient(circle at 22% 18%, rgba(54, 216, 255, .16), transparent 58%),
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, var(--client-glow) 24%, transparent), transparent 58%),
     rgba(5, 8, 23, .72);
 }
 
@@ -3792,6 +3797,90 @@ h1 {
 
 .footer-admin-shortcut {
   cursor: pointer;
+}
+
+
+.client-glow-picker .color-control {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.client-glow-picker input[type="color"] {
+  width: 58px;
+  height: 42px;
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  background: rgba(255, 255, 255, .07);
+  cursor: pointer;
+}
+
+.client-glow-picker input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 4px;
+}
+
+.client-glow-picker input[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: 10px;
+}
+
+.client-glow-picker [data-glow-color-value] {
+  color: var(--muted);
+  font-size: .9rem;
+  font-weight: 850;
+  letter-spacing: .03em;
+}
+
+.color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .48rem;
+  margin-top: .7rem;
+}
+
+.color-palette button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, .45), transparent 42%),
+    var(--swatch);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--swatch) 34%, transparent);
+  cursor: pointer;
+  transition: transform .18s var(--ease), border-color .18s var(--ease);
+}
+
+.color-palette button:hover {
+  transform: translateY(-2px) scale(1.06);
+  border-color: rgba(255, 255, 255, .34);
+}
+
+.admin-color-chip {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .45rem;
+  padding: .26rem .52rem;
+  border-radius: 999px;
+  color: #dfe7ff;
+  font-style: normal;
+  font-size: .72rem;
+  font-weight: 850;
+  letter-spacing: .03em;
+  background: color-mix(in srgb, var(--chip) 16%, rgba(255, 255, 255, .055));
+  border: 1px solid color-mix(in srgb, var(--chip) 34%, rgba(255, 255, 255, .12));
+}
+
+.admin-color-chip::before {
+  content: "";
+  width: .58rem;
+  height: .58rem;
+  border-radius: 999px;
+  background: var(--chip);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--chip) 48%, transparent);
 }
 
 .admin-toolbar {
