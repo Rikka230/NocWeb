@@ -1510,23 +1510,25 @@ h1 {
   position: relative;
   overflow: visible;
   isolation: isolate;
+  background: transparent;
 }
 
 .clients-section::before {
   content: "";
   position: absolute;
   z-index: -1;
-  top: -9rem;
+  top: -16rem;
+  bottom: -18rem;
   left: 50%;
-  width: min(140vw, 1900px);
-  height: calc(100% + 18rem);
+  width: 100vw;
   transform: translateX(-50%);
   pointer-events: none;
   background:
-    radial-gradient(circle at 18% 44%, rgba(54, 216, 255, .16), transparent 32rem),
-    radial-gradient(circle at 82% 38%, rgba(255, 78, 216, .13), transparent 30rem),
-    linear-gradient(180deg, transparent 0%, rgba(11, 15, 31, .18) 22%, rgba(11, 15, 31, .12) 72%, transparent 100%);
-  opacity: .92;
+    radial-gradient(ellipse 56rem 38rem at 18% 46%, rgba(54, 216, 255, .16), rgba(54, 216, 255, .07) 34%, transparent 74%),
+    radial-gradient(ellipse 58rem 40rem at 82% 42%, rgba(255, 78, 216, .13), rgba(143, 92, 255, .07) 36%, transparent 76%),
+    radial-gradient(ellipse 62rem 30rem at 50% 88%, rgba(42, 87, 255, .075), transparent 72%);
+  opacity: .96;
+  filter: blur(8px);
 }
 
 .clients-section > .container {
