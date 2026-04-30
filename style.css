@@ -1642,6 +1642,112 @@ h1 {
   color: #fff;
 }
 
+
+/* Trusted clients: softer logo reveal */
+
+.clients-section [data-reveal] {
+  transform: translateY(24px) scale(.985);
+  filter: blur(7px);
+  transition:
+    opacity .82s var(--ease),
+    transform .82s var(--ease),
+    filter .82s var(--ease);
+}
+
+.clients-section [data-reveal].is-visible {
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.client-card.is-visible .client-logo {
+  animation: clientLogoBoxIn .9s var(--ease) .12s both;
+}
+
+.client-logo.has-image {
+  background:
+    radial-gradient(circle at 22% 18%, rgba(54, 216, 255, .16), transparent 58%),
+    rgba(5, 8, 23, .72);
+}
+
+.client-logo.has-image img {
+  opacity: 0;
+  transform: scale(1.08);
+  filter: blur(10px) saturate(.86);
+  transition:
+    opacity .78s var(--ease),
+    transform .92s var(--ease),
+    filter .92s var(--ease);
+}
+
+.client-logo.has-image img.is-loaded {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0) saturate(1);
+}
+
+.client-card .client-status,
+.client-card .client-card-body,
+.client-card .client-link {
+  transition:
+    opacity .72s var(--ease),
+    transform .72s var(--ease);
+}
+
+.client-card:not(.is-visible) .client-status,
+.client-card:not(.is-visible) .client-card-body,
+.client-card:not(.is-visible) .client-link {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.client-card.is-visible .client-status {
+  transition-delay: .16s;
+}
+
+.client-card.is-visible .client-card-body {
+  transition-delay: .24s;
+}
+
+.client-card.is-visible .client-link {
+  transition-delay: .32s;
+}
+
+@keyframes clientLogoBoxIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(.86);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 0 0 rgba(54, 216, 255, 0);
+  }
+  62% {
+    opacity: 1;
+    transform: translateY(0) scale(1.035);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clients-section [data-reveal],
+  .client-logo.has-image img,
+  .client-card .client-status,
+  .client-card .client-card-body,
+  .client-card .client-link {
+    transition: none;
+    filter: none;
+    transform: none;
+  }
+
+  .client-card.is-visible .client-logo {
+    animation: none;
+  }
+
+  .client-logo.has-image img {
+    opacity: 1;
+  }
+}
+
 .client-status {
   display: inline-flex;
   align-items: center;

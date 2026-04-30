@@ -1072,6 +1072,27 @@ function clientCard(client) {
   `;
 }
 
+
+function initClientLogoImages(scope = document) {
+  scope.querySelectorAll(".client-logo.has-image img").forEach((image) => {
+    if (image.dataset.logoRevealBound === "true") return;
+    image.dataset.logoRevealBound = "true";
+
+    const revealImage = () => {
+      image.classList.add("is-loaded");
+      const logoBox = image.closest(".client-logo");
+      if (logoBox) logoBox.classList.add("is-loaded");
+    };
+
+    if (image.complete && image.naturalWidth > 0) {
+      window.requestAnimationFrame(revealImage);
+    } else {
+      image.addEventListener("load", revealImage, { once: true });
+      image.addEventListener("error", revealImage, { once: true });
+    }
+  });
+}
+
 function clientTestimonialsSection(reviews = clientTestimonials) {
   const publishedReviews = reviews.filter(review => review.published);
 
@@ -1360,6 +1381,7 @@ async function initTrustedClients() {
       return;
     }
     root.innerHTML = trustedClientsContent(clients, reviews);
+    initClientLogoImages(root);
     initRevealAnimations();
   } catch (error) {
     console.warn("Clients Nocx Web : chargement Firebase indisponible, données locales conservées.", error);
@@ -2088,6 +2110,7 @@ function renderPage(page, options = {}) {
     app.classList.add("page-enter");
 
     initRevealAnimations();
+    initClientLogoImages(app);
     initFaq();
     initContactForm();
     initTrustedClients();
