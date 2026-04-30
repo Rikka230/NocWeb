@@ -29,6 +29,7 @@ const FIREBASE_COLLECTIONS = {
 };
 
 const DEFAULT_CLIENT_GLOW_COLOR = "#36d8ff";
+const HOME_REFERENCES_LIMIT = 6;
 
 const trustedClients = [
   {
@@ -710,6 +711,13 @@ const routes = {
     `
   },
 
+
+  references: {
+    title: "Références Nocx Web | Projets, clients et réalisations web",
+    description: "Découvrez les références Nocx Web : sites vitrines premium, portfolios intermittents, campus en ligne privés, portails clients et projets digitaux sur mesure.",
+    render: () => referencesPage()
+  },
+
   faq: {
     title: "FAQ Nocx Web | Campus en ligne, site vitrine et portail privé",
     description: "Questions fréquentes sur les campus en ligne privés, sites vitrines premium, portails clients, design personnalisé, sécurité et mise en ligne.",
@@ -1029,28 +1037,69 @@ function trustedClientsSection() {
   const visibleClients = sortTrustedClients(trustedClients.filter(client => client.visible));
   if (!visibleClients.length) return "";
 
+  const previewClients = visibleClients.slice(0, HOME_REFERENCES_LIMIT);
   return `
     <section class="section clients-section" aria-labelledby="trusted-clients-title" data-trusted-clients-root>
-      ${trustedClientsContent(visibleClients, clientTestimonials)}
+      ${trustedClientsContent(previewClients, clientTestimonials, {
+        mode: "home",
+        showReferencesLink: visibleClients.length > HOME_REFERENCES_LIMIT
+      })}
     </section>
   `;
 }
 
-function trustedClientsContent(clients, reviews = []) {
+function trustedClientsContent(clients, reviews = [], options = {}) {
   if (!clients.length) return "";
+  const mode = options.mode || "home";
+  const titleId = mode === "references" ? "references-title" : "trusted-clients-title";
+  const gridClass = mode === "references" ? "clients-grid references-grid" : "clients-grid";
+  const remainder = clients.length % 3;
+  const showReferencesLink = Boolean(options.showReferencesLink);
   return `
     <div class="container">
       <div class="section-heading center" data-reveal>
-        <p class="kicker">Ils nous ont fait confiance</p>
-        <h2 id="trusted-clients-title">Des projets conçus pour être montrés, partagés et retenus.</h2>
-        <p>Logos, portfolios, sites vitrines ou plateformes privées : chaque carte peut afficher son statut réel, son lien public ou rester volontairement confidentielle.</p>
+        <p class="kicker">${mode === "references" ? "Références" : "Ils nous ont fait confiance"}</p>
+        <h2 id="${titleId}">${mode === "references" ? "Des projets réels, visibles ou volontairement confidentiels." : "Des projets conçus pour être montrés, partagés et retenus."}</h2>
+        <p>${mode === "references" ? "Sites vitrines, portfolios, campus privés ou projets en construction : chaque référence garde son statut réel et son niveau de visibilité." : "Logos, portfolios, sites vitrines ou plateformes privées : chaque carte peut afficher son statut réel, son lien public ou rester volontairement confidentielle."}</p>
       </div>
-      <div class="clients-grid">
+      <div class="${gridClass}" data-count="${clients.length}" data-remainder="${remainder}">
         ${sortTrustedClients(clients).map(clientCard).join("")}
       </div>
+      ${showReferencesLink ? `
+        <div class="references-more" data-reveal>
+          <a class="btn btn-secondary" href="?page=references" data-link>Découvrir nos références</a>
+        </div>
+      ` : ""}
       ${clientTestimonialsSection(reviews)}
     </div>
   `;
+}
+
+function referencesPage() {
+  const visibleClients = sortTrustedClients(trustedClients.filter(client => client.visible));
+  return `
+    ${pageHero("Références", "Les projets qui donnent du poids à notre savoir-faire.", "Une page pensée pour présenter les sites, portfolios, campus et portails réalisés ou en cours, avec leur statut réel et leur niveau de visibilité.", "Parler de mon projet", "contact")}
+
+    <section class="section references-section" aria-labelledby="references-title" data-references-root>
+      ${referencesContent(visibleClients, clientTestimonials)}
+    </section>
+  `;
+}
+
+function referencesContent(clients, reviews = []) {
+  if (!clients.length) {
+    return `
+      <div class="container">
+        <div class="admin-card references-empty" data-reveal>
+          <p class="kicker">Références</p>
+          <h2>Les références seront bientôt affichées ici.</h2>
+          <p>Les projets visibles depuis l’espace admin apparaîtront automatiquement sur cette page.</p>
+        </div>
+      </div>
+    `;
+  }
+
+  return trustedClientsContent(clients, reviews, { mode: "references" });
 }
 
 function clientCard(client) {
@@ -1392,11 +1441,36 @@ async function initTrustedClients() {
       root.remove();
       return;
     }
-    root.innerHTML = trustedClientsContent(clients, reviews);
+    const previewClients = clients.slice(0, HOME_REFERENCES_LIMIT);
+    root.innerHTML = trustedClientsContent(previewClients, reviews, {
+      mode: "home",
+      showReferencesLink: clients.length > HOME_REFERENCES_LIMIT
+    });
     initClientLogoImages(root);
     initRevealAnimations();
   } catch (error) {
     console.warn("Clients Nocx Web : chargement Firebase indisponible, données locales conservées.", error);
+  }
+}
+
+
+async function initReferencesPage() {
+  const root = document.querySelector("[data-references-root]");
+  if (!root) return;
+
+  if (!isFirebaseConfigured()) {
+    initClientLogoImages(root);
+    initRevealAnimations();
+    return;
+  }
+
+  try {
+    const { clients, reviews } = await loadPublishedTrustData();
+    root.innerHTML = referencesContent(clients, reviews);
+    initClientLogoImages(root);
+    initRevealAnimations();
+  } catch (error) {
+    console.warn("Références Nocx Web : chargement Firebase indisponible, données locales conservées.", error);
   }
 }
 
@@ -2171,6 +2245,7 @@ function renderPage(page, options = {}) {
     initFaq();
     initContactForm();
     initTrustedClients();
+    initReferencesPage();
     initClientReviewForm();
     initAdminPanel();
 

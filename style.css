@@ -1572,9 +1572,9 @@ h1 {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--client-glow) 28%, transparent), transparent 13rem),
-    radial-gradient(circle at 100% 100%, rgba(143, 92, 255, .14), transparent 15rem);
-  opacity: .78;
+    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--client-glow) 12%, transparent), transparent 13rem),
+    radial-gradient(circle at 100% 100%, rgba(143, 92, 255, .09), transparent 15rem);
+  opacity: .58;
   pointer-events: none;
 }
 
@@ -1616,8 +1616,8 @@ h1 {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, .14),
     0 16px 34px rgba(0, 0, 0, .18),
-    0 0 22px color-mix(in srgb, var(--client-glow) 26%, transparent),
-    0 0 46px color-mix(in srgb, var(--client-glow) 14%, transparent);
+    0 0 18px color-mix(in srgb, var(--client-glow) 18%, transparent),
+    0 0 42px color-mix(in srgb, var(--client-glow) 8%, transparent);
 }
 
 .client-logo img {
@@ -1670,8 +1670,8 @@ h1 {
 
 .client-logo.has-image {
   background:
-    radial-gradient(circle at 22% 18%, color-mix(in srgb, var(--client-glow) 24%, transparent), transparent 58%),
-    rgba(5, 8, 23, .72);
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, var(--client-glow) 13%, transparent), transparent 58%),
+    rgba(5, 8, 23, .76);
 }
 
 .client-logo.has-image img {
@@ -3792,6 +3792,66 @@ h1 {
   }
 }
 
+
+
+/* References grid balance */
+
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1.15rem;
+  align-items: stretch;
+}
+
+.clients-grid > .client-card {
+  grid-column: span 2;
+}
+
+@media (min-width: 961px) {
+  .clients-grid[data-remainder="1"] > .client-card:nth-last-child(1) {
+    grid-column: 3 / span 2;
+  }
+
+  .clients-grid[data-remainder="2"] > .client-card:nth-last-child(2) {
+    grid-column: 2 / span 2;
+  }
+
+  .clients-grid[data-remainder="2"] > .client-card:nth-last-child(1) {
+    grid-column: 4 / span 2;
+  }
+}
+
+.references-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.4rem;
+}
+
+.references-section .section-heading {
+  margin-bottom: 2.25rem;
+}
+
+.references-empty {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .clients-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .clients-grid > .client-card {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .clients-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* Admin shortcuts & logo uploads */
 
