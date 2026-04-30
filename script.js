@@ -19,7 +19,8 @@ const NOCX_FIREBASE_CONFIG = {
 
 const NOCX_ADMIN_EMAILS = [
   "viard.antony83@gmail.com",
-  "Viard.antony83@gmail.com"
+  "Viard.antony83@gmail.com",
+  "nocx230@hotmail.com"
 ];
 
 const FIREBASE_COLLECTIONS = {
