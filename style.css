@@ -4237,7 +4237,7 @@ h1 {
 
 .ba-after {
   z-index: 2;
-  clip-path: inset(0 calc(100% - var(--split)) 0 0);
+  clip-path: inset(0 0 0 var(--split));
   background:
     radial-gradient(circle at 78% 18%, rgba(54, 216, 255, .16), transparent 23rem),
     radial-gradient(circle at 18% 84%, rgba(143, 92, 255, .12), transparent 20rem),
@@ -4448,5 +4448,75 @@ h1 {
 
   .ba-mock-content p {
     display: none;
+  }
+}
+
+
+/* Transformations slider side split fix */
+
+.ba-before .ba-mock-content {
+  justify-self: start;
+}
+
+.ba-after .ba-mock-content {
+  justify-self: end;
+}
+
+.ba-before .ba-mock-content {
+  margin-left: clamp(.2rem, 1vw, .7rem);
+}
+
+.ba-after .ba-mock-content {
+  margin-right: clamp(.2rem, 1vw, .7rem);
+}
+
+.before-after-slider::after {
+  content: "Avant";
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 7;
+  padding: .35rem .58rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .13);
+  pointer-events: none;
+}
+
+.ba-after::after {
+  content: "Après";
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  z-index: 7;
+  padding: .35rem .58rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: rgba(54, 216, 255, .13);
+  border: 1px solid rgba(54, 216, 255, .18);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .before-after-slider::after,
+  .ba-after::after {
+    top: .75rem;
+  }
+
+  .before-after-slider::after {
+    left: .75rem;
+  }
+
+  .ba-after::after {
+    right: .75rem;
   }
 }
