@@ -1572,9 +1572,9 @@ h1 {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--client-glow) 12%, transparent), transparent 13rem),
-    radial-gradient(circle at 100% 100%, rgba(143, 92, 255, .09), transparent 15rem);
-  opacity: .58;
+    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--client-glow) 7%, transparent), transparent 12rem),
+    radial-gradient(circle at 100% 100%, rgba(143, 92, 255, .055), transparent 14rem);
+  opacity: .48;
   pointer-events: none;
 }
 
@@ -1616,8 +1616,26 @@ h1 {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, .14),
     0 16px 34px rgba(0, 0, 0, .18),
-    0 0 18px color-mix(in srgb, var(--client-glow) 18%, transparent),
-    0 0 42px color-mix(in srgb, var(--client-glow) 8%, transparent);
+    0 0 16px color-mix(in srgb, var(--client-glow) 22%, transparent),
+    0 0 34px color-mix(in srgb, var(--client-glow) 13%, transparent),
+    0 0 64px color-mix(in srgb, var(--client-glow) 7%, transparent);
+}
+
+
+.client-logo::after {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  z-index: -1;
+  border-radius: 30px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--client-glow) 22%, transparent), transparent 66%);
+  filter: blur(12px);
+  opacity: .72;
+  pointer-events: none;
+}
+
+.client-logo {
+  position: relative;
 }
 
 .client-logo img {
@@ -1670,8 +1688,8 @@ h1 {
 
 .client-logo.has-image {
   background:
-    radial-gradient(circle at 22% 18%, color-mix(in srgb, var(--client-glow) 13%, transparent), transparent 58%),
-    rgba(5, 8, 23, .76);
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--client-glow) 18%, transparent), transparent 58%),
+    rgba(5, 8, 23, .8);
 }
 
 .client-logo.has-image img {
