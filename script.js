@@ -5,8 +5,6 @@
    sans JS, les liens rechargent simplement index.html?page=...
    ========================================================= */
 
-const CONTACT_ENDPOINT = "/api/sendContactEmail";
-
 const routes = {
   home: {
     title: "Nocx Web | Sites premium, campus en ligne et portails privés",
@@ -422,14 +420,14 @@ const routes = {
 
   pricing: {
     title: "Tarifs Nocx Web | Audit, site vitrine, campus en ligne et projet sur mesure",
-    description: "Tarifs à partir de pour audit digital, site vitrine premium, Campus Starter, Campus Pro et projet web sur mesure.",
+    description: "Tarifs à partir de pour audit digital, site vitrine premium, portfolio intermittents, Campus Starter, Campus Pro et projet web sur mesure.",
     render: () => `
       ${pageHero("Tarifs", "Des offres pensées pour créer une vraie base commerciale, pas une coquille vide.", "Chaque projet est adapté à votre structure, vos contenus et vos objectifs. Les tarifs varient selon la complexité, les fonctionnalités et le niveau d’accompagnement souhaité.", "Parler de mon projet", "contact")}
 
       <section class="section-tight">
         <div class="container">
           <div class="pricing-grid">
-            ${priceCard("Audit digital", "590\u202f€ HT", "à partir de", [
+            ${priceCard("Audit digital", "590 € HT", "à partir de", [
               "Analyse de votre besoin",
               "Recommandations",
               "Structure proposée",
@@ -437,7 +435,7 @@ const routes = {
               "Plan d’action"
             ], "Réserver un audit", "contact")}
 
-            ${priceCard("Site vitrine premium", "1\u202f490\u202f€ HT", "à partir de", [
+            ${priceCard("Site vitrine premium", "1 490 € HT", "à partir de", [
               "Design responsive",
               "Pages essentielles",
               "SEO de base",
@@ -445,16 +443,25 @@ const routes = {
               "Mise en ligne"
             ], "Créer mon site", "contact")}
 
-            ${priceCard("Campus Starter", "4\u202f900\u202f€ HT", "à partir de", [
+            ${priceCard("Campus Starter", "4 900 € HT", "à partir de", [
               "Espace privé",
               "Connexion utilisateurs",
               "Premiers modules de cours",
               "Interface personnalisée",
               "Mise en ligne",
               "Accompagnement"
-            ], "Créer mon campus", "contact", true)}
+            ], "Créer mon campus", "contact", { featured: true, badge: "Offre prioritaire" })}
 
-            ${priceCard("Campus Pro", "12\u202f000\u202f€ HT", "à partir de", [
+            ${priceCard("Portfolio Intermittents", "790 € HT", "à partir de", [
+              "Page d’accueil artistique",
+              "Galerie photos / vidéos",
+              "CV ou filmographie",
+              "Page contact professionnelle",
+              "SEO nom / métier",
+              "Mise en ligne"
+            ], "Découvrir l’offre", "intermittents", { badge: "Créatifs & spectacle", className: "price-card-portfolio" })}
+
+            ${priceCard("Campus Pro", "12 000 € HT", "à partir de", [
               "Rôles élèves / professeurs / administrateurs",
               "Suivi de progression",
               "Dashboard",
@@ -479,7 +486,100 @@ const routes = {
             <div class="cta-band" data-reveal>
               <h2>Pourquoi un site premium coûte plus cher qu’un template ?</h2>
               <p>Parce qu’il ne s’agit pas seulement de poser des blocs. Il faut clarifier votre offre, structurer les parcours, adapter le design à votre marque, penser mobile, performance, SEO, conversion, évolutivité et maintenance.</p>
-              <a class="btn btn-secondary" href="?page=method" data-link>Voir la méthode</a>
+              <div class="hero-actions">
+                <a class="btn btn-secondary" href="?page=method" data-link>Voir la méthode</a>
+                <a class="btn btn-primary" href="?page=intermittents" data-link>Voir l’offre intermittents</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    `
+  },
+
+  intermittents: {
+    title: "Portfolio Intermittents | Site portfolio artiste, comédien, modèle ou créatif",
+    description: "Offre portfolio intermittents Nocx Web : un site portfolio premium pour artistes, comédiens, intermittents du spectacle et créatifs qui veulent une présence claire et professionnelle.",
+    render: () => `
+      ${pageHero("Portfolio Intermittents", "Une offre pensée pour les profils artistiques qui doivent être vus, compris et contactés vite.", "Pour un comédien, mannequin, artiste, musicien, technicien ou créatif, un site simple mais propre peut faire toute la différence. L’objectif est d’avoir une présence professionnelle, lisible et facile à partager avec un casting, une production, une agence ou un partenaire.", "Demander ce portfolio", "contact")}
+
+      <section class="section-tight">
+        <div class="container split-section split-section-sites">
+          <div class="copy-block" data-reveal>
+            <p class="kicker">Pour qui</p>
+            <h2>Une page claire, premium et orientée prise de contact.</h2>
+            <p>Cette offre s’adresse aux intermittents du spectacle, artistes, acteurs, actrices, modèles, danseurs, musiciens, techniciens, créateurs de contenu et profils hybrides qui veulent présenter leur univers sans se perdre dans un site trop lourd.</p>
+            <div class="bullet-stack">
+              <div class="bullet-row"><span></span><p>Un lien unique à envoyer facilement pour les castings, agents, productions ou partenaires.</p></div>
+              <div class="bullet-row"><span></span><p>Un design plus crédible qu’un simple profil réseau social, avec une vraie hiérarchie d’informations.</p></div>
+              <div class="bullet-row"><span></span><p>Un support évolutif si vous souhaitez ensuite ajouter davantage de médias, pages ou références.</p></div>
+            </div>
+          </div>
+
+          <div class="highlight-panel" data-reveal>
+            <span class="price-badge">Créatifs & spectacle</span>
+            <h3>Portfolio Intermittents</h3>
+            <div class="price price-box-inline">
+              <small>à partir de</small>
+              <strong>790 € HT</strong>
+              <span>hors taxes</span>
+            </div>
+            <ul class="offer-checklist">
+              <li>Page d’accueil artistique</li>
+              <li>Galerie photos / vidéos</li>
+              <li>CV ou filmographie</li>
+              <li>Page contact professionnelle</li>
+              <li>SEO nom / métier</li>
+              <li>Mise en ligne</li>
+            </ul>
+            <a class="btn btn-primary" href="?page=contact" data-link>Demander ce portfolio</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-tight">
+        <div class="container">
+          <div class="section-heading center" data-reveal>
+            <p class="kicker">Ce qui est inclus</p>
+            <h2>Le bon niveau de contenu pour donner une image pro sans complexifier le projet.</h2>
+            <p>Le but n’est pas d’empiler des pages inutiles, mais de créer une base propre qui présente votre identité, vos visuels et vos informations essentielles.</p>
+          </div>
+          <div class="grid-3">
+            ${valueCard("Accueil artistique", "Une première impression forte avec photo, univers, accroche et éléments clés pour comprendre rapidement votre profil.")}
+            ${valueCard("Galerie & médias", "Vos photos, extraits vidéo, showreel ou sélections visuelles présentés proprement et de façon fluide sur mobile.")}
+            ${valueCard("CV ou filmographie", "Une section claire pour résumer votre parcours, vos rôles, expériences, compétences ou collaborations.")}
+            ${valueCard("Contact pro", "Un formulaire ou des coordonnées visibles pour être joint facilement par une production, un agent ou un client.")}
+            ${valueCard("SEO de base", "Optimisation du nom, du métier et des informations principales pour améliorer votre présence sur Google.")}
+            ${valueCard("Base évolutive", "La structure peut ensuite évoluer avec plus de pages, plus de références ou des options sur mesure si votre activité grandit.")}
+          </div>
+        </div>
+      </section>
+
+      <section class="section-tight">
+        <div class="container">
+          <div class="compare-grid">
+            <article class="compare-card" data-reveal>
+              <p class="kicker">Pourquoi cette offre</p>
+              <h3>Plus crédible qu’un simple profil social.</h3>
+              <p>Un site portfolio donne un espace centralisé, plus qualitatif et plus professionnel pour présenter vos visuels, votre parcours et vos coordonnées. Il vous aide à sortir du flux permanent des réseaux sociaux.</p>
+            </article>
+            <article class="compare-card" data-reveal>
+              <p class="kicker">Positionnement</p>
+              <h3>Une offre intermédiaire, entre carte de visite et site vitrine complet.</h3>
+              <p>Elle est conçue pour les profils qui n’ont pas besoin d’un gros site corporate, mais veulent mieux qu’une simple bio Instagram ou un PDF envoyé à part.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-tight">
+        <div class="container">
+          <div class="cta-band" data-reveal>
+            <h2>Vous voulez un portfolio plus crédible, plus élégant et plus facile à envoyer ?</h2>
+            <p>On peut partir de cette base intermittents puis l’adapter à votre univers, vos visuels et votre objectif professionnel.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="?page=contact" data-link>Demander ce portfolio</a>
+              <a class="btn btn-secondary" href="?page=pricing" data-link>Revenir aux tarifs</a>
             </div>
           </div>
         </div>
@@ -541,23 +641,13 @@ const routes = {
           </aside>
 
           <section class="contact-panel" data-reveal>
-            <form class="contact-form" data-contact-form novalidate>
-              <div class="form-status is-visible" data-form-status>Votre demande est prête.</div>
-
-              <input type="hidden" name="formStartedAt" value="${Date.now()}" />
-              <div class="form-field contact-honeypot" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden;pointer-events:none;">
-                <label for="website">Site web</label>
-                <input id="website" name="website" tabindex="-1" autocomplete="off" />
-              </div>
+            <form class="contact-form" data-contact-form>
+              <div class="form-status" data-form-status>Votre demande est prête. Branchez ce formulaire à votre service d’envoi ou remplacez-le par un mailto.</div>
 
               <div class="form-grid">
                 <div class="form-field">
-                  <label for="firstName">Prénom</label>
-                  <input id="firstName" name="firstName" autocomplete="given-name" placeholder="Votre prénom" />
-                </div>
-                <div class="form-field">
-                  <label for="lastName">Nom</label>
-                  <input id="lastName" name="lastName" autocomplete="family-name" placeholder="Votre nom" />
+                  <label for="name">Nom</label>
+                  <input id="name" name="name" autocomplete="name" required placeholder="Votre nom" />
                 </div>
                 <div class="form-field">
                   <label for="email">Email</label>
@@ -566,10 +656,6 @@ const routes = {
                 <div class="form-field">
                   <label for="phone">Téléphone</label>
                   <input id="phone" name="phone" autocomplete="tel" placeholder="Votre numéro" />
-                </div>
-                <div class="form-field full">
-                  <label for="company">Société / profession</label>
-                  <input id="company" name="company" autocomplete="organization" placeholder="Ex : organisme de formation, coach, club, restaurant..." />
                 </div>
                 <div class="form-field">
                   <label for="project">Type de projet</label>
@@ -581,7 +667,7 @@ const routes = {
                     <option>Projet sur mesure</option>
                   </select>
                 </div>
-                <div class="form-field">
+                <div class="form-field full">
                   <label for="budget">Budget estimé</label>
                   <select id="budget" name="budget" required>
                     <option value="">Sélectionner</option>
@@ -716,10 +802,18 @@ function useCard(title, text) {
   `;
 }
 
-function priceCard(title, amount, prefix, items, cta, route, featured = false) {
+function priceCard(title, amount, prefix, items, cta, route, options = false) {
+  const settings = typeof options === "object" && options !== null
+    ? options
+    : { featured: Boolean(options) };
+
+  const featured = Boolean(settings.featured);
+  const badge = settings.badge || (featured ? "Offre prioritaire" : "");
+  const className = settings.className || "";
+
   return `
-    <article class="price-card ${featured ? "featured" : ""}" data-reveal>
-      ${featured ? `<span class="price-badge">Offre prioritaire</span>` : ``}
+    <article class="price-card ${featured ? "featured" : ""} ${className}" data-reveal>
+      ${badge ? `<span class="price-badge">${badge}</span>` : ``}
       <h3>${title}</h3>
       <div class="price">
         ${prefix ? `<small>${prefix}</small>` : ``}
@@ -840,85 +934,25 @@ function initContactForm() {
   const form = document.querySelector("[data-contact-form]");
   if (!form) return;
 
-  const status = form.querySelector("[data-form-status]");
-  const submitButton = form.querySelector("button[type='submit']");
-  const startedAtInput = form.querySelector("input[name='formStartedAt']");
-
-  const setStatus = (type, message) => {
-    if (!status) return;
-    status.className = `form-status is-visible is-${type}`;
-    status.textContent = message;
-  };
-
-  const setLoading = (isLoading) => {
-    if (submitButton) {
-      submitButton.disabled = isLoading;
-      submitButton.textContent = isLoading ? "Envoi en cours…" : "Envoyer ma demande";
-    }
-  };
-
-  form.addEventListener("submit", async (event) => {
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    if (!form.reportValidity()) return;
+
     const data = Object.fromEntries(new FormData(form).entries());
-    const firstName = String(data.firstName || "").trim();
-    const lastName = String(data.lastName || "").trim();
-    const email = String(data.email || "").trim();
-    const message = String(data.message || "").trim();
+    const subject = encodeURIComponent(`Demande Nocx Web - ${data.project || "Projet web"}`);
+    const body = encodeURIComponent(
+      `Nom : ${data.name}\nEmail : ${data.email}\nTéléphone : ${data.phone || "Non renseigné"}\nType de projet : ${data.project}\nBudget estimé : ${data.budget}\n\nMessage :\n${data.message}`
+    );
 
-    if (!firstName && !lastName) {
-      setStatus("error", "Merci d’indiquer au moins votre prénom ou votre nom.");
-      form.querySelector("#firstName")?.focus();
-      return;
+    const status = form.querySelector("[data-form-status]");
+    if (status) {
+      status.classList.add("is-visible");
+      status.textContent = "Votre demande est prête. Une fenêtre email peut s’ouvrir pour l’envoyer.";
     }
 
-    if (!email || !form.querySelector("#email")?.checkValidity()) {
-      setStatus("error", "Merci d’indiquer une adresse email valide.");
-      form.querySelector("#email")?.focus();
-      return;
-    }
-
-    if (!message) {
-      setStatus("error", "Merci d’ajouter un message.");
-      form.querySelector("#message")?.focus();
-      return;
-    }
-
-    setLoading(true);
-    setStatus("loading", "Envoi en cours…");
-
-    try {
-      const response = await fetch(CONTACT_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          name: [firstName, lastName].filter(Boolean).join(" "),
-          email,
-          phone: String(data.phone || "").trim(),
-          company: String(data.company || "").trim(),
-          project: String(data.project || "").trim(),
-          budget: String(data.budget || "").trim(),
-          message,
-          website: String(data.website || "").trim(),
-          formStartedAt: Number(data.formStartedAt || 0)
-        })
-      });
-
-      if (!response.ok) throw new Error("CONTACT_SEND_FAILED");
-
-      form.reset();
-      if (startedAtInput) startedAtInput.value = String(Date.now());
-      setStatus("success", "Votre message a bien été envoyé.");
-    } catch (error) {
-      setStatus("error", "L’envoi est momentanément indisponible. Merci de réessayer ou de nous écrire directement.");
-    } finally {
-      setLoading(false);
-    }
+    // Remplacez l'adresse ci-dessous par l'adresse officielle de Nocx Web.
+    window.location.href = `mailto:Viard.antony83@gmail.com?subject=${subject}&body=${body}`;
   });
 }
 

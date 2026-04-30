@@ -1232,6 +1232,43 @@ h1 {
   line-height: 1.18;
 }
 
+
+.price-card-portfolio .price-badge {
+  background: linear-gradient(135deg, rgba(255, 214, 102, .92), rgba(255, 193, 94, .85));
+  color: #241505;
+  box-shadow: 0 10px 24px rgba(255, 194, 86, .16);
+}
+
+.price-card-portfolio {
+  border-color: rgba(255, 208, 112, .22);
+}
+
+.price-card-portfolio:hover {
+  border-color: rgba(255, 208, 112, .36);
+}
+
+.offer-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 1.35rem;
+  display: grid;
+  gap: .72rem;
+}
+
+.offer-checklist li {
+  color: #dfe5f7;
+  display: flex;
+  gap: .62rem;
+  line-height: 1.5;
+}
+
+.offer-checklist li::before {
+  content: "•";
+  color: var(--cyan);
+  font-size: 1.3rem;
+  line-height: .9;
+}
+
 /* FAQ */
 
 .faq-list {
@@ -1369,28 +1406,11 @@ h1 {
   padding: .9rem 1rem;
   border-radius: 16px;
   font-weight: 800;
-  line-height: 1.45;
   background: linear-gradient(135deg, var(--success), var(--cyan));
 }
 
 .form-status.is-visible {
   display: block;
-}
-
-.form-status.is-loading {
-  color: #f6f8ff;
-  background: rgba(255, 255, 255, .08);
-  border: 1px solid rgba(255, 255, 255, .13);
-}
-
-.form-status.is-success {
-  color: #061015;
-  background: linear-gradient(135deg, var(--success), var(--cyan));
-}
-
-.form-status.is-error {
-  color: #fff;
-  background: linear-gradient(135deg, rgba(255, 105, 120, .92), rgba(143, 92, 255, .72));
 }
 
 .reassurance-stack {
@@ -1761,125 +1781,4 @@ h1 {
 
 .feature-grid-sites .feature-card {
   min-height: 0;
-}
-
-/* =========================================================
-   PRICING CARDS HOTFIX v3
-   Ajustement premium tarifs : badge au-dessus, prix centrés,
-   suppression du glow parasite sur Campus Starter et boutons centrés.
-   ========================================================= */
-
-.price-card {
-  min-width: 0;
-}
-
-.price-card.featured {
-  overflow: visible;
-  border-color: rgba(54, 216, 255, .42);
-  box-shadow: 0 26px 90px rgba(42, 87, 255, .22);
-}
-
-/* Supprime uniquement la lumière parasite haut-gauche sur l'offre prioritaire. */
-.price-card.featured::before,
-.price-card.featured::after {
-  content: none !important;
-  display: none !important;
-  opacity: 0 !important;
-  background: none !important;
-}
-
-.price-badge {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  z-index: 5;
-  width: max-content;
-  margin: 0;
-  transform: translate(-50%, -56%);
-  color: #07111a;
-  background: linear-gradient(135deg, var(--cyan), var(--success));
-  border: 1px solid rgba(255, 255, 255, .24);
-  border-radius: 999px;
-  padding: .5rem .85rem;
-  font-size: .74rem;
-  font-weight: 950;
-  letter-spacing: .02em;
-  box-shadow: 0 12px 28px rgba(54, 216, 255, .25);
-  animation: featuredBadgePulse 2.4s ease-in-out infinite;
-}
-
-.price {
-  text-align: center;
-  padding-inline: .1rem;
-}
-
-.price small,
-.price span {
-  display: block;
-  text-align: center;
-}
-
-.price strong {
-  display: block;
-  text-align: center;
-  white-space: nowrap;
-  font-size: clamp(1.9rem, 2.55vw, 2.45rem);
-  line-height: .98;
-  letter-spacing: -.065em;
-}
-
-.price-card.featured .price strong {
-  color: #fff;
-  text-shadow: 0 0 14px rgba(54, 216, 255, .18), 0 0 24px rgba(255, 78, 216, .12);
-  transform-origin: center;
-  animation: featuredPricePulse 2.4s ease-in-out infinite;
-}
-
-.price-card .btn {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  line-height: 1.14;
-  white-space: normal;
-  min-height: 50px;
-  padding-inline: 1rem;
-}
-
-@keyframes featuredBadgePulse {
-  0%, 100% {
-    transform: translate(-50%, -56%) scale(1);
-    box-shadow: 0 12px 28px rgba(54, 216, 255, .24);
-  }
-  50% {
-    transform: translate(-50%, -56%) scale(1.05);
-    box-shadow: 0 16px 34px rgba(54, 216, 255, .34), 0 0 0 8px rgba(54, 216, 255, .08);
-  }
-}
-
-@keyframes featuredPricePulse {
-  0%, 100% {
-    transform: scale(1);
-    text-shadow: 0 0 14px rgba(54, 216, 255, .18), 0 0 24px rgba(255, 78, 216, .12);
-  }
-  50% {
-    transform: scale(1.018);
-    text-shadow: 0 0 18px rgba(54, 216, 255, .26), 0 0 34px rgba(255, 78, 216, .16);
-  }
-}
-
-@media (max-width: 1180px) {
-  .price-card.featured {
-    transform: none;
-  }
-
-  .price strong {
-    font-size: clamp(2rem, 7vw, 2.7rem);
-  }
-}
-
-@media (max-width: 640px) {
-  .price-badge {
-    padding: .45rem .72rem;
-    font-size: .7rem;
-  }
 }
