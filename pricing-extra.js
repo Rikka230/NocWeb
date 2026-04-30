@@ -7,6 +7,7 @@
 (() => {
   const OFFER_ID = "portfolio-intermittents-offer";
   const STYLE_ID = "portfolio-intermittents-style";
+  const PAGE_ROUTE = "?page=intermittents";
 
   function isPricingRoute() {
     const params = new URLSearchParams(window.location.search);
@@ -59,18 +60,30 @@
       }
 
       .intermittents-offer .portfolio-tag {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -56%);
         display: inline-flex;
-        width: fit-content;
-        margin: 0 0 1rem;
-        padding: .44rem .72rem;
+        justify-content: center;
+        align-items: center;
+        min-width: max-content;
+        padding: .5rem .9rem;
         border-radius: 999px;
-        color: #fff4c8;
+        color: #241505;
         font-size: .72rem;
-        font-weight: 900;
+        font-weight: 950;
         letter-spacing: .06em;
         text-transform: uppercase;
-        border: 1px solid rgba(255, 209, 102, .25);
-        background: rgba(255, 209, 102, .08);
+        background: linear-gradient(135deg, rgba(255, 214, 102, .96), rgba(255, 193, 94, .9));
+        box-shadow: 0 12px 28px rgba(255, 194, 86, 0.24);
+        animation: portfolioBadgePulse 2.4s ease-in-out infinite;
+        z-index: 5;
+      }
+
+      @keyframes portfolioBadgePulse {
+        0%, 100% { transform: translate(-50%, -56%) scale(1); box-shadow: 0 12px 28px rgba(255, 194, 86, 0.20); }
+        50% { transform: translate(-50%, -56%) scale(1.04); box-shadow: 0 16px 34px rgba(255, 194, 86, 0.30); }
       }
 
       @media (max-width: 1020px) {
@@ -93,11 +106,11 @@
     article.className = "price-card intermittents-offer";
     article.id = OFFER_ID;
     article.innerHTML = `
-      <span class="portfolio-tag">Créatifs & spectacle</span>
+      <span class="portfolio-tag">Offre dédiée artistes</span>
       <h3>Portfolio Intermittents</h3>
       <div class="price">
         <span>à partir de</span>
-        <strong>790€ HT</strong>
+        <strong>790 € HT</strong>
         <small>hors taxes</small>
       </div>
       <ul>
@@ -108,7 +121,7 @@
         <li>SEO nom / métier</li>
         <li>Mise en ligne</li>
       </ul>
-      <a class="btn btn-secondary" href="?page=contact" data-link>Créer mon portfolio</a>
+      <a class="btn btn-secondary" href="?page=intermittents" data-link>Découvrir l’offre</a>
     `;
     return article;
   }
