@@ -1510,25 +1510,31 @@ h1 {
   position: relative;
   overflow: visible;
   isolation: isolate;
-  background: transparent;
 }
 
-.clients-section::before {
+.clients-section::before,
+.clients-section::after {
   content: "";
   position: absolute;
   z-index: -1;
-  top: -16rem;
-  bottom: -18rem;
-  left: 50%;
-  width: 100vw;
-  transform: translateX(-50%);
+  width: clamp(22rem, 34vw, 34rem);
+  aspect-ratio: 1;
+  border-radius: 999px;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 56rem 38rem at 18% 46%, rgba(54, 216, 255, .16), rgba(54, 216, 255, .07) 34%, transparent 74%),
-    radial-gradient(ellipse 58rem 40rem at 82% 42%, rgba(255, 78, 216, .13), rgba(143, 92, 255, .07) 36%, transparent 76%),
-    radial-gradient(ellipse 62rem 30rem at 50% 88%, rgba(42, 87, 255, .075), transparent 72%);
-  opacity: .96;
-  filter: blur(8px);
+  filter: blur(88px);
+  opacity: .38;
+}
+
+.clients-section::before {
+  left: max(-8rem, calc(50% - 39rem));
+  top: 6.5rem;
+  background: rgba(54, 216, 255, .52);
+}
+
+.clients-section::after {
+  right: max(-8rem, calc(50% - 39rem));
+  top: 8rem;
+  background: rgba(255, 78, 216, .42);
 }
 
 .clients-section > .container {
@@ -3477,5 +3483,24 @@ h1 {
 
   .client-link {
     width: 100%;
+  }
+}
+
+@media (max-width: 860px) {
+  .clients-section::before,
+  .clients-section::after {
+    width: clamp(16rem, 58vw, 24rem);
+    filter: blur(72px);
+    opacity: .3;
+  }
+
+  .clients-section::before {
+    left: -5rem;
+    top: 9rem;
+  }
+
+  .clients-section::after {
+    right: -5rem;
+    top: 12rem;
   }
 }
