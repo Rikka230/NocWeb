@@ -1508,19 +1508,25 @@ h1 {
 
 .clients-section {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  isolation: isolate;
 }
 
 .clients-section::before {
   content: "";
   position: absolute;
-  inset: 10% 0 auto 0;
-  height: 26rem;
+  z-index: -1;
+  top: -9rem;
+  left: 50%;
+  width: min(140vw, 1900px);
+  height: calc(100% + 18rem);
+  transform: translateX(-50%);
   pointer-events: none;
   background:
-    radial-gradient(circle at 18% 30%, rgba(54, 216, 255, .14), transparent 28rem),
-    radial-gradient(circle at 78% 20%, rgba(255, 78, 216, .11), transparent 24rem);
-  opacity: .9;
+    radial-gradient(circle at 18% 44%, rgba(54, 216, 255, .16), transparent 32rem),
+    radial-gradient(circle at 82% 38%, rgba(255, 78, 216, .13), transparent 30rem),
+    linear-gradient(180deg, transparent 0%, rgba(11, 15, 31, .18) 22%, rgba(11, 15, 31, .12) 72%, transparent 100%);
+  opacity: .92;
 }
 
 .clients-section > .container {
