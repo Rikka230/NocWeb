@@ -1233,7 +1233,7 @@ function reviewPage() {
 
 function adminPage() {
   return `
-    ${pageHero("Espace admin", "Gestion des clients et avis Nocx Web.", "Cet espace permet d’ajouter les clients visibles sur la home, de changer leur statut et de modérer les avis reçus.", "", "")}
+    ${pageHero("Espace admin", "Gestion des clients et avis Nocx Web.", "Cet espace permet d’ajouter les clients visibles sur la home, de changer leur statut, d’envoyer des logos et de modérer les avis reçus.", "", "")}
     <section class="section-tight admin-page-section">
       <div class="container">
         <div class="admin-panel" data-admin-panel>
@@ -1264,8 +1264,9 @@ async function getFirebaseClient() {
   firebaseClientPromise = Promise.all([
     import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"),
     import("https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"),
-    import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js")
-  ]).then(([appModule, authModule, firestoreModule]) => {
+    import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"),
+    import("https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js")
+  ]).then(([appModule, authModule, firestoreModule, storageModule]) => {
     const appInstance = appModule.getApps().length
       ? appModule.getApp()
       : appModule.initializeApp(NOCX_FIREBASE_CONFIG);
@@ -1274,6 +1275,7 @@ async function getFirebaseClient() {
       app: appInstance,
       auth: authModule.getAuth(appInstance),
       db: firestoreModule.getFirestore(appInstance),
+      storage: storageModule.getStorage(appInstance),
       signInWithEmailAndPassword: authModule.signInWithEmailAndPassword,
       signOut: authModule.signOut,
       onAuthStateChanged: authModule.onAuthStateChanged,
@@ -1285,7 +1287,10 @@ async function getFirebaseClient() {
       getDocs: firestoreModule.getDocs,
       query: firestoreModule.query,
       where: firestoreModule.where,
-      serverTimestamp: firestoreModule.serverTimestamp
+      serverTimestamp: firestoreModule.serverTimestamp,
+      storageRef: storageModule.ref,
+      uploadBytes: storageModule.uploadBytes,
+      getDownloadURL: storageModule.getDownloadURL
     };
   });
 
@@ -1365,6 +1370,95 @@ function setPanelStatus(node, type, message) {
   if (!node) return;
   node.className = `form-status is-visible is-${type}`;
   node.textContent = message;
+}
+
+function getClientReviewUrl() {
+  const url = new URL(window.location.href);
+  url.pathname = "/";
+  url.search = "?page=avis-client";
+  url.hash = "";
+  return url.toString();
+}
+
+async function copyTextToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return true;
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  textarea.style.opacity = "0";
+  document.body.appendChild(textarea);
+  textarea.select();
+
+  try {
+    document.execCommand("copy");
+    return true;
+  } finally {
+    textarea.remove();
+  }
+}
+
+function safeStorageFileName(fileName) {
+  const cleanName = String(fileName || "logo-client")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9._-]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .toLowerCase();
+
+  return cleanName || "logo-client";
+}
+
+function getSelectedClientLogoFile(form) {
+  const input = form?.elements?.logoFile;
+  const file = input?.files?.[0];
+  return file && file.size > 0 ? file : null;
+}
+
+function clearClientLogoPreview(form) {
+  const preview = form?.querySelector("[data-logo-upload-preview]");
+  if (preview) preview.innerHTML = "";
+}
+
+function renderClientLogoPreview(form, url, label = "Aperçu du logo") {
+  const preview = form?.querySelector("[data-logo-upload-preview]");
+  if (!preview || !url) {
+    clearClientLogoPreview(form);
+    return;
+  }
+
+  preview.innerHTML = `
+    <span>${escapeHtml(label)}</span>
+    <img src="${escapeHtml(url)}" alt="" loading="lazy">
+  `;
+}
+
+async function uploadClientLogoIfNeeded(form, fb) {
+  const file = getSelectedClientLogoFile(form);
+  if (!file) return "";
+
+  if (!file.type || !file.type.startsWith("image/")) {
+    throw new Error("CLIENT_LOGO_INVALID_TYPE");
+  }
+
+  const maxSize = 3 * 1024 * 1024;
+  if (file.size > maxSize) {
+    throw new Error("CLIENT_LOGO_TOO_HEAVY");
+  }
+
+  const fileName = `${Date.now()}-${safeStorageFileName(file.name)}`;
+  const logoRef = fb.storageRef(fb.storage, `client-logos/${fileName}`);
+  const snapshot = await fb.uploadBytes(logoRef, file, {
+    contentType: file.type
+  });
+
+  return fb.getDownloadURL(snapshot.ref);
 }
 
 function initClientReviewForm() {
@@ -1540,7 +1634,12 @@ async function renderAdminDashboard(panel, fb, user) {
         <h2>Clients de confiance & avis</h2>
         <p>Connecté avec ${escapeHtml(user.email)}.</p>
       </div>
-      <button class="btn btn-secondary" type="button" data-admin-logout>Se déconnecter</button>
+      <div class="admin-toolbar">
+        <a class="btn btn-secondary" href="?page=avis-client" data-link>Ouvrir la page avis</a>
+        <button class="btn btn-secondary" type="button" data-copy-review-link>Copier le lien avis</button>
+        <button class="btn btn-secondary" type="button" data-admin-logout>Se déconnecter</button>
+        <span class="admin-copy-status" data-admin-copy-status aria-live="polite"></span>
+      </div>
     </div>
     <div class="admin-grid">
       <section class="admin-card">
@@ -1551,7 +1650,17 @@ async function renderAdminDashboard(panel, fb, user) {
           <div class="form-grid">
             <div class="form-field"><label>Nom</label><input name="name" required placeholder="USM Football" /></div>
             <div class="form-field"><label>Initiales</label><input name="initials" maxlength="4" placeholder="USM" /></div>
-            <div class="form-field full"><label>Logo URL</label><input name="logoUrl" placeholder="assets/clients/logo.svg ou https://..." /></div>
+            <div class="form-field full">
+              <label>Logo URL</label>
+              <input name="logoUrl" placeholder="assets/clients/logo.svg ou https://..." />
+              <small class="field-hint">Collez une URL existante ou envoyez une image juste en dessous.</small>
+            </div>
+            <div class="form-field full">
+              <label>Logo image</label>
+              <input name="logoFile" type="file" accept="image/*" />
+              <small class="field-hint">PNG, JPG, SVG ou WebP. Max conseillé : 3 Mo.</small>
+              <div class="logo-upload-preview" data-logo-upload-preview></div>
+            </div>
             <div class="form-field full"><label>Type de projet</label><input name="projectType" required placeholder="Site vitrine premium" /></div>
             <div class="form-field"><label>Statut</label><select name="status"><option value="live">En ligne</option><option value="building">En cours de création</option><option value="private">Projet privé</option><option value="soon">Bientôt disponible</option></select></div>
             <div class="form-field"><label>Ordre</label><input name="sortOrder" type="number" min="1" value="1" /></div>
@@ -1559,6 +1668,7 @@ async function renderAdminDashboard(panel, fb, user) {
             <label class="form-check"><input name="visible" type="checkbox" checked /> <span>Visible sur le site</span></label>
             <label class="form-check"><input name="featured" type="checkbox" /> <span>Projet mis en avant</span></label>
           </div>
+          <div class="form-status" data-client-form-status></div>
           <div class="admin-actions-row">
             <button class="btn btn-primary" type="submit">Enregistrer le client</button>
             <button class="btn btn-secondary" type="button" data-client-form-reset>Réinitialiser</button>
@@ -1581,15 +1691,32 @@ async function renderAdminDashboard(panel, fb, user) {
   `;
 
   panel.querySelector("[data-admin-logout]")?.addEventListener("click", () => fb.signOut(fb.auth));
+  const copyButton = panel.querySelector("[data-copy-review-link]");
+  const copyStatus = panel.querySelector("[data-admin-copy-status]");
+  copyButton?.addEventListener("click", async () => {
+    const reviewUrl = getClientReviewUrl();
+    try {
+      await copyTextToClipboard(reviewUrl);
+      if (copyStatus) copyStatus.textContent = "Lien copié.";
+      copyButton.textContent = "Lien copié";
+      window.setTimeout(() => {
+        copyButton.textContent = "Copier le lien avis";
+        if (copyStatus) copyStatus.textContent = "";
+      }, 2200);
+    } catch (error) {
+      if (copyStatus) copyStatus.textContent = reviewUrl;
+    }
+  });
   await refreshAdminLists(panel, fb);
 }
 
-function clientPayloadFromForm(form, fb) {
+function clientPayloadFromForm(form, fb, uploadedLogoUrl = "") {
   const data = Object.fromEntries(new FormData(form).entries());
+  const manualLogoUrl = String(data.logoUrl || "").trim();
   return {
     name: String(data.name || "").trim(),
     initials: String(data.initials || "").trim().toUpperCase().slice(0, 4),
-    logoUrl: String(data.logoUrl || "").trim(),
+    logoUrl: uploadedLogoUrl || manualLogoUrl,
     projectType: String(data.projectType || "").trim(),
     status: String(data.status || "soon"),
     url: String(data.url || "").trim(),
@@ -1605,38 +1732,89 @@ async function refreshAdminLists(panel, fb) {
   const resetButton = panel.querySelector("[data-client-form-reset]");
   const clientsList = panel.querySelector("[data-admin-clients-list]");
   const reviewsList = panel.querySelector("[data-admin-reviews-list]");
+  const clientFormStatus = panel.querySelector("[data-client-form-status]");
+  const logoFileInput = form?.elements.logoFile;
+
+  if (logoFileInput && !logoFileInput.dataset.previewBound) {
+    logoFileInput.dataset.previewBound = "true";
+    logoFileInput.addEventListener("change", () => {
+      const file = getSelectedClientLogoFile(form);
+      if (!file) {
+        clearClientLogoPreview(form);
+        return;
+      }
+      const previewUrl = URL.createObjectURL(file);
+      renderClientLogoPreview(form, previewUrl, "Logo sélectionné");
+    });
+  }
 
   const { clients, reviews } = await loadAdminCollections(fb);
   clientsList.innerHTML = clients.length ? clients.map(adminClientRow).join("") : `<p class="admin-empty">Aucun client enregistré.</p>`;
   reviewsList.innerHTML = reviews.length ? reviews.map(adminReviewRow).join("") : `<p class="admin-empty">Aucun avis reçu.</p>`;
 
-  form?.addEventListener("submit", async (event) => {
+  if (form && !form.dataset.adminClientSubmitBound) {
+    form.dataset.adminClientSubmitBound = "true";
+    form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const id = form.elements.id.value;
-    const payload = clientPayloadFromForm(form, fb);
-    if (!payload.name || !payload.projectType) return;
-
-    if (id) {
-      await fb.updateDoc(fb.doc(fb.db, FIREBASE_COLLECTIONS.clients, id), payload);
-    } else {
-      await fb.addDoc(fb.collection(fb.db, FIREBASE_COLLECTIONS.clients), {
-        ...payload,
-        createdAt: fb.serverTimestamp()
-      });
+    const submitButton = form.querySelector("button[type='submit']");
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Enregistrement…";
     }
-    form.reset();
-    form.elements.visible.checked = true;
-    form.elements.sortOrder.value = "1";
-    form.elements.id.value = "";
-    await refreshAdminLists(panel, fb);
-  }, { once: true });
 
-  resetButton?.addEventListener("click", () => {
+    try {
+      const hasLogoFile = Boolean(getSelectedClientLogoFile(form));
+      if (hasLogoFile) setPanelStatus(clientFormStatus, "loading", "Upload du logo dans Firebase Storage…");
+      const uploadedLogoUrl = await uploadClientLogoIfNeeded(form, fb);
+      const payload = clientPayloadFromForm(form, fb, uploadedLogoUrl);
+      if (!payload.name || !payload.projectType) {
+        setPanelStatus(clientFormStatus, "error", "Nom et type de projet sont obligatoires.");
+        return;
+      }
+
+      if (id) {
+        await fb.updateDoc(fb.doc(fb.db, FIREBASE_COLLECTIONS.clients, id), payload);
+      } else {
+        await fb.addDoc(fb.collection(fb.db, FIREBASE_COLLECTIONS.clients), {
+          ...payload,
+          createdAt: fb.serverTimestamp()
+        });
+      }
+
+      form.reset();
+      form.elements.visible.checked = true;
+      form.elements.sortOrder.value = "1";
+      form.elements.id.value = "";
+      clearClientLogoPreview(form);
+      setPanelStatus(clientFormStatus, "success", "Client enregistré.");
+      await refreshAdminLists(panel, fb);
+    } catch (error) {
+      const message = error.message === "CLIENT_LOGO_TOO_HEAVY"
+        ? "Logo trop lourd. Utilisez une image de moins de 3 Mo."
+        : error.message === "CLIENT_LOGO_INVALID_TYPE"
+          ? "Le fichier doit être une image."
+          : "Impossible d’enregistrer. Vérifiez Storage, Firestore et les règles Firebase.";
+      setPanelStatus(clientFormStatus, "error", message);
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Enregistrer le client";
+      }
+    }
+  });
+  }
+
+  if (resetButton && !resetButton.dataset.adminResetBound) {
+    resetButton.dataset.adminResetBound = "true";
+    resetButton.addEventListener("click", () => {
     form.reset();
     form.elements.visible.checked = true;
     form.elements.sortOrder.value = "1";
     form.elements.id.value = "";
-  }, { once: true });
+    clearClientLogoPreview(form);
+  });
+  }
 
   clientsList.querySelectorAll("[data-edit-client]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -1646,6 +1824,8 @@ async function refreshAdminLists(panel, fb) {
       form.elements.name.value = client.name;
       form.elements.initials.value = client.initials;
       form.elements.logoUrl.value = client.logoUrl;
+      if (form.elements.logoFile) form.elements.logoFile.value = "";
+      renderClientLogoPreview(form, client.logoUrl, "Logo actuel");
       form.elements.projectType.value = client.projectType;
       form.elements.status.value = client.status;
       form.elements.url.value = client.url;
