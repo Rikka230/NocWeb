@@ -58,6 +58,52 @@ const trustedClients = [
   // }
 ];
 
+
+const transformationCases = [
+  {
+    title: "Sport Business Institute",
+    category: "Campus en ligne",
+    beforeTitle: "Une expérience dispersée",
+    beforeText: "Interface publique moins lisible, espace élève morcelé et perception moins alignée avec l’ambition du projet.",
+    afterTitle: "Un campus structuré",
+    afterText: "Parcours plus clair, logique apprenant plus professionnelle et présentation plus crédible pour vendre la formation.",
+    beforeImage: "",
+    afterImage: "",
+    status: "En construction",
+    visible: true,
+    featured: true,
+    sortOrder: 1
+  },
+  {
+    title: "USM Football",
+    category: "Site vitrine premium",
+    beforeTitle: "Un template chargé",
+    beforeText: "Beaucoup d’informations dispersées, navigation dense et lecture moins directe de la proposition de valeur.",
+    afterTitle: "Une présence recentrée",
+    afterText: "Interface sobre, image plus haut de gamme, sections mieux hiérarchisées et parcours plus simple vers la prise de contact.",
+    beforeImage: "",
+    afterImage: "",
+    status: "En ligne",
+    visible: true,
+    featured: true,
+    sortOrder: 2
+  },
+  {
+    title: "Portfolio artiste",
+    category: "Portfolio Intermittents",
+    beforeTitle: "Une page trop générique",
+    beforeText: "Profil, CV, galerie ou showreel présentés sans vraie direction artistique ni expérience pensée pour les castings.",
+    afterTitle: "Une vitrine personnelle",
+    afterText: "Portfolio plus vivant, galerie mieux structurée, showreel valorisé et contact professionnel plus évident.",
+    beforeImage: "",
+    afterImage: "",
+    status: "Concept d’offre",
+    visible: true,
+    featured: false,
+    sortOrder: 3
+  }
+];
+
 const clientTestimonials = [
   // Exemple à activer plus tard :
   // {
@@ -158,6 +204,8 @@ const routes = {
       ${reassuranceSection()}
 
       ${trustedClientsSection()}
+
+      ${transformationsTeaserSection()}
 
       <section class="section">
         <div class="container">
@@ -712,6 +760,12 @@ const routes = {
   },
 
 
+  transformations: {
+    title: "Transformations Nocx Web | Avant après site web, campus et portfolio",
+    description: "Découvrez comment Nocx Web transforme des sites confus, interfaces dispersées et portfolios génériques en expériences digitales claires, premium et crédibles.",
+    render: () => transformationsPage()
+  },
+
   references: {
     title: "Références Nocx Web | Projets, clients et réalisations web",
     description: "Découvrez les références Nocx Web : sites vitrines premium, portfolios intermittents, campus en ligne privés, portails clients et projets digitaux sur mesure.",
@@ -1004,6 +1058,157 @@ function safeLogoUrl(value) {
 
 function getClientStatus(status) {
   return clientStatusMap[status] || clientStatusMap.soon;
+}
+
+
+
+function visibleTransformations() {
+  return [...transformationCases]
+    .filter(item => item.visible)
+    .sort((a, b) => {
+      const featured = Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+      if (featured) return featured;
+      const order = Number(a.sortOrder || 999) - Number(b.sortOrder || 999);
+      if (order) return order;
+      return String(a.title || "").localeCompare(String(b.title || ""), "fr");
+    });
+}
+
+function transformationsTeaserSection() {
+  const items = visibleTransformations();
+  if (!items.length) return "";
+  const featured = items[0];
+
+  return `
+    <section class="section-tight transformations-teaser-section" aria-labelledby="transformations-teaser-title">
+      <div class="container transformation-teaser">
+        <div class="transformation-teaser-copy" data-reveal>
+          <p class="kicker">Transformations</p>
+          <h2 id="transformations-teaser-title">Ce qui justifie un projet premium, c’est l’évolution visible.</h2>
+          <p>Un site Nocx Web ne change pas seulement l’apparence. Il clarifie l’offre, structure l’expérience et rend le projet plus crédible dès les premières secondes.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="?page=transformations" data-link>Voir les transformations</a>
+            <a class="btn btn-secondary" href="?page=contact" data-link>Demander un audit</a>
+          </div>
+        </div>
+        <div class="transformation-teaser-visual" data-reveal>
+          ${transformationSlider(featured, true)}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function transformationsPage() {
+  const items = visibleTransformations();
+  return `
+    ${pageHero("Transformations", "D’un avant confus à une expérience claire, premium et prête à être partagée.", "Chaque projet Nocx Web vise à rendre une offre plus lisible, plus crédible et plus facile à présenter à des clients, élèves, partenaires ou castings.", "Parler de mon projet", "contact")}
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="transformation-proof-grid">
+          ${valueCard("Clarté", "L’offre devient compréhensible rapidement, sans obliger le visiteur à chercher l’information.")}
+          ${valueCard("Crédibilité", "L’image perçue se rapproche du niveau réel que vous voulez vendre.")}
+          ${valueCard("Structure", "Les contenus, pages, accès ou parcours sont organisés dans une logique lisible.")}
+          ${valueCard("Conversion", "Le visiteur sait quoi faire : comprendre, demander, réserver ou contacter.")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section transformations-page-section" aria-labelledby="transformations-title">
+      <div class="container">
+        <div class="section-heading center" data-reveal>
+          <p class="kicker">Avant / Après</p>
+          <h2 id="transformations-title">Des transformations pensées pour augmenter la valeur perçue.</h2>
+          <p>Les exemples ci-dessous peuvent recevoir de vraies captures avant/après. La structure est déjà prête pour intégrer les visuels dans le même cadre.</p>
+        </div>
+        <div class="transformations-list">
+          ${items.map(transformationCaseCard).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function transformationCaseCard(item) {
+  const title = escapeHtml(item.title || "Projet Nocx Web");
+  const category = escapeHtml(item.category || "Transformation digitale");
+  const status = escapeHtml(item.status || "Projet");
+  return `
+    <article class="transformation-case" data-reveal>
+      <div class="transformation-case-copy">
+        <div class="transformation-case-meta">
+          <span>${category}</span>
+          <span>${status}</span>
+        </div>
+        <h3>${title}</h3>
+        <div class="transformation-copy-grid">
+          <div>
+            <small>Avant</small>
+            <strong>${escapeHtml(item.beforeTitle || "Une expérience à clarifier")}</strong>
+            <p>${escapeHtml(item.beforeText || "")}</p>
+          </div>
+          <div>
+            <small>Après</small>
+            <strong>${escapeHtml(item.afterTitle || "Une expérience plus premium")}</strong>
+            <p>${escapeHtml(item.afterText || "")}</p>
+          </div>
+        </div>
+      </div>
+      ${transformationSlider(item)}
+    </article>
+  `;
+}
+
+function transformationSlider(item, compact = false) {
+  const beforeImage = safeLogoUrl(item.beforeImage);
+  const afterImage = safeLogoUrl(item.afterImage);
+  const beforeTitle = escapeHtml(item.beforeTitle || "Avant");
+  const afterTitle = escapeHtml(item.afterTitle || "Après");
+  const beforeText = escapeHtml(item.beforeText || "");
+  const afterText = escapeHtml(item.afterText || "");
+
+  return `
+    <div class="before-after-slider ${compact ? "is-compact" : ""}" data-transform-slider style="--split: 50%;">
+      <div class="ba-panel ba-before">
+        ${beforeImage ? `<img src="${escapeHtml(beforeImage)}" alt="${escapeHtml(item.title || "Projet")} avant" loading="lazy">` : transformationMockPanel("Avant", beforeTitle, beforeText)}
+      </div>
+      <div class="ba-panel ba-after">
+        ${afterImage ? `<img src="${escapeHtml(afterImage)}" alt="${escapeHtml(item.title || "Projet")} après" loading="lazy">` : transformationMockPanel("Après", afterTitle, afterText)}
+      </div>
+      <div class="ba-divider" aria-hidden="true">
+        <span></span>
+      </div>
+      <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparer l’avant et l’après" data-transform-range>
+    </div>
+  `;
+}
+
+function transformationMockPanel(label, title, text) {
+  return `
+    <div class="ba-mock-content">
+      <span>${escapeHtml(label)}</span>
+      <strong>${title}</strong>
+      <p>${text}</p>
+      <i></i><i></i><i></i>
+    </div>
+  `;
+}
+
+function initTransformationSliders(scope = document) {
+  scope.querySelectorAll("[data-transform-slider]").forEach((slider) => {
+    if (slider.dataset.sliderBound === "true") return;
+    slider.dataset.sliderBound = "true";
+    const range = slider.querySelector("[data-transform-range]");
+    if (!range) return;
+
+    const update = () => {
+      slider.style.setProperty("--split", `${range.value}%`);
+    };
+
+    range.addEventListener("input", update);
+    update();
+  });
 }
 
 
@@ -2242,6 +2447,7 @@ function renderPage(page, options = {}) {
 
     initRevealAnimations();
     initClientLogoImages(app);
+    initTransformationSliders(app);
     initFaq();
     initContactForm();
     initTrustedClients();
