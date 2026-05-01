@@ -25,7 +25,8 @@ const NOCX_ADMIN_EMAILS = [
 
 const FIREBASE_COLLECTIONS = {
   clients: "trustedClients",
-  reviews: "clientReviews"
+  reviews: "clientReviews",
+  transformations: "projectTransformations"
 };
 
 const DEFAULT_CLIENT_GLOW_COLOR = "#36d8ff";
@@ -1062,40 +1063,68 @@ function getClientStatus(status) {
 
 
 
-function visibleTransformations() {
-  return [...transformationCases]
-    .filter(item => item.visible)
-    .sort((a, b) => {
-      const featured = Number(Boolean(b.featured)) - Number(Boolean(a.featured));
-      if (featured) return featured;
-      const order = Number(a.sortOrder || 999) - Number(b.sortOrder || 999);
-      if (order) return order;
-      return String(a.title || "").localeCompare(String(b.title || ""), "fr");
-    });
+function normalizeTransformationDoc(docSnap) {
+  const data = docSnap.data ? docSnap.data() : docSnap;
+  return {
+    id: docSnap.id || data.id || "",
+    title: String(data.title || "").trim(),
+    category: String(data.category || "").trim(),
+    beforeTitle: String(data.beforeTitle || "").trim(),
+    beforeText: String(data.beforeText || "").trim(),
+    afterTitle: String(data.afterTitle || "").trim(),
+    afterText: String(data.afterText || "").trim(),
+    beforeImage: String(data.beforeImage || "").trim(),
+    afterImage: String(data.afterImage || "").trim(),
+    status: String(data.status || "").trim(),
+    visible: Boolean(data.visible),
+    featured: Boolean(data.featured),
+    sortOrder: Number(data.sortOrder || 999)
+  };
+}
+
+function sortTransformations(items) {
+  return [...items].sort((a, b) => {
+    const featured = Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+    if (featured) return featured;
+    const order = Number(a.sortOrder || 999) - Number(b.sortOrder || 999);
+    if (order) return order;
+    return String(a.title || "").localeCompare(String(b.title || ""), "fr");
+  });
+}
+
+function visibleTransformations(items = transformationCases) {
+  return sortTransformations(items.filter(item => item.visible));
 }
 
 function transformationsTeaserSection() {
   const items = visibleTransformations();
   if (!items.length) return "";
-  const featured = items[0];
+  return `
+    <section class="section-tight transformations-teaser-section" aria-labelledby="transformations-teaser-title" data-transformations-teaser-root>
+      ${transformationsTeaserContent(items)}
+    </section>
+  `;
+}
+
+function transformationsTeaserContent(items) {
+  if (!items.length) return "";
+  const featured = sortTransformations(items)[0];
 
   return `
-    <section class="section-tight transformations-teaser-section" aria-labelledby="transformations-teaser-title">
-      <div class="container transformation-teaser">
-        <div class="transformation-teaser-copy" data-reveal>
-          <p class="kicker">Transformations</p>
-          <h2 id="transformations-teaser-title">Ce qui justifie un projet premium, c’est l’évolution visible.</h2>
-          <p>Un site Nocx Web ne change pas seulement l’apparence. Il clarifie l’offre, structure l’expérience et rend le projet plus crédible dès les premières secondes.</p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href="?page=transformations" data-link>Voir les transformations</a>
-            <a class="btn btn-secondary" href="?page=contact" data-link>Demander un audit</a>
-          </div>
-        </div>
-        <div class="transformation-teaser-visual" data-reveal>
-          ${transformationSlider(featured, true)}
+    <div class="container transformation-teaser">
+      <div class="transformation-teaser-copy" data-reveal>
+        <p class="kicker">Transformations</p>
+        <h2 id="transformations-teaser-title">Ce qui justifie un projet premium, c’est l’évolution visible.</h2>
+        <p>Un site Nocx Web ne change pas seulement l’apparence. Il clarifie l’offre, structure l’expérience et rend le projet plus crédible dès les premières secondes.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="?page=transformations" data-link>Voir les transformations</a>
+          <a class="btn btn-secondary" href="?page=contact" data-link>Demander un audit</a>
         </div>
       </div>
-    </section>
+      <div class="transformation-teaser-visual" data-reveal>
+        ${transformationSlider(featured, true)}
+      </div>
+    </div>
   `;
 }
 
@@ -1115,18 +1144,36 @@ function transformationsPage() {
       </div>
     </section>
 
-    <section class="section transformations-page-section" aria-labelledby="transformations-title">
+    <section class="section transformations-page-section" aria-labelledby="transformations-title" data-transformations-page-root>
+      ${transformationsPageContent(items)}
+    </section>
+  `;
+}
+
+function transformationsPageContent(items) {
+  if (!items.length) {
+    return `
       <div class="container">
-        <div class="section-heading center" data-reveal>
-          <p class="kicker">Avant / Après</p>
-          <h2 id="transformations-title">Des transformations pensées pour augmenter la valeur perçue.</h2>
-          <p>Les exemples ci-dessous peuvent recevoir de vraies captures avant/après. La structure est déjà prête pour intégrer les visuels dans le même cadre.</p>
-        </div>
-        <div class="transformations-list">
-          ${items.map(transformationCaseCard).join("")}
+        <div class="admin-card references-empty" data-reveal>
+          <p class="kicker">Transformations</p>
+          <h2>Les transformations seront bientôt affichées ici.</h2>
+          <p>Les cas visibles depuis l’espace admin apparaîtront automatiquement sur cette page.</p>
         </div>
       </div>
-    </section>
+    `;
+  }
+
+  return `
+    <div class="container">
+      <div class="section-heading center" data-reveal>
+        <p class="kicker">Avant / Après</p>
+        <h2 id="transformations-title">Des transformations pensées pour augmenter la valeur perçue.</h2>
+        <p>Les exemples ci-dessous peuvent recevoir de vraies captures avant/après. La structure est déjà prête pour intégrer les visuels dans le même cadre.</p>
+      </div>
+      <div class="transformations-list">
+        ${sortTransformations(items).map(transformationCaseCard).join("")}
+      </div>
+    </div>
   `;
 }
 
@@ -1211,6 +1258,48 @@ function initTransformationSliders(scope = document) {
   });
 }
 
+async function loadPublishedTransformationsData() {
+  const fb = await getFirebaseClient();
+  const transformationQuery = fb.query(
+    fb.collection(fb.db, FIREBASE_COLLECTIONS.transformations),
+    fb.where("visible", "==", true)
+  );
+  const snap = await fb.getDocs(transformationQuery);
+  return sortTransformations(snap.docs.map(normalizeTransformationDoc));
+}
+
+async function initTransformationsContent() {
+  const teaserRoot = document.querySelector("[data-transformations-teaser-root]");
+  const pageRoot = document.querySelector("[data-transformations-page-root]");
+  if (!teaserRoot && !pageRoot) return;
+
+  if (!isFirebaseConfigured()) {
+    initTransformationSliders(document);
+    initRevealAnimations();
+    return;
+  }
+
+  try {
+    const items = await loadPublishedTransformationsData();
+
+    if (teaserRoot) {
+      if (items.length) {
+        teaserRoot.innerHTML = transformationsTeaserContent(items);
+      } else {
+        teaserRoot.remove();
+      }
+    }
+
+    if (pageRoot) {
+      pageRoot.innerHTML = transformationsPageContent(items);
+    }
+
+    initTransformationSliders(document);
+    initRevealAnimations();
+  } catch (error) {
+    console.warn("Transformations Nocx Web : chargement Firebase indisponible, données locales conservées.", error);
+  }
+}
 
 function safeClientGlowColor(value) {
   const color = String(value || "").trim();
@@ -1774,6 +1863,53 @@ async function uploadClientLogoIfNeeded(form, fb) {
   return fb.getDownloadURL(snapshot.ref);
 }
 
+
+function getSelectedTransformationImageFile(form, fieldName) {
+  const input = form?.elements?.[fieldName];
+  const file = input?.files?.[0];
+  return file && file.size > 0 ? file : null;
+}
+
+function clearTransformationImagePreview(form, key) {
+  const preview = form?.querySelector(`[data-transformation-upload-preview="${key}"]`);
+  if (preview) preview.innerHTML = "";
+}
+
+function renderTransformationImagePreview(form, key, url, label = "Aperçu") {
+  const preview = form?.querySelector(`[data-transformation-upload-preview="${key}"]`);
+  if (!preview || !url) {
+    clearTransformationImagePreview(form, key);
+    return;
+  }
+
+  preview.innerHTML = `
+    <span>${escapeHtml(label)}</span>
+    <img src="${escapeHtml(url)}" alt="" loading="lazy">
+  `;
+}
+
+async function uploadTransformationImageIfNeeded(form, fb, fieldName, folderName) {
+  const file = getSelectedTransformationImageFile(form, fieldName);
+  if (!file) return "";
+
+  if (!file.type || !file.type.startsWith("image/")) {
+    throw new Error("TRANSFORMATION_IMAGE_INVALID_TYPE");
+  }
+
+  const maxSize = 6 * 1024 * 1024;
+  if (file.size > maxSize) {
+    throw new Error("TRANSFORMATION_IMAGE_TOO_HEAVY");
+  }
+
+  const fileName = `${Date.now()}-${folderName}-${safeStorageFileName(file.name)}`;
+  const imageRef = fb.storageRef(fb.storage, `transformation-images/${folderName}/${fileName}`);
+  const snapshot = await fb.uploadBytes(imageRef, file, {
+    contentType: file.type
+  });
+
+  return fb.getDownloadURL(snapshot.ref);
+}
+
 function initClientReviewForm() {
   const form = document.querySelector("[data-client-review-form]");
   if (!form) return;
@@ -1929,13 +2065,15 @@ function renderAdminLogin(panel, fb) {
 }
 
 async function loadAdminCollections(fb) {
-  const [clientSnap, reviewSnap] = await Promise.all([
+  const [clientSnap, reviewSnap, transformationSnap] = await Promise.all([
     fb.getDocs(fb.collection(fb.db, FIREBASE_COLLECTIONS.clients)),
-    fb.getDocs(fb.collection(fb.db, FIREBASE_COLLECTIONS.reviews))
+    fb.getDocs(fb.collection(fb.db, FIREBASE_COLLECTIONS.reviews)),
+    fb.getDocs(fb.collection(fb.db, FIREBASE_COLLECTIONS.transformations))
   ]);
   return {
     clients: sortTrustedClients(clientSnap.docs.map(normalizeClientDoc)),
-    reviews: reviewSnap.docs.map(normalizeReviewDoc)
+    reviews: reviewSnap.docs.map(normalizeReviewDoc),
+    transformations: sortTransformations(transformationSnap.docs.map(normalizeTransformationDoc))
   };
 }
 
@@ -1944,7 +2082,7 @@ async function renderAdminDashboard(panel, fb, user) {
     <div class="admin-header-card">
       <div>
         <p class="kicker">Admin connecté</p>
-        <h2>Clients de confiance & avis</h2>
+        <h2>Clients, avis & transformations</h2>
         <p>Connecté avec ${escapeHtml(user.email)}.</p>
       </div>
       <div class="admin-toolbar">
@@ -2013,6 +2151,55 @@ async function renderAdminDashboard(panel, fb, user) {
       </section>
     </div>
 
+    <section class="admin-card admin-transformations-card">
+      <p class="kicker">Transformations</p>
+      <h3>Ajouter ou modifier un avant / après</h3>
+      <form class="contact-form admin-transformation-form" data-admin-transformation-form>
+        <input type="hidden" name="id" />
+        <div class="form-grid">
+          <div class="form-field"><label>Nom du projet</label><input name="title" required placeholder="Sport Business Institute" /></div>
+          <div class="form-field"><label>Catégorie</label><input name="category" placeholder="Campus en ligne" /></div>
+          <div class="form-field"><label>Statut affiché</label><input name="status" placeholder="En ligne / En construction / Concept" /></div>
+          <div class="form-field"><label>Ordre</label><input name="sortOrder" type="number" min="1" value="1" /></div>
+
+          <div class="form-field full transformation-fieldset">
+            <label>Image avant URL</label>
+            <input name="beforeImage" placeholder="https://... ou image uploadée" />
+            <input name="beforeImageFile" type="file" accept="image/*" />
+            <small class="field-hint">Capture avant. PNG, JPG ou WebP, maximum 6 Mo.</small>
+            <div class="logo-upload-preview transformation-upload-preview" data-transformation-upload-preview="before"></div>
+          </div>
+
+          <div class="form-field full transformation-fieldset">
+            <label>Image après URL</label>
+            <input name="afterImage" placeholder="https://... ou image uploadée" />
+            <input name="afterImageFile" type="file" accept="image/*" />
+            <small class="field-hint">Capture après. Même cadrage recommandé pour un slider propre.</small>
+            <div class="logo-upload-preview transformation-upload-preview" data-transformation-upload-preview="after"></div>
+          </div>
+
+          <div class="form-field full"><label>Titre avant</label><input name="beforeTitle" placeholder="Une expérience dispersée" /></div>
+          <div class="form-field full"><label>Texte avant</label><textarea name="beforeText" rows="3" placeholder="Expliquez le problème initial."></textarea></div>
+          <div class="form-field full"><label>Titre après</label><input name="afterTitle" placeholder="Un campus structuré" /></div>
+          <div class="form-field full"><label>Texte après</label><textarea name="afterText" rows="3" placeholder="Expliquez la transformation obtenue."></textarea></div>
+
+          <label class="form-check"><input name="visible" type="checkbox" checked /> <span>Visible sur le site</span></label>
+          <label class="form-check"><input name="featured" type="checkbox" /> <span>Mis en avant sur l’accueil</span></label>
+        </div>
+        <div class="form-status" data-transformation-form-status></div>
+        <div class="admin-actions-row">
+          <button class="btn btn-primary" type="submit">Enregistrer la transformation</button>
+          <button class="btn btn-secondary" type="button" data-transformation-form-reset>Réinitialiser</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="admin-card admin-transformations-list-card">
+      <p class="kicker">Liste</p>
+      <h3>Transformations enregistrées</h3>
+      <div class="admin-list" data-admin-transformations-list>Chargement…</div>
+    </section>
+
     <section class="admin-card admin-reviews-card">
       <p class="kicker">Avis</p>
       <h3>Modération des avis reçus</h3>
@@ -2058,11 +2245,176 @@ function clientPayloadFromForm(form, fb, uploadedLogoUrl = "") {
   };
 }
 
+
+function transformationPayloadFromForm(form, fb, uploadedBeforeImage = "", uploadedAfterImage = "") {
+  const data = Object.fromEntries(new FormData(form).entries());
+  const manualBeforeImage = String(data.beforeImage || "").trim();
+  const manualAfterImage = String(data.afterImage || "").trim();
+  return {
+    title: String(data.title || "").trim(),
+    category: String(data.category || "").trim(),
+    status: String(data.status || "").trim(),
+    beforeTitle: String(data.beforeTitle || "").trim(),
+    beforeText: String(data.beforeText || "").trim(),
+    afterTitle: String(data.afterTitle || "").trim(),
+    afterText: String(data.afterText || "").trim(),
+    beforeImage: uploadedBeforeImage || manualBeforeImage,
+    afterImage: uploadedAfterImage || manualAfterImage,
+    visible: Boolean(data.visible),
+    featured: Boolean(data.featured),
+    sortOrder: Number(data.sortOrder || 999),
+    updatedAt: fb.serverTimestamp()
+  };
+}
+
+function resetTransformationForm(form) {
+  if (!form) return;
+  form.reset();
+  form.elements.visible.checked = true;
+  form.elements.featured.checked = false;
+  form.elements.sortOrder.value = "1";
+  form.elements.id.value = "";
+  clearTransformationImagePreview(form, "before");
+  clearTransformationImagePreview(form, "after");
+}
+
+function bindTransformationAdmin(panel, fb, transformations) {
+  const form = panel.querySelector("[data-admin-transformation-form]");
+  const resetButton = panel.querySelector("[data-transformation-form-reset]");
+  const list = panel.querySelector("[data-admin-transformations-list]");
+  const status = panel.querySelector("[data-transformation-form-status]");
+  if (!form || !list) return;
+
+  const bindFilePreview = (fieldName, key) => {
+    const input = form.elements[fieldName];
+    if (!input || input.dataset.previewBound === "true") return;
+    input.dataset.previewBound = "true";
+    input.addEventListener("change", () => {
+      const file = getSelectedTransformationImageFile(form, fieldName);
+      if (!file) {
+        clearTransformationImagePreview(form, key);
+        return;
+      }
+      const previewUrl = URL.createObjectURL(file);
+      renderTransformationImagePreview(form, key, previewUrl, `${key === "before" ? "Avant" : "Après"} sélectionné`);
+    });
+  };
+
+  bindFilePreview("beforeImageFile", "before");
+  bindFilePreview("afterImageFile", "after");
+
+  if (form.dataset.transformationSubmitBound !== "true") {
+    form.dataset.transformationSubmitBound = "true";
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const id = form.elements.id.value;
+      const submitButton = form.querySelector("button[type='submit']");
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Enregistrement…";
+      }
+
+      try {
+        const hasBeforeFile = Boolean(getSelectedTransformationImageFile(form, "beforeImageFile"));
+        const hasAfterFile = Boolean(getSelectedTransformationImageFile(form, "afterImageFile"));
+        if (hasBeforeFile || hasAfterFile) setPanelStatus(status, "loading", "Upload des visuels dans Firebase Storage…");
+
+        const [uploadedBeforeImage, uploadedAfterImage] = await Promise.all([
+          uploadTransformationImageIfNeeded(form, fb, "beforeImageFile", "before"),
+          uploadTransformationImageIfNeeded(form, fb, "afterImageFile", "after")
+        ]);
+
+        const payload = transformationPayloadFromForm(form, fb, uploadedBeforeImage, uploadedAfterImage);
+        if (!payload.title) {
+          setPanelStatus(status, "error", "Le nom du projet est obligatoire.");
+          return;
+        }
+
+        if (id) {
+          await fb.updateDoc(fb.doc(fb.db, FIREBASE_COLLECTIONS.transformations, id), payload);
+        } else {
+          await fb.addDoc(fb.collection(fb.db, FIREBASE_COLLECTIONS.transformations), {
+            ...payload,
+            createdAt: fb.serverTimestamp()
+          });
+        }
+
+        resetTransformationForm(form);
+        setPanelStatus(status, "success", "Transformation enregistrée.");
+        await refreshAdminLists(panel, fb);
+      } catch (error) {
+        const message = error.message === "TRANSFORMATION_IMAGE_TOO_HEAVY"
+          ? "Image trop lourde. Utilisez une image de moins de 6 Mo."
+          : error.message === "TRANSFORMATION_IMAGE_INVALID_TYPE"
+            ? "Les fichiers avant/après doivent être des images."
+            : "Impossible d’enregistrer. Vérifiez Storage, Firestore et les règles Firebase.";
+        setPanelStatus(status, "error", message);
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Enregistrer la transformation";
+        }
+      }
+    });
+  }
+
+  if (resetButton && resetButton.dataset.transformationResetBound !== "true") {
+    resetButton.dataset.transformationResetBound = "true";
+    resetButton.addEventListener("click", () => resetTransformationForm(form));
+  }
+
+  list.querySelectorAll("[data-edit-transformation]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = transformations.find(entry => entry.id === button.dataset.editTransformation);
+      if (!item) return;
+      form.elements.id.value = item.id;
+      form.elements.title.value = item.title;
+      form.elements.category.value = item.category;
+      form.elements.status.value = item.status;
+      form.elements.sortOrder.value = item.sortOrder || 999;
+      form.elements.beforeImage.value = item.beforeImage;
+      form.elements.afterImage.value = item.afterImage;
+      form.elements.beforeTitle.value = item.beforeTitle;
+      form.elements.beforeText.value = item.beforeText;
+      form.elements.afterTitle.value = item.afterTitle;
+      form.elements.afterText.value = item.afterText;
+      form.elements.visible.checked = item.visible;
+      form.elements.featured.checked = item.featured;
+      if (form.elements.beforeImageFile) form.elements.beforeImageFile.value = "";
+      if (form.elements.afterImageFile) form.elements.afterImageFile.value = "";
+      renderTransformationImagePreview(form, "before", item.beforeImage, "Avant actuel");
+      renderTransformationImagePreview(form, "after", item.afterImage, "Après actuel");
+      form.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  list.querySelectorAll("[data-toggle-transformation]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const item = transformations.find(entry => entry.id === button.dataset.toggleTransformation);
+      if (!item) return;
+      await fb.updateDoc(fb.doc(fb.db, FIREBASE_COLLECTIONS.transformations, item.id), {
+        visible: !item.visible,
+        updatedAt: fb.serverTimestamp()
+      });
+      await refreshAdminLists(panel, fb);
+    });
+  });
+
+  list.querySelectorAll("[data-delete-transformation]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      if (!confirm("Supprimer cette transformation ?")) return;
+      await fb.deleteDoc(fb.doc(fb.db, FIREBASE_COLLECTIONS.transformations, button.dataset.deleteTransformation));
+      await refreshAdminLists(panel, fb);
+    });
+  });
+}
+
 async function refreshAdminLists(panel, fb) {
   const form = panel.querySelector("[data-admin-client-form]");
   const resetButton = panel.querySelector("[data-client-form-reset]");
   const clientsList = panel.querySelector("[data-admin-clients-list]");
   const reviewsList = panel.querySelector("[data-admin-reviews-list]");
+  const transformationsList = panel.querySelector("[data-admin-transformations-list]");
   const clientFormStatus = panel.querySelector("[data-client-form-status]");
   const logoFileInput = form?.elements.logoFile;
   const glowColorInput = form?.elements.glowColor;
@@ -2101,9 +2453,11 @@ async function refreshAdminLists(panel, fb) {
     });
   }
 
-  const { clients, reviews } = await loadAdminCollections(fb);
+  const { clients, reviews, transformations } = await loadAdminCollections(fb);
   clientsList.innerHTML = clients.length ? clients.map(adminClientRow).join("") : `<p class="admin-empty">Aucun client enregistré.</p>`;
   reviewsList.innerHTML = reviews.length ? reviews.map(adminReviewRow).join("") : `<p class="admin-empty">Aucun avis reçu.</p>`;
+  if (transformationsList) transformationsList.innerHTML = transformations.length ? transformations.map(adminTransformationRow).join("") : `<p class="admin-empty">Aucune transformation enregistrée.</p>`;
+  bindTransformationAdmin(panel, fb, transformations);
 
   if (form && !form.dataset.adminClientSubmitBound) {
     form.dataset.adminClientSubmitBound = "true";
@@ -2228,6 +2582,24 @@ async function refreshAdminLists(panel, fb) {
       await refreshAdminLists(panel, fb);
     });
   });
+}
+
+
+function adminTransformationRow(item) {
+  return `
+    <article class="admin-row admin-transformation-row">
+      <div>
+        <strong>${escapeHtml(item.title || "Transformation sans titre")}</strong>
+        <span>${escapeHtml(item.category || "Projet")} · ${escapeHtml(item.status || "Statut libre")} · ordre ${escapeHtml(item.sortOrder)}</span>
+        <p>${escapeHtml(item.beforeTitle || "Avant")} → ${escapeHtml(item.afterTitle || "Après")}</p>
+      </div>
+      <div class="admin-row-actions">
+        <button type="button" data-edit-transformation="${escapeHtml(item.id)}">Modifier</button>
+        <button type="button" data-toggle-transformation="${escapeHtml(item.id)}">${item.visible ? "Masquer" : "Afficher"}</button>
+        <button type="button" data-delete-transformation="${escapeHtml(item.id)}">Supprimer</button>
+      </div>
+    </article>
+  `;
 }
 
 function adminClientRow(client) {
@@ -2448,6 +2820,7 @@ function renderPage(page, options = {}) {
     initRevealAnimations();
     initClientLogoImages(app);
     initTransformationSliders(app);
+    initTransformationsContent();
     initFaq();
     initContactForm();
     initTrustedClients();

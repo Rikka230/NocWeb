@@ -4520,3 +4520,40 @@ h1 {
     right: .75rem;
   }
 }
+
+
+/* Admin transformations */
+
+.admin-transformations-card,
+.admin-transformations-list-card {
+  margin-top: 1rem;
+}
+
+.admin-transformation-form textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.transformation-fieldset {
+  display: grid;
+  gap: .6rem;
+}
+
+.transformation-upload-preview img {
+  width: 96px;
+  height: 58px;
+  object-fit: cover;
+}
+
+.admin-transformation-row p {
+  margin: .45rem 0 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+@media (max-width: 960px) {
+  .admin-transformations-card,
+  .admin-transformations-list-card {
+    margin-top: .8rem;
+  }
+}

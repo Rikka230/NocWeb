@@ -34,6 +34,11 @@ service cloud.firestore {
       allow update, delete: if isAdmin();
     }
 
+    match /projectTransformations/{transformationId} {
+      allow read: if resource.data.visible == true || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
     match /nocxAdmins/{uid} {
       allow read, write: if isAdmin();
     }
