@@ -4995,3 +4995,66 @@ body.lightbox-open {
     width: min(92vw, 380px);
   }
 }
+
+
+/* Progressive media reveal patch - 20260501
+   Softens image loading on transformations and visual cards. */
+.progressive-media {
+  opacity: 0;
+  transform: translateY(8px) scale(1.012);
+  filter: blur(10px) saturate(.92);
+  transition:
+    opacity .56s ease var(--media-delay, 0ms),
+    transform .64s cubic-bezier(.2, .8, .2, 1) var(--media-delay, 0ms),
+    filter .72s ease var(--media-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.progressive-media.is-media-loaded {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0) saturate(1);
+}
+
+.before-after-slider .ba-panel.has-image {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .015)),
+    rgba(5, 8, 23, .68);
+}
+
+.before-after-slider .ba-panel.has-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: .72;
+  background:
+    radial-gradient(circle at 24% 18%, rgba(54, 216, 255, .12), transparent 18rem),
+    radial-gradient(circle at 76% 18%, rgba(255, 78, 216, .10), transparent 18rem),
+    linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, .06) 42%, transparent 62%);
+  transform: translateX(-18%);
+  transition: opacity .45s ease;
+  pointer-events: none;
+}
+
+.before-after-slider.has-loaded-media .ba-panel.has-image::before {
+  opacity: 0;
+}
+
+.before-after-slider .ba-panel.has-image img {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressive-media {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  .before-after-slider .ba-panel.has-image::before {
+    display: none;
+  }
+}

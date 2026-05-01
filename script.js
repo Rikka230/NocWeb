@@ -1428,6 +1428,7 @@ function openTransformationLightbox(item = {}) {
   document.body.appendChild(modal);
   document.body.classList.add("lightbox-open");
   initTransformationSliders(modal);
+  initProgressiveImages(modal);
   window.requestAnimationFrame(() => modal.classList.add("is-open"));
   modal.querySelector(".transform-lightbox-close")?.focus({ preventScroll: true });
 }
@@ -1475,6 +1476,7 @@ async function initTransformationsContent() {
   if (!isFirebaseConfigured()) {
     initTransformationSliders(document);
     initTransformationLightboxes(document);
+    initProgressiveImages(document);
     initRevealAnimations();
     return;
   }
@@ -1496,6 +1498,7 @@ async function initTransformationsContent() {
 
     initTransformationSliders(document);
     initTransformationLightboxes(document);
+    initProgressiveImages(document);
     initRevealAnimations();
   } catch (error) {
     console.warn("Transformations Nocx Web : chargement Firebase indisponible, données locales conservées.", error);
@@ -1636,6 +1639,37 @@ function initClientLogoImages(scope = document) {
       image.classList.add("is-loaded");
       const logoBox = image.closest(".client-logo");
       if (logoBox) logoBox.classList.add("is-loaded");
+    };
+
+    if (image.complete && image.naturalWidth > 0) {
+      window.requestAnimationFrame(revealImage);
+    } else {
+      image.addEventListener("load", revealImage, { once: true });
+      image.addEventListener("error", revealImage, { once: true });
+    }
+  });
+}
+
+function initProgressiveImages(scope = document) {
+  const progressiveSelectors = [
+    ".before-after-slider img",
+    ".transformation-upload-preview img",
+    ".client-logo.has-image img",
+    ".showcase-card img",
+    ".reference-card img",
+    ".project-card img"
+  ].join(", ");
+
+  scope.querySelectorAll(progressiveSelectors).forEach((image, index) => {
+    if (image.dataset.progressiveRevealBound === "true") return;
+    image.dataset.progressiveRevealBound = "true";
+    image.classList.add("progressive-media");
+    image.style.setProperty("--media-delay", `${Math.min(index * 70, 280)}ms`);
+
+    const revealImage = () => {
+      image.classList.add("is-media-loaded");
+      const slider = image.closest(".before-after-slider");
+      if (slider) slider.classList.add("has-loaded-media");
     };
 
     if (image.complete && image.naturalWidth > 0) {
@@ -1941,6 +1975,7 @@ async function initTrustedClients() {
       showReferencesLink: clients.length > HOME_REFERENCES_LIMIT
     });
     initClientLogoImages(root);
+    initProgressiveImages(root);
     initRevealAnimations();
   } catch (error) {
     console.warn("Clients Nocx Web : chargement Firebase indisponible, données locales conservées.", error);
@@ -1954,6 +1989,7 @@ async function initReferencesPage() {
 
   if (!isFirebaseConfigured()) {
     initClientLogoImages(root);
+    initProgressiveImages(root);
     initRevealAnimations();
     return;
   }
@@ -1962,6 +1998,7 @@ async function initReferencesPage() {
     const { clients, reviews } = await loadPublishedTrustData();
     root.innerHTML = referencesContent(clients, reviews);
     initClientLogoImages(root);
+    initProgressiveImages(root);
     initRevealAnimations();
   } catch (error) {
     console.warn("Références Nocx Web : chargement Firebase indisponible, données locales conservées.", error);
@@ -3030,6 +3067,7 @@ function renderPage(page, options = {}) {
 
     initRevealAnimations();
     initClientLogoImages(app);
+    initProgressiveImages(app);
     initTransformationSliders(app);
     initTransformationLightboxes(app);
     initTransformationsContent();
