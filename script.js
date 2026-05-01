@@ -493,6 +493,8 @@ const routes = {
         </div>
       </section>
 
+      ${transformationsProofCta("campus", "Avant de choisir un campus, regardez ce qu’une vraie transformation change.", "La page Transformations montre comment une structure floue peut devenir une expérience plus claire, plus premium et plus facile à présenter à ses élèves ou clients.")}
+
       <section class="section-tight">
         <div class="container split-section">
           <div class="highlight-panel" data-reveal>
@@ -584,6 +586,8 @@ const routes = {
           </div>
         </div>
       </section>
+
+      ${transformationsProofCta("sites", "Un site vitrine premium se comprend surtout en avant / après.", "Avant de demander un devis, vous pouvez voir comment Nocx Web transforme une présence web dispersée en parcours plus lisible, plus crédible et mieux orienté conversion.")}
 
       <section class="section-tight">
         <div class="container">
@@ -863,6 +867,18 @@ const routes = {
           </div>
 
           <div class="section-tight">
+            <div class="cta-band transformations-proof-cta" data-reveal>
+              <p class="kicker">Preuve visuelle</p>
+              <h2>Les tarifs deviennent plus lisibles quand on voit la transformation produite.</h2>
+              <p>Avant de comparer seulement les montants, regardez l’écart entre une base confuse et une interface qui clarifie l’offre, rassure le visiteur et donne envie de contacter.</p>
+              <div class="cta-row">
+                <a class="btn btn-primary" href="?page=transformations" data-link data-tracking-label="CTA transformations tarifs">Voir les transformations</a>
+                <a class="btn btn-secondary" href="?page=audit" data-link>Demander un diagnostic</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-tight">
             <div class="cta-band" data-reveal>
               <h2>Pourquoi un site premium coûte plus cher qu’un template ?</h2>
               <p>Parce qu’il ne s’agit pas seulement de poser des blocs. Il faut clarifier votre offre, structurer les parcours, adapter le design à votre marque, penser mobile, performance, SEO, conversion, évolutivité et maintenance.</p>
@@ -995,6 +1011,8 @@ const routes = {
           </div>
         </div>
       </section>
+
+      ${transformationsProofCta("intermittents", "Un portfolio artistique doit montrer un vrai changement de perception.", "Les transformations aident à visualiser comment un profil dispersé devient une vitrine claire, élégante et prête à envoyer à une production, un casting ou un partenaire.")}
 
       <section class="section">
         <div class="container">
@@ -1156,6 +1174,8 @@ const routes = {
           </section>
         </div>
       </section>
+
+      ${transformationsProofCta("contact", "Vous voulez voir le niveau de transformation avant d’envoyer votre demande ?", "Parcourez les avant / après pour mieux situer votre projet : simple site vitrine, campus en ligne, portfolio artistique ou portail privé.")}
     `
   }
 };
@@ -1241,6 +1261,26 @@ function auditDiagnosticVisual() {
       <div class="audit-floating-note audit-note-b">Priorités claires</div>
       <div class="audit-floating-note audit-note-c">Plan d’action</div>
     </div>
+  `;
+}
+
+
+function transformationsProofCta(source, title, text) {
+  const trackingLabel = `CTA transformations ${source}`;
+  return `
+    <section class="section-tight">
+      <div class="container">
+        <div class="cta-band transformations-proof-cta" data-reveal>
+          <p class="kicker">Preuve visuelle</p>
+          <h2>${title}</h2>
+          <p>${text}</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="?page=transformations" data-link data-tracking-label="${trackingLabel}">Voir les transformations</a>
+            <a class="btn btn-secondary" href="?page=audit" data-link>Demander un diagnostic</a>
+          </div>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -3335,6 +3375,12 @@ document.addEventListener("click", (event) => {
   const targetPage = getLinkTrackingTargetPage(link);
   if (targetPage === "audit") {
     trackNocxEvent("audit_cta_click", {
+      label: getLinkTrackingLabel(link),
+      source_page: getTrackingPage()
+    });
+  }
+  if (targetPage === "transformations") {
+    trackNocxEvent("transformations_cta_click", {
       label: getLinkTrackingLabel(link),
       source_page: getTrackingPage()
     });
