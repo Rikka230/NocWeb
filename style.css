@@ -4672,3 +4672,63 @@ h1 {
     height: auto;
   }
 }
+
+/* Transformations page format respect patch
+   The full transformations page must keep each selected visual ratio.
+   Previous alignment rules stretched the slider to the text column height,
+   which made Desktop / Dashboard / Mobile feel ignored on the page. */
+.transformation-case {
+  align-items: center;
+}
+
+.transformation-case-copy {
+  justify-content: center;
+}
+
+.transformation-case .before-after-slider {
+  align-self: center;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: var(--ba-ratio, 16 / 9);
+}
+
+.transformation-case .before-after-slider.format-desktop {
+  --ba-ratio: 16 / 9;
+  width: 100%;
+}
+
+.transformation-case .before-after-slider.format-dashboard {
+  --ba-ratio: 4 / 3;
+  width: min(100%, 560px);
+  justify-self: center;
+}
+
+.transformation-case .before-after-slider.format-mobile {
+  --ba-ratio: 9 / 16;
+  width: min(100%, 360px);
+  justify-self: center;
+}
+
+.before-after-slider::after,
+.ba-after::after {
+  background: rgba(5, 8, 23, .92);
+  border-color: rgba(255, 255, 255, .3);
+}
+
+.ba-after::after {
+  background: rgba(5, 8, 23, .92);
+  border-color: rgba(54, 216, 255, .48);
+}
+
+@media (max-width: 980px) {
+  .transformation-case {
+    align-items: stretch;
+  }
+
+  .transformation-case .before-after-slider,
+  .transformation-case .before-after-slider.format-dashboard,
+  .transformation-case .before-after-slider.format-mobile {
+    width: 100%;
+    justify-self: stretch;
+  }
+}

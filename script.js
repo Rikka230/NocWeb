@@ -52,7 +52,31 @@ const TRANSFORMATION_VISUAL_FORMATS = {
 
 function normalizeTransformationVisualFormat(value, item = {}) {
   const raw = String(value || "").toLowerCase().trim();
+  const compactRaw = raw.replace(/[\s_-]+/g, "-");
+  const aliases = {
+    landscape: "desktop",
+    wide: "desktop",
+    desktop: "desktop",
+    landing: "desktop",
+    "landing-page": "desktop",
+    homepage: "desktop",
+    "site-vitrine": "desktop",
+    web: "desktop",
+    interface: "dashboard",
+    dashboard: "dashboard",
+    app: "dashboard",
+    hub: "dashboard",
+    portal: "dashboard",
+    portail: "dashboard",
+    espace: "dashboard",
+    portrait: "mobile",
+    mobile: "mobile",
+    smartphone: "mobile",
+    phone: "mobile"
+  };
+
   if (TRANSFORMATION_VISUAL_FORMATS[raw]) return raw;
+  if (aliases[compactRaw]) return aliases[compactRaw];
 
   const signature = [
     item.title,
