@@ -1318,10 +1318,14 @@ function initTransformationSliders(scope = document) {
     if (!range) return;
 
     const update = () => {
-      slider.style.setProperty("--split", `${range.value}%`);
+      const value = Number(range.value || 50);
+      slider.style.setProperty("--split", `${value}%`);
+      slider.classList.toggle("is-after-full", value <= 4);
+      slider.classList.toggle("is-before-full", value >= 96);
     };
 
     range.addEventListener("input", update);
+    range.addEventListener("change", update);
     update();
   });
 }
