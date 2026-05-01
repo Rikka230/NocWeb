@@ -29,6 +29,92 @@ const FIREBASE_COLLECTIONS = {
   transformations: "projectTransformations"
 };
 
+const NOCX_TRACKING_ROUTE_EVENTS = {
+  pricing: "pricing_view",
+  transformations: "transformations_view"
+};
+
+function sanitizeTrackingValue(value, fallback = "") {
+  return String(value ?? fallback).trim().slice(0, 120);
+}
+
+function getTrackingPage() {
+  return currentPage || getPageFromUrl();
+}
+
+function trackNocxEvent(eventName, params = {}) {
+  const event = sanitizeTrackingValue(eventName);
+  if (!event) return;
+
+  const payload = {
+    page: sanitizeTrackingValue(params.page || getTrackingPage()),
+    path: window.location.pathname + window.location.search,
+    title: document.title,
+    ...params
+  };
+
+  delete payload.event;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event, ...payload });
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", event, payload);
+  }
+
+  window.dispatchEvent(new CustomEvent("nocx:tracking", {
+    detail: { event, payload }
+  }));
+
+  try {
+    if (window.localStorage?.getItem("nocx_tracking_debug") === "true") {
+      console.info(`[Nocx tracking] ${event}`, payload);
+    }
+  } catch (error) {
+    // Le tracking ne doit jamais bloquer l’expérience utilisateur.
+  }
+}
+
+function getLinkTrackingLabel(link) {
+  return sanitizeTrackingValue(
+    link?.dataset?.trackingLabel ||
+    link?.getAttribute("aria-label") ||
+    link?.textContent ||
+    "Lien"
+  );
+}
+
+function getLinkTrackingTargetPage(link) {
+  const href = link?.getAttribute("href");
+  if (!href) return "";
+  try {
+    const url = new URL(href, window.location.href);
+    return sanitizeTrackingValue(url.searchParams.get("page") || "home");
+  } catch (error) {
+    return "";
+  }
+}
+
+function initFormStartTracking(form, formName = "contact") {
+  if (!form || form.dataset.formStartTracked === "true") return;
+
+  const markStarted = () => {
+    if (form.dataset.formStartTracked === "true") return;
+    form.dataset.formStartTracked = "true";
+    trackNocxEvent("form_start", { form: formName });
+  };
+
+  form.addEventListener("focusin", markStarted, { once: true });
+  form.addEventListener("input", markStarted, { once: true });
+  form.addEventListener("change", markStarted, { once: true });
+}
+
+function trackRouteView(page) {
+  const eventName = NOCX_TRACKING_ROUTE_EVENTS[page];
+  if (!eventName) return;
+  trackNocxEvent(eventName, { page });
+}
+
 const DEFAULT_CLIENT_GLOW_COLOR = "#36d8ff";
 const HOME_REFERENCES_LIMIT = 6;
 
@@ -1723,7 +1809,7 @@ function clientCard(client) {
     ? `<img src="${escapeHtml(logoUrl)}" alt="Logo ${name}" loading="lazy">`
     : `<span>${escapeHtml(getClientInitials(client))}</span>`;
   const action = hasPublicLink
-    ? `<a class="client-link" href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(status.cta)}</a>`
+    ? `<a class="client-link" href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer" data-client-site-link data-client-name="${name}" data-client-type="${projectType}">${escapeHtml(status.cta)}</a>`
     : `<span class="client-link is-disabled" aria-disabled="true">${escapeHtml(status.cta)}</span>`;
 
   return `
@@ -2571,6 +2657,7 @@ async function renderAdminDashboard(panel, fb, user) {
     try {
       await copyTextToClipboard(reviewUrl);
       if (copyStatus) copyStatus.textContent = "Lien copié.";
+      trackNocxEvent("review_link_copy", { source: "admin", page: getTrackingPage() });
       copyButton.textContent = "Lien copié";
       window.setTimeout(() => {
         copyButton.textContent = "Copier le lien avis";
@@ -3074,6 +3161,8 @@ function initContactForm() {
   const submitButton = form.querySelector("button[type='submit']");
   const startedAtInput = form.querySelector("input[name='formStartedAt']");
 
+  initFormStartTracking(form, "contact");
+
   const setStatus = (type, message) => {
     if (!status) return;
     status.className = `form-status is-visible is-${type}`;
@@ -3087,6 +3176,16 @@ function initContactForm() {
     }
   };
 
+  const failValidation = (reason, message, selector = "") => {
+    setStatus("error", message);
+    trackNocxEvent("form_error", {
+      form: "contact",
+      reason,
+      field: selector.replace("#", "")
+    });
+    if (selector) form.querySelector(selector)?.focus();
+  };
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -3095,22 +3194,21 @@ function initContactForm() {
     const lastName = String(data.lastName || "").trim();
     const email = String(data.email || "").trim();
     const message = String(data.message || "").trim();
+    const project = String(data.project || "").trim();
+    const budget = String(data.budget || "").trim();
 
     if (!firstName && !lastName) {
-      setStatus("error", "Merci d’indiquer au moins votre prénom ou votre nom.");
-      form.querySelector("#firstName")?.focus();
+      failValidation("missing_name", "Merci d’indiquer au moins votre prénom ou votre nom.", "#firstName");
       return;
     }
 
     if (!email || !form.querySelector("#email")?.checkValidity()) {
-      setStatus("error", "Merci d’indiquer une adresse email valide.");
-      form.querySelector("#email")?.focus();
+      failValidation("invalid_email", "Merci d’indiquer une adresse email valide.", "#email");
       return;
     }
 
     if (!message) {
-      setStatus("error", "Merci d’ajouter un message.");
-      form.querySelector("#message")?.focus();
+      failValidation("missing_message", "Merci d’ajouter un message.", "#message");
       return;
     }
 
@@ -3131,8 +3229,8 @@ function initContactForm() {
           email,
           phone: String(data.phone || "").trim(),
           company: String(data.company || "").trim(),
-          project: String(data.project || "").trim(),
-          budget: String(data.budget || "").trim(),
+          project,
+          budget,
           message,
           website: String(data.website || "").trim(),
           formStartedAt: Number(data.formStartedAt || 0)
@@ -3141,17 +3239,33 @@ function initContactForm() {
 
       if (!response.ok) throw new Error("CONTACT_SEND_FAILED");
 
+      trackNocxEvent("contact_submit_success", {
+        form: "contact",
+        project: sanitizeTrackingValue(project || "Non renseigné"),
+        budget: sanitizeTrackingValue(budget || "Non renseigné"),
+        has_phone: Boolean(String(data.phone || "").trim()),
+        has_company: Boolean(String(data.company || "").trim())
+      });
+      trackNocxEvent("form_submit_success", {
+        form: "contact",
+        project: sanitizeTrackingValue(project || "Non renseigné")
+      });
+
       form.reset();
+      delete form.dataset.formStartTracked;
       if (startedAtInput) startedAtInput.value = String(Date.now());
       setStatus("success", "Votre message a bien été envoyé.");
     } catch (error) {
+      trackNocxEvent("form_error", {
+        form: "contact",
+        reason: "send_failed"
+      });
       setStatus("error", "L’envoi est momentanément indisponible. Merci de réessayer ou de nous écrire directement.");
     } finally {
       setLoading(false);
     }
   });
 }
-
 function scrollToTopIfNeeded() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     window.scrollTo(0, 0);
@@ -3169,6 +3283,7 @@ function renderPage(page, options = {}) {
   updateMeta(route);
   setActiveNav(page);
   closeMenu();
+  trackRouteView(page);
 
   app.classList.add("page-exit");
 
@@ -3202,6 +3317,35 @@ function navigateTo(page) {
   window.history.pushState({ page: route }, "", nextUrl);
   renderPage(route);
 }
+
+document.addEventListener("click", (event) => {
+  const clientLink = event.target.closest("a[data-client-site-link]");
+  if (clientLink) {
+    trackNocxEvent("client_site_click", {
+      client_name: sanitizeTrackingValue(clientLink.dataset.clientName || "Référence"),
+      client_type: sanitizeTrackingValue(clientLink.dataset.clientType || "Projet"),
+      destination: sanitizeTrackingValue(clientLink.hostname || "site client"),
+      source_page: getTrackingPage()
+    });
+  }
+
+  const link = event.target.closest("a[data-link]");
+  if (!link) return;
+
+  const targetPage = getLinkTrackingTargetPage(link);
+  if (targetPage === "audit") {
+    trackNocxEvent("audit_cta_click", {
+      label: getLinkTrackingLabel(link),
+      source_page: getTrackingPage()
+    });
+  }
+  if (targetPage === "references") {
+    trackNocxEvent("reference_click", {
+      label: getLinkTrackingLabel(link),
+      source_page: getTrackingPage()
+    });
+  }
+});
 
 document.addEventListener("click", (event) => {
   const link = event.target.closest("a[data-link]");
