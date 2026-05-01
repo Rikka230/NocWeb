@@ -32,6 +32,61 @@ const FIREBASE_COLLECTIONS = {
 const DEFAULT_CLIENT_GLOW_COLOR = "#36d8ff";
 const HOME_REFERENCES_LIMIT = 6;
 
+const TRANSFORMATION_VISUAL_FORMATS = {
+  desktop: {
+    label: "Desktop / Landing page",
+    className: "format-desktop",
+    hint: "Pages d’accueil, landing pages, sites vitrines et sections marketing."
+  },
+  dashboard: {
+    label: "Dashboard / Interface",
+    className: "format-dashboard",
+    hint: "Hubs étudiants, espaces membres, portails privés et interfaces applicatives."
+  },
+  mobile: {
+    label: "Mobile",
+    className: "format-mobile",
+    hint: "Captures verticales smartphone ou parcours mobile."
+  }
+};
+
+function normalizeTransformationVisualFormat(value, item = {}) {
+  const raw = String(value || "").toLowerCase().trim();
+  if (TRANSFORMATION_VISUAL_FORMATS[raw]) return raw;
+
+  const signature = [
+    item.title,
+    item.category,
+    item.beforeTitle,
+    item.afterTitle,
+    item.beforeText,
+    item.afterText
+  ].join(" ").toLowerCase();
+
+  if (/\b(mobile|smartphone|téléphone|telephone|ios|android|responsive mobile)\b/.test(signature)) return "mobile";
+  if (/\b(hub|dashboard|tableau de bord|interface|espace|portail|student|étudiant|etudiant|cours|formation assignée|formations assignées)\b/.test(signature)) return "dashboard";
+  return "desktop";
+}
+
+function getTransformationVisualFormat(item = {}) {
+  return normalizeTransformationVisualFormat(item.visualFormat, item);
+}
+
+function getTransformationVisualFormatMeta(item = {}) {
+  const key = getTransformationVisualFormat(item);
+  return {
+    key,
+    ...TRANSFORMATION_VISUAL_FORMATS[key]
+  };
+}
+
+function transformationVisualFormatOptions(selected = "desktop") {
+  const current = normalizeTransformationVisualFormat(selected);
+  return Object.entries(TRANSFORMATION_VISUAL_FORMATS).map(([key, value]) => `
+    <option value="${key}" ${key === current ? "selected" : ""}>${escapeHtml(value.label)}</option>
+  `).join("");
+}
+
 const trustedClients = [
   {
     name: "USM Football",
@@ -70,6 +125,7 @@ const transformationCases = [
     afterText: "Parcours plus clair, logique apprenant plus professionnelle et présentation plus crédible pour vendre la formation.",
     beforeImage: "",
     afterImage: "",
+    visualFormat: "dashboard",
     status: "En construction",
     visible: true,
     featured: true,
@@ -84,6 +140,7 @@ const transformationCases = [
     afterText: "Interface sobre, image plus haut de gamme, sections mieux hiérarchisées et parcours plus simple vers la prise de contact.",
     beforeImage: "",
     afterImage: "",
+    visualFormat: "desktop",
     status: "En ligne",
     visible: true,
     featured: true,
@@ -98,6 +155,7 @@ const transformationCases = [
     afterText: "Portfolio plus vivant, galerie mieux structurée, showreel valorisé et contact professionnel plus évident.",
     beforeImage: "",
     afterImage: "",
+    visualFormat: "desktop",
     status: "Concept d’offre",
     visible: true,
     featured: false,
@@ -1065,7 +1123,7 @@ function getClientStatus(status) {
 
 function normalizeTransformationDoc(docSnap) {
   const data = docSnap.data ? docSnap.data() : docSnap;
-  return {
+  const item = {
     id: docSnap.id || data.id || "",
     title: String(data.title || "").trim(),
     category: String(data.category || "").trim(),
@@ -1080,6 +1138,8 @@ function normalizeTransformationDoc(docSnap) {
     featured: Boolean(data.featured),
     sortOrder: Number(data.sortOrder || 999)
   };
+  item.visualFormat = normalizeTransformationVisualFormat(data.visualFormat, item);
+  return item;
 }
 
 function sortTransformations(items) {
@@ -1181,12 +1241,14 @@ function transformationCaseCard(item) {
   const title = escapeHtml(item.title || "Projet Nocx Web");
   const category = escapeHtml(item.category || "Transformation digitale");
   const status = escapeHtml(item.status || "Projet");
+  const visualFormat = getTransformationVisualFormatMeta(item);
   return `
     <article class="transformation-case" data-reveal>
       <div class="transformation-case-copy">
         <div class="transformation-case-meta">
           <span>${category}</span>
           <span>${status}</span>
+          <span>${escapeHtml(visualFormat.label)}</span>
         </div>
         <h3>${title}</h3>
         <div class="transformation-copy-grid">
@@ -1214,13 +1276,19 @@ function transformationSlider(item, compact = false) {
   const afterTitle = escapeHtml(item.afterTitle || "Après");
   const beforeText = escapeHtml(item.beforeText || "");
   const afterText = escapeHtml(item.afterText || "");
+  const visualFormat = getTransformationVisualFormatMeta(item);
+  const sliderClasses = [
+    "before-after-slider",
+    compact ? "is-compact" : "",
+    visualFormat.className
+  ].filter(Boolean).join(" ");
 
   return `
-    <div class="before-after-slider ${compact ? "is-compact" : ""}" data-transform-slider style="--split: 50%;">
-      <div class="ba-panel ba-before">
+    <div class="${sliderClasses}" data-transform-slider data-visual-format="${escapeHtml(visualFormat.key)}" style="--split: 50%;">
+      <div class="ba-panel ba-before ${beforeImage ? "has-image" : ""}">
         ${beforeImage ? `<img src="${escapeHtml(beforeImage)}" alt="${escapeHtml(item.title || "Projet")} avant" loading="lazy">` : transformationMockPanel("Avant", beforeTitle, beforeText)}
       </div>
-      <div class="ba-panel ba-after">
+      <div class="ba-panel ba-after ${afterImage ? "has-image" : ""}">
         ${afterImage ? `<img src="${escapeHtml(afterImage)}" alt="${escapeHtml(item.title || "Projet")} après" loading="lazy">` : transformationMockPanel("Après", afterTitle, afterText)}
       </div>
       <div class="ba-divider" aria-hidden="true">
@@ -2161,6 +2229,13 @@ async function renderAdminDashboard(panel, fb, user) {
           <div class="form-field"><label>Catégorie</label><input name="category" placeholder="Campus en ligne" /></div>
           <div class="form-field"><label>Statut affiché</label><input name="status" placeholder="En ligne / En construction / Concept" /></div>
           <div class="form-field"><label>Ordre</label><input name="sortOrder" type="number" min="1" value="1" /></div>
+          <div class="form-field full">
+            <label>Format d’affichage</label>
+            <select name="visualFormat">
+              ${transformationVisualFormatOptions("desktop")}
+            </select>
+            <small class="field-hint">Desktop : landing page. Dashboard : espace étudiant/interface. Mobile : capture verticale.</small>
+          </div>
 
           <div class="form-field full transformation-fieldset">
             <label>Image avant URL</label>
@@ -2254,6 +2329,7 @@ function transformationPayloadFromForm(form, fb, uploadedBeforeImage = "", uploa
     title: String(data.title || "").trim(),
     category: String(data.category || "").trim(),
     status: String(data.status || "").trim(),
+    visualFormat: normalizeTransformationVisualFormat(data.visualFormat, data),
     beforeTitle: String(data.beforeTitle || "").trim(),
     beforeText: String(data.beforeText || "").trim(),
     afterTitle: String(data.afterTitle || "").trim(),
@@ -2273,6 +2349,7 @@ function resetTransformationForm(form) {
   form.elements.visible.checked = true;
   form.elements.featured.checked = false;
   form.elements.sortOrder.value = "1";
+  if (form.elements.visualFormat) form.elements.visualFormat.value = "desktop";
   form.elements.id.value = "";
   clearTransformationImagePreview(form, "before");
   clearTransformationImagePreview(form, "after");
@@ -2372,6 +2449,7 @@ function bindTransformationAdmin(panel, fb, transformations) {
       form.elements.category.value = item.category;
       form.elements.status.value = item.status;
       form.elements.sortOrder.value = item.sortOrder || 999;
+      if (form.elements.visualFormat) form.elements.visualFormat.value = getTransformationVisualFormat(item);
       form.elements.beforeImage.value = item.beforeImage;
       form.elements.afterImage.value = item.afterImage;
       form.elements.beforeTitle.value = item.beforeTitle;
@@ -2586,11 +2664,12 @@ async function refreshAdminLists(panel, fb) {
 
 
 function adminTransformationRow(item) {
+  const visualFormat = getTransformationVisualFormatMeta(item);
   return `
     <article class="admin-row admin-transformation-row">
       <div>
         <strong>${escapeHtml(item.title || "Transformation sans titre")}</strong>
-        <span>${escapeHtml(item.category || "Projet")} · ${escapeHtml(item.status || "Statut libre")} · ordre ${escapeHtml(item.sortOrder)}</span>
+        <span>${escapeHtml(item.category || "Projet")} · ${escapeHtml(item.status || "Statut libre")} · ${escapeHtml(visualFormat.label)} · ordre ${escapeHtml(item.sortOrder)}</span>
         <p>${escapeHtml(item.beforeTitle || "Avant")} → ${escapeHtml(item.afterTitle || "Après")}</p>
       </div>
       <div class="admin-row-actions">
