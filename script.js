@@ -1292,7 +1292,39 @@ function transformationCaseCard(item) {
   `;
 }
 
-function transformationSlider(item, compact = false) {
+function transformationLightboxPayload(item = {}) {
+  return {
+    title: item.title || "Projet Nocx Web",
+    category: item.category || "Transformation digitale",
+    status: item.status || "Projet",
+    beforeTitle: item.beforeTitle || "Avant",
+    beforeText: item.beforeText || "",
+    afterTitle: item.afterTitle || "Après",
+    afterText: item.afterText || "",
+    beforeImage: item.beforeImage || "",
+    afterImage: item.afterImage || "",
+    visualFormat: getTransformationVisualFormat(item)
+  };
+}
+
+function encodeTransformationPayload(item = {}) {
+  try {
+    return encodeURIComponent(JSON.stringify(transformationLightboxPayload(item)));
+  } catch (error) {
+    return "";
+  }
+}
+
+function decodeTransformationPayload(value = "") {
+  try {
+    const parsed = JSON.parse(decodeURIComponent(value));
+    return transformationLightboxPayload(parsed);
+  } catch (error) {
+    return null;
+  }
+}
+
+function transformationSlider(item, compact = false, withLightbox = true) {
   const beforeImage = safeLogoUrl(item.beforeImage);
   const afterImage = safeLogoUrl(item.afterImage);
   const beforeTitle = escapeHtml(item.beforeTitle || "Avant");
@@ -1300,6 +1332,7 @@ function transformationSlider(item, compact = false) {
   const beforeText = escapeHtml(item.beforeText || "");
   const afterText = escapeHtml(item.afterText || "");
   const visualFormat = getTransformationVisualFormatMeta(item);
+  const lightboxPayload = encodeTransformationPayload(item);
   const sliderClasses = [
     "before-after-slider",
     compact ? "is-compact" : "",
@@ -1318,6 +1351,7 @@ function transformationSlider(item, compact = false) {
         <span></span>
       </div>
       <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparer l’avant et l’après" data-transform-range>
+      ${withLightbox && lightboxPayload ? `<button class="ba-lightbox-button" type="button" data-transform-lightbox-open="${escapeHtml(lightboxPayload)}" aria-label="Agrandir la comparaison avant après">Voir en grand</button>` : ""}
     </div>
   `;
 }
@@ -1353,6 +1387,76 @@ function initTransformationSliders(scope = document) {
   });
 }
 
+function closeTransformationLightbox() {
+  const modal = document.querySelector("[data-transform-lightbox]");
+  if (!modal) return;
+  modal.classList.remove("is-open");
+  document.body.classList.remove("lightbox-open");
+  window.setTimeout(() => modal.remove(), 180);
+}
+
+function openTransformationLightbox(item = {}) {
+  const payload = transformationLightboxPayload(item);
+  closeTransformationLightbox();
+
+  const modal = document.createElement("div");
+  modal.className = "transform-lightbox";
+  modal.setAttribute("data-transform-lightbox", "");
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("aria-label", `Comparaison avant après ${payload.title}`);
+  modal.innerHTML = `
+    <div class="transform-lightbox-backdrop" data-transform-lightbox-close></div>
+    <div class="transform-lightbox-panel">
+      <div class="transform-lightbox-header">
+        <div>
+          <p class="kicker">Avant / Après</p>
+          <h3>${escapeHtml(payload.title)}</h3>
+          <div class="transform-lightbox-meta">
+            <span>${escapeHtml(payload.category)}</span>
+            <span>${escapeHtml(getTransformationVisualFormatMeta(payload).label)}</span>
+          </div>
+        </div>
+        <button class="transform-lightbox-close" type="button" data-transform-lightbox-close aria-label="Fermer l’aperçu agrandi">×</button>
+      </div>
+      <div class="transform-lightbox-slider">
+        ${transformationSlider(payload, false, false)}
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  document.body.classList.add("lightbox-open");
+  initTransformationSliders(modal);
+  window.requestAnimationFrame(() => modal.classList.add("is-open"));
+  modal.querySelector(".transform-lightbox-close")?.focus({ preventScroll: true });
+}
+
+function initTransformationLightboxes(scope = document) {
+  scope.querySelectorAll("[data-transform-lightbox-open]").forEach((button) => {
+    if (button.dataset.lightboxBound === "true") return;
+    button.dataset.lightboxBound = "true";
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const payload = decodeTransformationPayload(button.dataset.transformLightboxOpen || "");
+      if (payload) openTransformationLightbox(payload);
+    });
+  });
+}
+
+document.addEventListener("click", (event) => {
+  const closeButton = event.target.closest?.("[data-transform-lightbox-close]");
+  if (closeButton) {
+    event.preventDefault();
+    closeTransformationLightbox();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeTransformationLightbox();
+});
+
 async function loadPublishedTransformationsData() {
   const fb = await getFirebaseClient();
   const transformationQuery = fb.query(
@@ -1370,6 +1474,7 @@ async function initTransformationsContent() {
 
   if (!isFirebaseConfigured()) {
     initTransformationSliders(document);
+    initTransformationLightboxes(document);
     initRevealAnimations();
     return;
   }
@@ -1390,6 +1495,7 @@ async function initTransformationsContent() {
     }
 
     initTransformationSliders(document);
+    initTransformationLightboxes(document);
     initRevealAnimations();
   } catch (error) {
     console.warn("Transformations Nocx Web : chargement Firebase indisponible, données locales conservées.", error);
@@ -2925,6 +3031,7 @@ function renderPage(page, options = {}) {
     initRevealAnimations();
     initClientLogoImages(app);
     initTransformationSliders(app);
+    initTransformationLightboxes(app);
     initTransformationsContent();
     initFaq();
     initContactForm();
