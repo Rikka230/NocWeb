@@ -31,7 +31,14 @@ const FIREBASE_COLLECTIONS = {
 
 const NOCX_TRACKING_ROUTE_EVENTS = {
   pricing: "pricing_view",
-  transformations: "transformations_view"
+  transformations: "transformations_view",
+  "creation-site-web-saint-raphael": "seo_landing_view",
+  "creation-site-web-frejus": "seo_landing_view",
+  "agence-web-var": "seo_landing_view",
+  "creation-site-web-puget-sur-argens": "seo_landing_view",
+  "site-web-organisme-formation": "seo_landing_view",
+  "site-web-club-sportif": "seo_landing_view",
+  "portfolio-comedien-intermittent": "seo_landing_view"
 };
 
 function sanitizeTrackingValue(value, fallback = "") {
@@ -290,6 +297,247 @@ const clientStatusMap = {
   building: { label: "En cours de création", cta: "En cours de création", tone: "warning" },
   private: { label: "Projet privé", cta: "Projet privé", tone: "neutral" },
   soon: { label: "Bientôt disponible", cta: "Bientôt disponible", tone: "blue" }
+};
+
+const seoLandingPages = {
+  "creation-site-web-saint-raphael": {
+    title: "Création site web Saint-Raphaël | Site premium local | Nocx Web",
+    description: "Création de site web à Saint-Raphaël : site vitrine premium, refonte, SEO local, formulaire et expérience mobile pour entreprises, restaurants, clubs et indépendants.",
+    kicker: "Création site web Saint-Raphaël",
+    heading: "Un site web premium pour votre activité à Saint-Raphaël.",
+    lead: "Nocx Web accompagne les entreprises, restaurants, clubs, indépendants et marques locales de Saint-Raphaël avec des sites vitrines modernes, rapides et pensés pour convertir.",
+    focusLabel: "Zone locale",
+    focusValue: "Saint-Raphaël",
+    introTitle: "Votre présence digitale doit inspirer confiance avant le premier appel.",
+    introText: "Sur un marché local visible et concurrentiel, un site trop générique peut coûter cher en crédibilité. L’objectif est de montrer vite ce que vous faites, pourquoi vous êtes fiable et comment vous contacter.",
+    bullets: [
+      "Site vitrine responsive pour mobile, tablette et desktop.",
+      "Structure claire pour présenter vos offres, preuves, avis, photos et demandes de contact.",
+      "Base SEO locale pensée pour les recherches autour de Saint-Raphaël et de votre activité."
+    ],
+    services: [
+      ["Site vitrine premium", "Une page d’accueil forte, des sections lisibles et une image cohérente avec votre positionnement."],
+      ["Refonte de site existant", "On clarifie les contenus, l’ordre des informations, les CTA et la perception générale."],
+      ["SEO local propre", "Titres, descriptions, contenus et maillage pensés pour mieux présenter votre zone d’activité."],
+      ["Contact qualifié", "Formulaire, CTA et parcours de conversion pour obtenir des demandes plus sérieuses."]
+    ],
+    targets: [
+      ["Restaurants & commerces", "Mettre en avant l’ambiance, les services, les photos, les horaires et les réservations."],
+      ["Clubs & associations", "Présenter l’identité, les actualités, les partenaires et les inscriptions."],
+      ["Indépendants & artisans", "Expliquer les prestations, rassurer et transformer les visiteurs en demandes concrètes."]
+    ],
+    relatedLinks: [
+      ["Création site web Fréjus", "creation-site-web-frejus"],
+      ["Agence web Var", "agence-web-var"],
+      ["Sites vitrines premium", "sites"]
+    ],
+    ctaTitle: "Vous voulez un site plus crédible pour Saint-Raphaël ?",
+    ctaText: "On peut commencer par un diagnostic pour cadrer vos pages, vos contenus, votre budget et les priorités de conversion."
+  },
+  "creation-site-web-frejus": {
+    title: "Création site web Fréjus | Site vitrine premium | Nocx Web",
+    description: "Création de site web à Fréjus : site vitrine premium, refonte, SEO local, mobile-first et formulaire pour entreprises, clubs, restaurants et indépendants.",
+    kicker: "Création site web Fréjus",
+    heading: "Un site clair, premium et utile pour votre activité à Fréjus.",
+    lead: "Nocx Web crée des sites vitrines professionnels pour les structures de Fréjus qui veulent une présence moderne, crédible et orientée prise de contact.",
+    focusLabel: "Zone locale",
+    focusValue: "Fréjus",
+    introTitle: "Le bon site ne se contente pas d’être joli : il explique et il rassure.",
+    introText: "Vos visiteurs comparent vite. En quelques secondes, ils doivent comprendre votre activité, votre niveau de service et la prochaine action à faire.",
+    bullets: [
+      "Architecture de page pensée pour les prospects locaux.",
+      "Design premium sombre, clair ou adapté à votre univers de marque.",
+      "Contenus organisés pour présenter services, preuves, réalisations et contact."
+    ],
+    services: [
+      ["Création complète", "Conception d’un site professionnel avec structure, design, intégration et mise en ligne."],
+      ["Refonte premium", "Transformation d’un site daté en expérience plus moderne, lisible et crédible."],
+      ["Pages services", "Des pages pensées pour expliquer chaque prestation sans noyer le visiteur."],
+      ["Conversion", "CTA visibles, formulaire clair et parcours plus direct vers la demande de devis."]
+    ],
+    targets: [
+      ["Entreprises locales", "Une vitrine solide pour présenter vos services et rassurer les prospects."],
+      ["Restaurants & tourisme", "Mettre en scène l’expérience, les photos, les menus et les réservations."],
+      ["Clubs sportifs", "Valoriser l’identité, les équipes, partenaires, inscriptions et actualités."]
+    ],
+    relatedLinks: [
+      ["Création site web Saint-Raphaël", "creation-site-web-saint-raphael"],
+      ["Création site web Puget-sur-Argens", "creation-site-web-puget-sur-argens"],
+      ["Voir les transformations", "transformations"]
+    ],
+    ctaTitle: "Votre site à Fréjus doit mieux vendre votre niveau réel.",
+    ctaText: "Le diagnostic permet d’identifier ce qui manque : structure, preuves, CTA, SEO local, contenus ou direction artistique."
+  },
+  "agence-web-var": {
+    title: "Agence web Var | Sites premium, campus et portails privés | Nocx Web",
+    description: "Agence web dans le Var spécialisée en sites vitrines premium, campus en ligne privés, portails clients, portfolios intermittents et interfaces sur mesure.",
+    kicker: "Agence web Var",
+    heading: "Une agence web premium pour les structures du Var.",
+    lead: "Nocx Web conçoit des sites vitrines, campus en ligne, portails privés et portfolios pour les entreprises, organismes, clubs et créatifs du Var.",
+    focusLabel: "Territoire",
+    focusValue: "Var",
+    introTitle: "Une présence web sérieuse doit porter votre image, pas juste occuper une URL.",
+    introText: "L’approche Nocx Web mélange direction artistique, structure de contenu, expérience utilisateur et logique de conversion pour créer une base digitale plus durable.",
+    bullets: [
+      "Sites vitrines premium pour marques locales, entreprises et indépendants.",
+      "Campus en ligne privés pour organismes, clubs, formateurs et écoles.",
+      "Portails clients et espaces membres pour centraliser accès, documents et contenus."
+    ],
+    services: [
+      ["Site vitrine premium", "Une présence claire, responsive et rassurante pour convertir les visiteurs en prospects."],
+      ["Campus en ligne", "Une plateforme privée pour organiser cours, vidéos, documents, apprenants et accès."],
+      ["Portail client", "Un espace privé pour centraliser ressources, documents, statuts et informations importantes."],
+      ["Portfolio artistique", "Une vitrine premium pour comédiens, artistes, modèles, musiciens et créatifs."]
+    ],
+    targets: [
+      ["Organismes de formation", "Structurer les contenus et créer une expérience apprenant plus professionnelle."],
+      ["Clubs sportifs", "Présenter l’identité, les offres, les partenaires et les inscriptions."],
+      ["Entreprises locales", "Rendre les services plus lisibles et la prise de contact plus simple."]
+    ],
+    relatedLinks: [
+      ["Saint-Raphaël", "creation-site-web-saint-raphael"],
+      ["Fréjus", "creation-site-web-frejus"],
+      ["Puget-sur-Argens", "creation-site-web-puget-sur-argens"]
+    ],
+    ctaTitle: "Vous cherchez une agence web dans le Var avec une vraie direction artistique ?",
+    ctaText: "Le diagnostic permet de cadrer votre besoin, votre niveau d’ambition et la meilleure première version à construire."
+  },
+  "creation-site-web-puget-sur-argens": {
+    title: "Création site web Puget-sur-Argens | Nocx Web",
+    description: "Création de site web à Puget-sur-Argens : site vitrine premium, refonte, SEO local, formulaire et interface professionnelle pour entreprises et indépendants.",
+    kicker: "Création site web Puget-sur-Argens",
+    heading: "Un site web professionnel pour votre activité à Puget-sur-Argens.",
+    lead: "Nocx Web aide les entreprises, indépendants, commerces et structures locales de Puget-sur-Argens à obtenir une présence web plus claire, moderne et crédible.",
+    focusLabel: "Zone locale",
+    focusValue: "Puget-sur-Argens",
+    introTitle: "Votre site doit faire comprendre votre valeur sans rendez-vous explicatif.",
+    introText: "Une bonne vitrine digitale clarifie votre offre, votre zone, vos preuves et la façon de vous contacter. Elle devient un support commercial disponible en continu.",
+    bullets: [
+      "Site responsive adapté aux usages mobiles locaux.",
+      "Présentation claire de vos services, réalisations et points forts.",
+      "Maillage possible vers les zones voisines : Fréjus, Saint-Raphaël et Var."
+    ],
+    services: [
+      ["Création site vitrine", "Une base solide pour présenter votre activité, vos offres et votre contact."],
+      ["Optimisation mobile", "Une expérience lisible et rapide sur smartphone, là où vos prospects consultent le plus."],
+      ["SEO local", "Des contenus mieux orientés zone, métier et intention de recherche."],
+      ["Évolutivité", "Un site pensé pour ajouter ensuite références, avis, transformations ou espace privé."]
+    ],
+    targets: [
+      ["Artisans", "Présenter les prestations, zones d’intervention et réalisations."],
+      ["Commerces", "Rendre les informations importantes faciles à trouver."],
+      ["Indépendants", "Créer une présence professionnelle plus crédible qu’une simple page sociale."]
+    ],
+    relatedLinks: [
+      ["Agence web Var", "agence-web-var"],
+      ["Création site web Fréjus", "creation-site-web-frejus"],
+      ["Diagnostic", "audit"]
+    ],
+    ctaTitle: "Votre activité à Puget-sur-Argens mérite une vitrine plus nette.",
+    ctaText: "On peut cadrer une première version réaliste, avec les pages essentielles et les priorités de conversion."
+  },
+  "site-web-organisme-formation": {
+    title: "Site web organisme de formation | Campus en ligne privé | Nocx Web",
+    description: "Création de site web pour organisme de formation : site vitrine, campus en ligne privé, espace apprenant, contenus, documents, vidéos et parcours professionnels.",
+    kicker: "Organismes de formation",
+    heading: "Un site et un campus qui donnent plus de valeur à vos formations.",
+    lead: "Nocx Web crée des sites web et campus privés pour organismes de formation, écoles, coachs et formateurs qui veulent structurer leurs contenus et professionnaliser l’expérience apprenant.",
+    focusLabel: "Usage prioritaire",
+    focusValue: "Formation",
+    introTitle: "Vos cours ne doivent pas ressembler à un tas de liens dispersés.",
+    introText: "Un organisme de formation a besoin d’une expérience claire : présentation de l’offre, preuve de sérieux, accès privé, ressources, progression et contact. Le campus en ligne donne une forme premium à votre méthode.",
+    bullets: [
+      "Site public pour présenter vos formations et rassurer les prospects.",
+      "Espace apprenant privé avec cours, vidéos, PDF et progression selon le cadrage.",
+      "Base évolutive pour ajouter rôles, notifications, dashboard ou contenus avancés."
+    ],
+    services: [
+      ["Site organisme", "Pages offres, méthode, programme, preuves, FAQ et contact qualifié."],
+      ["Campus Starter", "Première plateforme privée pour organiser vos contenus et accès apprenants."],
+      ["Portail formateur", "Briques possibles pour centraliser ressources, documents et parcours."],
+      ["Diagnostic formation", "Cadrage des contenus, accès, contraintes, budget et première version réaliste."]
+    ],
+    targets: [
+      ["Écoles & centres", "Présenter les programmes et orienter vers les demandes qualifiées."],
+      ["Coachs & formateurs", "Valoriser une méthode et transformer les ressources en parcours."],
+      ["Clubs & académies", "Structurer modules, vidéos, documents et suivi des membres."]
+    ],
+    relatedLinks: [
+      ["Campus en ligne", "campus"],
+      ["Tarifs", "pricing"],
+      ["Demander un diagnostic", "audit"]
+    ],
+    ctaTitle: "Vous avez déjà des contenus de formation ?",
+    ctaText: "Le diagnostic permet de transformer vos vidéos, PDF, modules ou ressources en parcours clair et vendable."
+  },
+  "site-web-club-sportif": {
+    title: "Site web pour club sportif | Inscription, partenaires, espace privé | Nocx Web",
+    description: "Création de site web pour club sportif : vitrine premium, actualités, équipes, partenaires, inscriptions, espace membre et portail privé sur mesure.",
+    kicker: "Clubs sportifs",
+    heading: "Un site de club sportif plus clair, plus premium et plus utile.",
+    lead: "Nocx Web accompagne les clubs sportifs qui veulent mieux présenter leur identité, leurs équipes, leurs offres, leurs partenaires et leurs inscriptions.",
+    focusLabel: "Usage",
+    focusValue: "Club sportif",
+    introTitle: "Un club a besoin d’un site qui sert les membres, les familles, les partenaires et les futurs inscrits.",
+    introText: "Le site peut devenir la base officielle : actualités, catégories, partenaires, inscriptions, documents, informations pratiques et espace privé selon le besoin.",
+    bullets: [
+      "Présentation premium du club, de l’histoire, des valeurs et des équipes.",
+      "Pages partenaires et sponsors pour augmenter la valeur perçue.",
+      "Possibilité d’ajouter un espace membre ou un portail privé."
+    ],
+    services: [
+      ["Site officiel", "Accueil, club, équipes, actualités, partenaires, inscriptions et contact."],
+      ["Pages sponsors", "Une mise en avant plus professionnelle pour les partenaires du club."],
+      ["Espace membre", "Accès privé pour documents, ressources, planning ou contenus internes."],
+      ["Évolution campus", "Possibilité de structurer des formations, vidéos ou ressources pédagogiques."]
+    ],
+    targets: [
+      ["Clubs amateurs ambitieux", "Une image plus professionnelle pour attirer licenciés et partenaires."],
+      ["Académies sportives", "Présenter programmes, coaching, tarifs et inscriptions."],
+      ["Structures privées", "Créer une expérience plus premium autour des services sportifs."]
+    ],
+    relatedLinks: [
+      ["Campus en ligne", "campus"],
+      ["Portails clients", "portals"],
+      ["Voir les transformations", "transformations"]
+    ],
+    ctaTitle: "Votre club doit inspirer confiance avant l’inscription.",
+    ctaText: "On peut cadrer une première version avec les pages essentielles, puis prévoir les briques privées si elles sont utiles."
+  },
+  "portfolio-comedien-intermittent": {
+    title: "Portfolio comédien et intermittent | Site artiste premium | Nocx Web",
+    description: "Création de portfolio pour comédien, comédienne, acteur, actrice et intermittent : galerie, showreel, bio, CV, filmographie et contact professionnel.",
+    kicker: "Portfolio comédien / intermittent",
+    heading: "Un portfolio premium pour être vu, compris et contacté rapidement.",
+    lead: "Nocx Web crée des portfolios artistiques pour comédiens, comédiennes, acteurs, actrices, modèles, musiciens, techniciens et intermittents du spectacle.",
+    focusLabel: "Offre",
+    focusValue: "Portfolio Intermittents",
+    introTitle: "Votre profil ne doit pas dépendre uniquement d’un PDF ou d’un réseau social.",
+    introText: "Un lien portfolio donne une présence plus professionnelle : photos, bande démo, bio, CV, filmographie, galerie, disponibilité et contact sont réunis dans une expérience claire.",
+    bullets: [
+      "Page artistique premium pour castings, productions, agences et partenaires.",
+      "Galerie photos, vidéos, showreel ou bande démo selon vos contenus.",
+      "Base accessible à partir de 790 € HT, sans tomber dans le site low-cost sans direction."
+    ],
+    services: [
+      ["Profil casting", "Photo principale, métier, ville, disponibilité, langues, mensurations ou informations utiles selon profil."],
+      ["Showreel", "Mise en avant de la bande démo, extraits vidéos ou contenus média."],
+      ["Bio & CV", "Présentation courte, expériences, filmographie, projets, formations ou références."],
+      ["Contact pro", "Un point de contact clair pour production, agent, casting, client ou partenaire."]
+    ],
+    targets: [
+      ["Comédiens & acteurs", "Centraliser photos, bande démo, rôles, expériences et agent."],
+      ["Modèles & artistes", "Présenter des séries visuelles et un univers personnel plus fort."],
+      ["Techniciens & créatifs", "Mettre en avant CV, projets, références et compétences clés."]
+    ],
+    relatedLinks: [
+      ["Offre Intermittents", "intermittents"],
+      ["Tarifs", "pricing"],
+      ["Contact", "contact"]
+    ],
+    ctaTitle: "Vous voulez un lien plus professionnel à envoyer aux castings ?",
+    ctaText: "On peut partir de vos photos, vidéos, showreel, bio et références pour créer une vitrine artistique claire."
+  }
 };
 
 const routes = {
@@ -1043,6 +1291,8 @@ const routes = {
     render: () => referencesPage()
   },
 
+  ...createSeoRouteMap(),
+
   faq: {
     title: "FAQ Nocx Web | Campus en ligne, site vitrine et portail privé",
     description: "Questions fréquentes sur les campus en ligne privés, sites vitrines premium, portails clients, design personnalisé, sécurité et mise en ligne.",
@@ -1326,6 +1576,75 @@ function pageHero(kicker, title, lead, buttonLabel, buttonRoute) {
         <h1>${title}</h1>
         <p class="page-lead">${lead}</p>
         ${action}
+      </div>
+    </section>
+  `;
+}
+
+function createSeoRouteMap() {
+  return Object.fromEntries(
+    Object.entries(seoLandingPages).map(([page, config]) => [
+      page,
+      {
+        title: config.title,
+        description: config.description,
+        render: () => seoLandingPage(page, config)
+      }
+    ])
+  );
+}
+
+function seoLandingPage(page, config) {
+  const services = config.services.map(([title, text], index) => feature(title, text, String(index + 1).padStart(2, "0"))).join("");
+  const targets = config.targets.map(([title, text]) => useCard(title, text)).join("");
+  const bullets = config.bullets.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+  const relatedLinks = config.relatedLinks.map(([label, route]) => `
+    <a class="btn btn-secondary" href="?page=${route}" data-link>${escapeHtml(label)}</a>
+  `).join("");
+
+  return `
+    ${pageHero(config.kicker, config.heading, config.lead, "Demander un diagnostic", "audit")}
+
+    <section class="section-tight seo-landing-page" data-seo-page="${escapeHtml(page)}">
+      <div class="container split-section split-section-sites">
+        <div class="highlight-panel" data-reveal>
+          <p class="kicker">${escapeHtml(config.focusLabel)}</p>
+          <h2>${escapeHtml(config.focusValue)}</h2>
+          <p>${escapeHtml(config.introText)}</p>
+          <ul class="check-list">
+            ${bullets}
+          </ul>
+        </div>
+        <div class="feature-grid feature-grid-sites">
+          ${services}
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="section-heading center" data-reveal>
+          <p class="kicker">Besoin concret</p>
+          <h2>${escapeHtml(config.introTitle)}</h2>
+          <p>Chaque page, chaque CTA et chaque preuve doivent aider le visiteur à comprendre votre valeur sans friction.</p>
+        </div>
+        <div class="use-grid">
+          ${targets}
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="cta-band" data-reveal>
+          <p class="kicker">Pages liées</p>
+          <h2>${escapeHtml(config.ctaTitle)}</h2>
+          <p>${escapeHtml(config.ctaText)}</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="?page=audit" data-link>Demander mon diagnostic</a>
+            ${relatedLinks}
+          </div>
+        </div>
       </div>
     </section>
   `;
@@ -3147,10 +3466,39 @@ function buildUrl(page) {
   return `${url.pathname}${url.search}${url.hash}`;
 }
 
-function updateMeta(route) {
+function getAbsolutePageUrl(page = "home") {
+  const url = new URL(window.location.href);
+  url.pathname = "/";
+  url.hash = "";
+  url.search = "";
+  if (page !== "home") url.searchParams.set("page", page);
+  return url.toString();
+}
+
+function setMetaContent(selector, value) {
+  const node = document.querySelector(selector);
+  if (node && value) node.setAttribute("content", value);
+}
+
+function updateMeta(route, page = "home") {
+  const canonicalUrl = getAbsolutePageUrl(page);
   document.title = route.title;
-  const description = document.querySelector('meta[name="description"]');
-  if (description) description.setAttribute("content", route.description);
+
+  setMetaContent('meta[name="description"]', route.description);
+  setMetaContent('meta[property="og:title"]', route.title);
+  setMetaContent('meta[property="og:description"]', route.description);
+  setMetaContent('meta[property="og:url"]', canonicalUrl);
+  setMetaContent('meta[name="twitter:title"]', route.title);
+  setMetaContent('meta[name="twitter:description"]', route.description);
+
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute("href", canonicalUrl);
+
+  const alternateFr = document.querySelector('link[rel="alternate"][hreflang="fr-FR"]');
+  if (alternateFr) alternateFr.setAttribute("href", canonicalUrl);
+
+  const alternateDefault = document.querySelector('link[rel="alternate"][hreflang="x-default"]');
+  if (alternateDefault) alternateDefault.setAttribute("href", canonicalUrl);
 }
 
 function setActiveNav(page) {
@@ -3320,7 +3668,7 @@ function renderPage(page, options = {}) {
   if (!app || currentPage === page && !options.force) return;
 
   currentPage = page;
-  updateMeta(route);
+  updateMeta(route, page);
   setActiveNav(page);
   closeMenu();
   trackRouteView(page);

@@ -22,8 +22,8 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-  <link rel="preload" href="/style.css?v=20260502-transformations-cta-v1" as="style" />
-  <link rel="stylesheet" href="/style.css?v=20260502-transformations-cta-v1" />
+  <link rel="preload" href="/style.css?v=20260502-seo-jsonld-v1" as="style" />
+  <link rel="stylesheet" href="/style.css?v=20260502-seo-jsonld-v1" />
 
   <meta property="og:site_name" content="Nocx Web" />
   <meta property="og:title" content="Nocx Web | Sites premium, campus en ligne et portails privés" />
@@ -48,32 +48,58 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
+        "@type": [
+          "Organization",
+          "ProfessionalService",
+          "LocalBusiness"
+        ],
         "@id": "https://nocxweb.fr/#organization",
         "name": "Nocx Web",
         "url": "https://nocxweb.fr/",
         "logo": "https://nocxweb.fr/favicon.svg",
         "image": "https://nocxweb.fr/og-image.svg",
         "email": "Viard.antony83@gmail.com",
-        "description": "Micro-agence et studio digital spécialisé dans les sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure, portails clients et espaces membres.",
-        "areaServed": {
-          "@type": "Country",
-          "name": "France"
-        },
+        "priceRange": "€€€",
+        "description": "Micro-agence et studio digital spécialisé dans les sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure, portails clients, espaces membres et portfolios professionnels.",
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "France"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Var"
+          },
+          {
+            "@type": "City",
+            "name": "Saint-Raphaël"
+          },
+          {
+            "@type": "City",
+            "name": "Fréjus"
+          },
+          {
+            "@type": "City",
+            "name": "Puget-sur-Argens"
+          }
+        ],
         "knowsAbout": [
           "création site web professionnel",
-          "agence web",
+          "agence web Var",
+          "création site web Saint-Raphaël",
+          "création site web Fréjus",
+          "création site web Puget-sur-Argens",
           "campus en ligne",
           "plateforme e-learning sur mesure",
           "organisme de formation",
-          "espace apprenant",
-          "plateforme de formation privée",
-          "site vitrine premium",
+          "site web pour club sportif",
+          "portfolio comédien",
           "portfolio intermittent du spectacle",
-          "site portfolio acteur",
+          "site vitrine premium",
           "portail client",
           "espace membre",
-          "site web sur mesure",
+          "SEO local",
+          "interface web sur mesure",
           "digitalisation formation"
         ]
       },
@@ -82,23 +108,161 @@
         "@id": "https://nocxweb.fr/#website",
         "url": "https://nocxweb.fr/",
         "name": "Nocx Web",
-        "publisher": { "@id": "https://nocxweb.fr/#organization" },
-        "inLanguage": "fr-FR",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://nocxweb.fr/?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
+        "publisher": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "inLanguage": "fr-FR"
       },
       {
-        "@type": "WebPage",
-        "@id": "https://nocxweb.fr/#webpage",
-        "url": "https://nocxweb.fr/",
-        "name": "Nocx Web | Agence web premium, campus en ligne et portails privés",
-        "isPartOf": { "@id": "https://nocxweb.fr/#website" },
-        "about": { "@id": "https://nocxweb.fr/#organization" },
-        "description": "Nocx Web crée des sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure, portails clients et espaces membres.",
-        "inLanguage": "fr-FR"
+        "@type": "ItemList",
+        "@id": "https://nocxweb.fr/#main-pages",
+        "name": "Pages principales Nocx Web",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Nocx Web | Agence web premium, campus en ligne et portails privés",
+            "url": "https://nocxweb.fr/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Campus en ligne privé | Plateforme e-learning sur mesure | Nocx Web",
+            "url": "https://nocxweb.fr/?page=campus"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Site vitrine premium | Création site web professionnel | Nocx Web",
+            "url": "https://nocxweb.fr/?page=sites"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Portfolio Intermittents | Site artiste premium | Nocx Web",
+            "url": "https://nocxweb.fr/?page=intermittents"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "name": "Portail client et espace membre sur mesure | Nocx Web",
+            "url": "https://nocxweb.fr/?page=portals"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "name": "Transformations Nocx Web | Avant après site web, campus et portfolio",
+            "url": "https://nocxweb.fr/?page=transformations"
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "name": "Références Nocx Web | Projets, clients et réalisations web",
+            "url": "https://nocxweb.fr/?page=references"
+          },
+          {
+            "@type": "ListItem",
+            "position": 8,
+            "name": "Audit digital et diagnostic web | Nocx Web",
+            "url": "https://nocxweb.fr/?page=audit"
+          },
+          {
+            "@type": "ListItem",
+            "position": 9,
+            "name": "Création site web Saint-Raphaël | Site premium local | Nocx Web",
+            "url": "https://nocxweb.fr/?page=creation-site-web-saint-raphael"
+          },
+          {
+            "@type": "ListItem",
+            "position": 10,
+            "name": "Création site web Fréjus | Site vitrine premium | Nocx Web",
+            "url": "https://nocxweb.fr/?page=creation-site-web-frejus"
+          },
+          {
+            "@type": "ListItem",
+            "position": 11,
+            "name": "Agence web Var | Sites premium, campus et portails privés | Nocx Web",
+            "url": "https://nocxweb.fr/?page=agence-web-var"
+          },
+          {
+            "@type": "ListItem",
+            "position": 12,
+            "name": "Création site web Puget-sur-Argens | Nocx Web",
+            "url": "https://nocxweb.fr/?page=creation-site-web-puget-sur-argens"
+          },
+          {
+            "@type": "ListItem",
+            "position": 13,
+            "name": "Site web organisme de formation | Campus en ligne privé | Nocx Web",
+            "url": "https://nocxweb.fr/?page=site-web-organisme-formation"
+          },
+          {
+            "@type": "ListItem",
+            "position": 14,
+            "name": "Site web pour club sportif | Inscription, partenaires, espace privé | Nocx Web",
+            "url": "https://nocxweb.fr/?page=site-web-club-sportif"
+          },
+          {
+            "@type": "ListItem",
+            "position": 15,
+            "name": "Portfolio comédien et intermittent | Site artiste premium | Nocx Web",
+            "url": "https://nocxweb.fr/?page=portfolio-comedien-intermittent"
+          }
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "@id": "https://nocxweb.fr/#offer-catalog",
+        "name": "Offres Nocx Web",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "name": "Audit digital",
+            "price": "590",
+            "priceCurrency": "EUR",
+            "url": "https://nocxweb.fr/?page=audit",
+            "description": "Diagnostic du projet web, analyse du besoin, points bloquants, opportunités, recommandation prioritaire, estimation budgétaire et plan d’action."
+          },
+          {
+            "@type": "Offer",
+            "name": "Portfolio Intermittents",
+            "price": "790",
+            "priceCurrency": "EUR",
+            "url": "https://nocxweb.fr/?page=intermittents",
+            "description": "Site portfolio pour intermittents du spectacle, comédiens, acteurs, artistes, modèles et techniciens avec galerie, showreel, bio, CV ou filmographie."
+          },
+          {
+            "@type": "Offer",
+            "name": "Site vitrine premium",
+            "price": "1490",
+            "priceCurrency": "EUR",
+            "url": "https://nocxweb.fr/?page=sites",
+            "description": "Création de site vitrine premium responsive avec SEO de base, formulaire, design sur mesure et mise en ligne."
+          },
+          {
+            "@type": "Offer",
+            "name": "Campus Starter",
+            "price": "4900",
+            "priceCurrency": "EUR",
+            "url": "https://nocxweb.fr/?page=campus",
+            "description": "Campus en ligne privé avec espace apprenant, connexion utilisateurs, premiers modules de cours et interface personnalisée."
+          },
+          {
+            "@type": "Offer",
+            "name": "Campus Pro",
+            "price": "12000",
+            "priceCurrency": "EUR",
+            "url": "https://nocxweb.fr/?page=campus",
+            "description": "Plateforme e-learning sur mesure avec rôles utilisateurs, progression, dashboard, notifications et sécurité renforcée."
+          },
+          {
+            "@type": "Offer",
+            "name": "Projet web sur mesure",
+            "priceCurrency": "EUR",
+            "url": "https://nocxweb.fr/?page=contact",
+            "description": "Portail client, espace membre, interface privée ou projet digital spécifique selon les objectifs, accès et contenus."
+          }
+        ]
       },
       {
         "@type": "ProfessionalService",
@@ -108,54 +272,443 @@
         "image": "https://nocxweb.fr/og-image.svg",
         "email": "Viard.antony83@gmail.com",
         "priceRange": "€€€",
-        "areaServed": "France",
-        "description": "Création de sites web premium, campus en ligne privés, plateformes e-learning sur mesure, espaces membres, portails clients et portfolios professionnels pour intermittents.",
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "France"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Var"
+          },
+          {
+            "@type": "City",
+            "name": "Saint-Raphaël"
+          },
+          {
+            "@type": "City",
+            "name": "Fréjus"
+          },
+          {
+            "@type": "City",
+            "name": "Puget-sur-Argens"
+          }
+        ],
+        "provider": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
         "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Offres Nocx Web",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "name": "Audit digital",
-              "price": "590",
-              "priceCurrency": "EUR",
-              "url": "https://nocxweb.fr/?page=audit",
-              "description": "Diagnostic du projet web, analyse du besoin, points bloquants, opportunités, recommandation prioritaire, estimation budgétaire et plan d’action."
-            },
-            {
-              "@type": "Offer",
-              "name": "Portfolio Intermittents",
-              "price": "790",
-              "priceCurrency": "EUR",
-              "url": "https://nocxweb.fr/?page=intermittents",
-              "description": "Site portfolio pour intermittents du spectacle, acteurs, réalisateurs et techniciens avec page d’accueil artistique, galerie, CV ou filmographie et contact professionnel."
-            },
-            {
-              "@type": "Offer",
-              "name": "Site vitrine premium",
-              "price": "1490",
-              "priceCurrency": "EUR",
-              "url": "https://nocxweb.fr/?page=sites",
-              "description": "Création de site vitrine premium responsive avec SEO de base, formulaire et mise en ligne."
-            },
-            {
-              "@type": "Offer",
-              "name": "Campus Starter",
-              "price": "4900",
-              "priceCurrency": "EUR",
-              "url": "https://nocxweb.fr/?page=campus",
-              "description": "Campus en ligne privé avec espace apprenant, connexion utilisateurs, premiers modules de cours et interface personnalisée."
-            },
-            {
-              "@type": "Offer",
-              "name": "Campus Pro",
-              "price": "12000",
-              "priceCurrency": "EUR",
-              "url": "https://nocxweb.fr/?page=campus",
-              "description": "Plateforme e-learning sur mesure avec rôles utilisateurs, progression, dashboard, notifications et sécurité renforcée."
-            }
-          ]
-        }
+          "@id": "https://nocxweb.fr/#offer-catalog"
+        },
+        "description": "Création de sites web premium, campus en ligne privés, plateformes e-learning sur mesure, espaces membres, portails clients et portfolios professionnels pour intermittents."
+      },
+      {
+        "@type": "Service",
+        "@id": "https://nocxweb.fr/#service-audit",
+        "name": "Audit digital et diagnostic web",
+        "url": "https://nocxweb.fr/?page=audit",
+        "description": "Diagnostic du projet, analyse des points bloquants, opportunités, recommandation prioritaire et fourchette budgétaire.",
+        "provider": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "France"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Var"
+          },
+          {
+            "@type": "City",
+            "name": "Saint-Raphaël"
+          },
+          {
+            "@type": "City",
+            "name": "Fréjus"
+          },
+          {
+            "@type": "City",
+            "name": "Puget-sur-Argens"
+          }
+        ],
+        "serviceType": "Audit digital et diagnostic web"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://nocxweb.fr/#service-site-vitrine",
+        "name": "Création de site vitrine premium",
+        "url": "https://nocxweb.fr/?page=sites",
+        "description": "Site web professionnel responsive, design sur mesure, SEO de base, formulaire et mise en ligne.",
+        "provider": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "France"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Var"
+          },
+          {
+            "@type": "City",
+            "name": "Saint-Raphaël"
+          },
+          {
+            "@type": "City",
+            "name": "Fréjus"
+          },
+          {
+            "@type": "City",
+            "name": "Puget-sur-Argens"
+          }
+        ],
+        "serviceType": "Création de site vitrine premium"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://nocxweb.fr/#service-campus",
+        "name": "Campus en ligne privé",
+        "url": "https://nocxweb.fr/?page=campus",
+        "description": "Plateforme e-learning privée pour organismes de formation, écoles, clubs, coachs et formateurs.",
+        "provider": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "France"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Var"
+          },
+          {
+            "@type": "City",
+            "name": "Saint-Raphaël"
+          },
+          {
+            "@type": "City",
+            "name": "Fréjus"
+          },
+          {
+            "@type": "City",
+            "name": "Puget-sur-Argens"
+          }
+        ],
+        "serviceType": "Campus en ligne privé"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://nocxweb.fr/#service-portail",
+        "name": "Portail client et espace membre",
+        "url": "https://nocxweb.fr/?page=portals",
+        "description": "Espace privé avec documents, ressources, accès personnalisés, tableaux de bord et contenus réservés.",
+        "provider": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "France"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Var"
+          },
+          {
+            "@type": "City",
+            "name": "Saint-Raphaël"
+          },
+          {
+            "@type": "City",
+            "name": "Fréjus"
+          },
+          {
+            "@type": "City",
+            "name": "Puget-sur-Argens"
+          }
+        ],
+        "serviceType": "Portail client et espace membre"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://nocxweb.fr/#service-portfolio-intermittent",
+        "name": "Portfolio comédien et intermittent",
+        "url": "https://nocxweb.fr/?page=portfolio-comedien-intermittent",
+        "description": "Site portfolio artistique avec galerie, showreel, bio, CV, filmographie et contact professionnel.",
+        "provider": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "France"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Var"
+          },
+          {
+            "@type": "City",
+            "name": "Saint-Raphaël"
+          },
+          {
+            "@type": "City",
+            "name": "Fréjus"
+          },
+          {
+            "@type": "City",
+            "name": "Puget-sur-Argens"
+          }
+        ],
+        "serviceType": "Portfolio comédien et intermittent"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://nocxweb.fr/#service-seo-local",
+        "name": "Création site web local dans le Var",
+        "url": "https://nocxweb.fr/?page=agence-web-var",
+        "description": "Pages et contenus orientés intention locale pour Saint-Raphaël, Fréjus, Puget-sur-Argens et le Var.",
+        "provider": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "France"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Var"
+          },
+          {
+            "@type": "City",
+            "name": "Saint-Raphaël"
+          },
+          {
+            "@type": "City",
+            "name": "Fréjus"
+          },
+          {
+            "@type": "City",
+            "name": "Puget-sur-Argens"
+          }
+        ],
+        "serviceType": "Création site web local dans le Var"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/#webpage",
+        "url": "https://nocxweb.fr/",
+        "name": "Nocx Web | Agence web premium, campus en ligne et portails privés",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Nocx Web crée des sites web professionnels, campus en ligne privés, plateformes e-learning sur mesure, portails clients et espaces membres.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=campus#webpage",
+        "url": "https://nocxweb.fr/?page=campus",
+        "name": "Campus en ligne privé | Plateforme e-learning sur mesure | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Création de campus en ligne privés, espaces apprenants, plateformes e-learning sur mesure, cours, vidéos, documents et suivi de progression.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=sites#webpage",
+        "url": "https://nocxweb.fr/?page=sites",
+        "name": "Site vitrine premium | Création site web professionnel | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Création de sites vitrines premium, responsive, rapides, SEO, avec design sur mesure, formulaire, galerie et mise en ligne.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=intermittents#webpage",
+        "url": "https://nocxweb.fr/?page=intermittents",
+        "name": "Portfolio Intermittents | Site artiste premium | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Offre Portfolio Intermittents : site portfolio premium pour acteurs, actrices, modèles, artistes, musiciens, techniciens, créatifs et intermittents du spectacle.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=portals#webpage",
+        "url": "https://nocxweb.fr/?page=portals",
+        "name": "Portail client et espace membre sur mesure | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Création d’espaces privés, portails clients, espaces membres, dashboards, documents privés, accès par rôles et interfaces personnalisées.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=transformations#webpage",
+        "url": "https://nocxweb.fr/?page=transformations",
+        "name": "Transformations Nocx Web | Avant après site web, campus et portfolio",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Découvrez comment Nocx Web transforme des sites confus, interfaces dispersées et portfolios génériques en expériences digitales claires, premium et crédibles.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=references#webpage",
+        "url": "https://nocxweb.fr/?page=references",
+        "name": "Références Nocx Web | Projets, clients et réalisations web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Découvrez les références Nocx Web : sites vitrines premium, portfolios intermittents, campus en ligne privés, portails clients et projets digitaux sur mesure.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=audit#webpage",
+        "url": "https://nocxweb.fr/?page=audit",
+        "name": "Audit digital et diagnostic web | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Diagnostic du projet web, analyse du site ou de l’idée, points bloquants, opportunités, recommandation prioritaire et fourchette budgétaire.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=creation-site-web-saint-raphael#webpage",
+        "url": "https://nocxweb.fr/?page=creation-site-web-saint-raphael",
+        "name": "Création site web Saint-Raphaël | Site premium local | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Création de site web à Saint-Raphaël : site vitrine premium, refonte, SEO local, formulaire et expérience mobile pour entreprises, restaurants, clubs et indépendants.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=creation-site-web-frejus#webpage",
+        "url": "https://nocxweb.fr/?page=creation-site-web-frejus",
+        "name": "Création site web Fréjus | Site vitrine premium | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Création de site web à Fréjus : site vitrine premium, refonte, SEO local, mobile-first et formulaire pour entreprises, clubs, restaurants et indépendants.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=agence-web-var#webpage",
+        "url": "https://nocxweb.fr/?page=agence-web-var",
+        "name": "Agence web Var | Sites premium, campus et portails privés | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Agence web dans le Var spécialisée en sites vitrines premium, campus en ligne privés, portails clients, portfolios intermittents et interfaces sur mesure.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=creation-site-web-puget-sur-argens#webpage",
+        "url": "https://nocxweb.fr/?page=creation-site-web-puget-sur-argens",
+        "name": "Création site web Puget-sur-Argens | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Création de site web à Puget-sur-Argens : site vitrine premium, refonte, SEO local, formulaire et interface professionnelle pour entreprises et indépendants.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=site-web-organisme-formation#webpage",
+        "url": "https://nocxweb.fr/?page=site-web-organisme-formation",
+        "name": "Site web organisme de formation | Campus en ligne privé | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Création de site web pour organisme de formation : site vitrine, campus en ligne privé, espace apprenant, contenus, documents, vidéos et parcours professionnels.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=site-web-club-sportif#webpage",
+        "url": "https://nocxweb.fr/?page=site-web-club-sportif",
+        "name": "Site web pour club sportif | Inscription, partenaires, espace privé | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Création de site web pour club sportif : vitrine premium, actualités, équipes, partenaires, inscriptions, espace membre et portail privé sur mesure.",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nocxweb.fr/?page=portfolio-comedien-intermittent#webpage",
+        "url": "https://nocxweb.fr/?page=portfolio-comedien-intermittent",
+        "name": "Portfolio comédien et intermittent | Site artiste premium | Nocx Web",
+        "isPartOf": {
+          "@id": "https://nocxweb.fr/#website"
+        },
+        "about": {
+          "@id": "https://nocxweb.fr/#organization"
+        },
+        "description": "Création de portfolio pour comédien, comédienne, acteur, actrice et intermittent : galerie, showreel, bio, CV, filmographie et contact professionnel.",
+        "inLanguage": "fr-FR"
       },
       {
         "@type": "FAQPage",
@@ -183,6 +736,14 @@
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Oui. Chaque interface est adaptée à l’identité visuelle du client pour renforcer la valeur perçue et éviter l’effet template."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Nocx Web intervient-il dans le Var ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Oui. Nocx Web propose des sites web premium et projets digitaux pour des structures situées dans le Var, notamment Saint-Raphaël, Fréjus et Puget-sur-Argens, ainsi qu’à distance en France."
             }
           }
         ]
@@ -326,6 +887,11 @@
       <div>
         <h2>Contact</h2>
         <a href="?page=audit" data-link>Demander un diagnostic</a>
+        <a href="?page=creation-site-web-saint-raphael" data-link>Site web Saint-Raphaël</a>
+        <a href="?page=creation-site-web-frejus" data-link>Site web Fréjus</a>
+        <a href="?page=agence-web-var" data-link>Agence web Var</a>
+        <a href="?page=site-web-organisme-formation" data-link>Organisme de formation</a>
+        <a href="?page=portfolio-comedien-intermittent" data-link>Portfolio comédien</a>
         <p class="footer-note">Réponse sous 24 à 48h ouvrées.</p>
       </div>
     </div>
@@ -335,6 +901,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=20260502-transformations-cta-v1" defer></script>
+  <script src="/script.js?v=20260502-seo-jsonld-v1" defer></script>
 </body>
 </html>
