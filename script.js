@@ -1252,7 +1252,6 @@ function transformationsPageContent(items) {
       <div class="section-heading center" data-reveal>
         <p class="kicker">Avant / Après</p>
         <h2 id="transformations-title">Des transformations pensées pour augmenter la valeur perçue.</h2>
-        <p>Les exemples ci-dessous peuvent recevoir de vraies captures avant/après. La structure est déjà prête pour intégrer les visuels dans le même cadre.</p>
       </div>
       <div class="transformations-list">
         ${sortTransformations(items).map(transformationCaseCard).join("")}
@@ -1450,7 +1449,6 @@ function trustedClientsContent(clients, reviews = [], options = {}) {
       <div class="section-heading center" data-reveal>
         <p class="kicker">${mode === "references" ? "Références" : "Ils nous ont fait confiance"}</p>
         <h2 id="${titleId}">${mode === "references" ? "Des projets réels, visibles ou volontairement confidentiels." : "Des projets conçus pour être montrés, partagés et retenus."}</h2>
-        <p>${mode === "references" ? "Sites vitrines, portfolios, campus privés ou projets en construction : chaque référence garde son statut réel et son niveau de visibilité." : "Logos, portfolios, sites vitrines ou plateformes privées : chaque carte peut afficher son statut réel, son lien public ou rester volontairement confidentielle."}</p>
       </div>
       <div class="${gridClass}" data-count="${clients.length}" data-remainder="${remainder}">
         ${sortTrustedClients(clients).map(clientCard).join("")}
@@ -1468,7 +1466,7 @@ function trustedClientsContent(clients, reviews = [], options = {}) {
 function referencesPage() {
   const visibleClients = sortTrustedClients(trustedClients.filter(client => client.visible));
   return `
-    ${pageHero("Références", "Les projets qui donnent du poids à notre savoir-faire.", "Une page pensée pour présenter les sites, portfolios, campus et portails réalisés ou en cours, avec leur statut réel et leur niveau de visibilité.", "Parler de mon projet", "contact")}
+    ${pageHero("Références", "Les projets qui donnent du poids à notre savoir-faire.", "Découvrez quelques projets réalisés ou en cours : sites vitrines, portfolios, campus et plateformes privées.", "Parler de mon projet", "contact")}
 
     <section class="section references-section" aria-labelledby="references-title" data-references-root>
       ${referencesContent(visibleClients, clientTestimonials)}
