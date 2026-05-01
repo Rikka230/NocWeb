@@ -219,7 +219,7 @@ const routes = {
             <p class="hero-lead">Nocx Web conçoit des sites premium, des espaces privés et des plateformes de formation sur mesure pour les entreprises, écoles, clubs et organismes qui veulent passer à un niveau supérieur.</p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="?page=campus" data-link>Découvrir les offres</a>
-              <a class="btn btn-secondary" href="?page=contact" data-link>Demander un audit</a>
+              <a class="btn btn-secondary" href="?page=audit" data-link>Demander un diagnostic</a>
             </div>
             <div class="trust-row" aria-label="Points clés">
               <span>Design premium</span>
@@ -296,7 +296,7 @@ const routes = {
             <h2>Vous avez déjà des formations, des vidéos ou des documents ?</h2>
             <p>Transformons-les en plateforme professionnelle. Nocx Web vous aide à structurer l’expérience, les accès, les parcours et la présentation de vos contenus.</p>
             <div class="cta-row">
-              <a class="btn btn-primary" href="?page=contact" data-link>Demander un audit</a>
+              <a class="btn btn-primary" href="?page=audit" data-link>Demander un diagnostic</a>
               <a class="btn btn-secondary" href="?page=method" data-link>Comprendre la méthode</a>
             </div>
           </div>
@@ -571,7 +571,7 @@ const routes = {
     title: "Méthode Nocx Web | Audit, design, développement et mise en ligne",
     description: "Processus Nocx Web : audit, stratégie, design premium, développement, tests, mise en ligne et évolution.",
     render: () => `
-      ${pageHero("Méthode", "Une méthode claire pour cadrer, construire et faire évoluer votre projet.", "Nocx Web accompagne les structures non techniques avec un processus lisible : besoin, structure, design, développement, tests, mise en ligne et évolution.", "Demander un audit", "contact")}
+      ${pageHero("Méthode", "Une méthode claire pour cadrer, construire et faire évoluer votre projet.", "Nocx Web accompagne les structures non techniques avec un processus lisible : besoin, structure, design, développement, tests, mise en ligne et évolution.", "Demander un diagnostic", "audit")}
 
       <section class="section-tight">
         <div class="container">
@@ -616,7 +616,91 @@ const routes = {
           <div class="cta-band" data-reveal>
             <h2>Votre projet peut commencer petit et grandir proprement.</h2>
             <p>Une version Starter peut valider l’expérience, puis intégrer progressivement dashboards, notifications, rôles avancés, analytics ou automatisations.</p>
-            <a class="btn btn-primary" href="?page=contact" data-link>Réserver un audit</a>
+            <a class="btn btn-primary" href="?page=audit" data-link>Réserver un diagnostic</a>
+          </div>
+        </div>
+      </section>
+    `
+  },
+
+
+  audit: {
+    title: "Audit / Diagnostic web | Nocx Web",
+    description: "Recevez un diagnostic clair de votre projet web : analyse, points bloquants, opportunités, première recommandation et fourchette budgétaire.",
+    render: () => `
+      ${pageHero("Audit / Diagnostic", "Recevoir un diagnostic clair avant d’investir.", "Avant de créer un site, un campus ou un portail, Nocx Web analyse votre projet pour identifier les vrais besoins, les points bloquants, les opportunités et la première version réaliste à lancer.", "Demander mon diagnostic", "contact")}
+
+      <section class="section-tight audit-page-section">
+        <div class="container audit-intro-grid">
+          <div class="highlight-panel audit-highlight" data-reveal>
+            <p class="kicker">Cadrage premium</p>
+            <h2>Le diagnostic évite de payer pour une mauvaise direction.</h2>
+            <p>Un beau site ne suffit pas si l’offre reste floue, si les contenus sont mal hiérarchisés ou si le parcours ne pousse pas à l’action. Le diagnostic sert à transformer une idée, un site existant ou un besoin vague en plan de projet lisible.</p>
+            <ul class="check-list">
+              <li>Comprendre ce qui bloque aujourd’hui.</li>
+              <li>Identifier ce qui peut augmenter la valeur perçue.</li>
+              <li>Prioriser une première version réaliste.</li>
+              <li>Éviter les fonctionnalités coûteuses mais inutiles au départ.</li>
+            </ul>
+          </div>
+          ${auditDiagnosticVisual()}
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading center" data-reveal>
+            <p class="kicker">Ce que vous recevez</p>
+            <h2>Une lecture claire de votre projet, pas une réponse automatique.</h2>
+            <p>Le diagnostic donne une base de décision avant de lancer la production : quoi faire, pourquoi, dans quel ordre et avec quel niveau de budget.</p>
+          </div>
+          <div class="audit-deliverables-grid">
+            ${valueCard("Analyse du site ou de l’idée", "Lecture de votre positionnement, de vos contenus, de votre cible et de votre objectif commercial ou pédagogique.")}
+            ${valueCard("Points bloquants", "Ce qui peut freiner la confiance, la lisibilité, la navigation, la conversion ou la perception premium.")}
+            ${valueCard("Opportunités", "Les leviers simples pour rendre l’offre plus claire, plus crédible et plus facile à vendre.")}
+            ${valueCard("Première recommandation", "Une direction prioritaire pour lancer une base propre sans construire une usine à gaz.")}
+            ${valueCard("Fourchette budgétaire", "Une estimation réaliste selon le type de projet : vitrine, portfolio, campus, portail ou solution sur mesure.")}
+            ${valueCard("Prochaines étapes", "Une proposition de chemin : audit seul, site vitrine, Campus Starter, transformation ou projet sur mesure.")}
+          </div>
+        </div>
+      </section>
+
+      <section class="section-tight">
+        <div class="container split-section audit-process-section">
+          <div class="section-heading" data-reveal>
+            <p class="kicker">Déroulé</p>
+            <h2>Un cadrage court, utile et orienté décision.</h2>
+            <p>L’objectif n’est pas de produire un roman technique. L’objectif est de sortir du brouillard : priorités, contenus, parcours, budget et prochaine action.</p>
+          </div>
+          <div class="method-grid audit-method-grid" data-reveal>
+            ${[
+              ["01", "Contexte", "Vous présentez votre activité, votre site actuel ou votre idée, avec vos contraintes et objectifs."],
+              ["02", "Lecture stratégique", "Nocx Web analyse la clarté de l’offre, l’expérience, les contenus, les CTA et la valeur perçue."],
+              ["03", "Recommandation", "Vous repartez avec une direction de projet, un ordre de priorité et une fourchette budgétaire."],
+              ["04", "Décision", "Vous pouvez lancer le projet, commencer plus petit ou garder le diagnostic comme base de travail."],
+            ].map(([number, title, text]) => `
+              <article class="step-card audit-step-card">
+                <span class="step-number">${number}</span>
+                <h3>${title}</h3>
+                <p>${text}</p>
+              </article>
+            `).join("")}
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="audit-proof-band" data-reveal>
+            <div>
+              <p class="kicker">À partir de 590 € HT</p>
+              <h2>Idéal avant un site premium, un campus en ligne ou une transformation.</h2>
+              <p>Le diagnostic peut être utilisé seul pour clarifier votre projet, ou devenir la première étape d’une production Nocx Web.</p>
+            </div>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="?page=contact" data-link>Demander mon diagnostic</a>
+              <a class="btn btn-secondary" href="?page=transformations" data-link>Voir les transformations</a>
+            </div>
           </div>
         </div>
       </section>
@@ -627,7 +711,7 @@ const routes = {
     title: "Tarifs Nocx Web | Audit, site vitrine, campus en ligne et projet sur mesure",
     description: "Tarifs Nocx Web à partir de 590 € HT : audit digital, site vitrine premium, portfolio intermittents, Campus Starter, Campus Pro et projet web sur mesure.",
     render: () => `
-      ${pageHero("Tarifs", "Des offres pensées pour créer une vraie base commerciale, pas une coquille vide.", "Chaque projet est adapté à votre structure, vos contenus et vos objectifs. Les tarifs varient selon la complexité, les fonctionnalités et le niveau d’accompagnement souhaité.", "Parler de mon projet", "contact")}
+      ${pageHero("Tarifs", "Des offres pensées pour créer une vraie base commerciale, pas une coquille vide.", "Chaque projet est adapté à votre structure, vos contenus et vos objectifs. Les tarifs varient selon la complexité, les fonctionnalités et le niveau d’accompagnement souhaité.", "Demander un diagnostic", "audit")}
 
       <section class="section-tight">
         <div class="container">
@@ -638,7 +722,7 @@ const routes = {
               "Structure proposée",
               "Estimation budgétaire",
               "Plan d’action"
-            ], "Réserver un audit", "contact")}
+            ], "Réserver un audit", "audit")}
 
             ${priceCard("Site vitrine premium", "1\u202f490\u202f€ HT", "à partir de", [
               "Design responsive",
@@ -859,7 +943,7 @@ const routes = {
     title: "FAQ Nocx Web | Campus en ligne, site vitrine et portail privé",
     description: "Questions fréquentes sur les campus en ligne privés, sites vitrines premium, portails clients, design personnalisé, sécurité et mise en ligne.",
     render: () => `
-      ${pageHero("FAQ", "Les réponses aux questions avant de cadrer votre projet.", "Campus en ligne, site vitrine premium, portail client, mise en ligne, sécurité et évolution : voici les bases à connaître avant de demander un audit.", "Demander un audit", "contact")}
+      ${pageHero("FAQ", "Les réponses aux questions avant de cadrer votre projet.", "Campus en ligne, site vitrine premium, portail client, mise en ligne, sécurité et évolution : voici les bases à connaître avant de demander un audit.", "Demander un diagnostic", "audit")}
 
       <section class="section-tight">
         <div class="container">
@@ -918,6 +1002,7 @@ const routes = {
                 <p>Nocx Web est adapté aux organismes, clubs, écoles, indépendants et entreprises qui veulent une solution sérieuse sans usine à gaz.</p>
               </div>
             </div>
+            <a class="btn btn-secondary contact-diagnostic-link" href="?page=audit" data-link>Voir le diagnostic</a>
           </aside>
 
           <section class="contact-panel" data-reveal>
@@ -955,6 +1040,7 @@ const routes = {
                   <label for="project">Type de projet</label>
                   <select id="project" name="project" required>
                     <option value="">Sélectionner</option>
+                    <option>Audit / Diagnostic</option>
                     <option>Campus en ligne</option>
                     <option>Site vitrine</option>
                     <option>Portfolio intermittent</option>
@@ -1042,6 +1128,32 @@ function intermittentsStageVisual() {
       <div class="showreel-pill"><span class="play"></span><div><small>Showreel</small><strong>01:42</strong></div></div>
       <div class="casting-chip chip-a">Casting</div>
       <div class="casting-chip chip-b">Portfolio privé</div>
+    </div>
+  `;
+}
+
+
+function auditDiagnosticVisual() {
+  return `
+    <div class="audit-diagnostic-visual" data-reveal aria-label="Aperçu abstrait du diagnostic Nocx Web">
+      <div class="audit-radar-card">
+        <div class="audit-radar-head">
+          <span>Diagnostic</span>
+          <strong>Projet web</strong>
+        </div>
+        <div class="audit-score-orb">
+          <span>Clarté</span>
+          <strong>82%</strong>
+        </div>
+        <div class="audit-signal-list">
+          <span><i></i> Offre à clarifier</span>
+          <span><i></i> CTA à renforcer</span>
+          <span><i></i> Parcours à simplifier</span>
+        </div>
+      </div>
+      <div class="audit-floating-note audit-note-a">Budget réaliste</div>
+      <div class="audit-floating-note audit-note-b">Priorités claires</div>
+      <div class="audit-floating-note audit-note-c">Plan d’action</div>
     </div>
   `;
 }
@@ -1202,7 +1314,7 @@ function transformationsTeaserContent(items) {
         <p>Un site Nocx Web ne change pas seulement l’apparence. Il clarifie l’offre, structure l’expérience et rend le projet plus crédible dès les premières secondes.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="?page=transformations" data-link>Voir les transformations</a>
-          <a class="btn btn-secondary" href="?page=contact" data-link>Demander un audit</a>
+          <a class="btn btn-secondary" href="?page=audit" data-link>Demander un diagnostic</a>
         </div>
       </div>
       <div class="transformation-teaser-visual" data-reveal>
@@ -1215,7 +1327,7 @@ function transformationsTeaserContent(items) {
 function transformationsPage() {
   const items = visibleTransformations();
   return `
-    ${pageHero("Transformations", "D’un avant confus à une expérience claire, premium et prête à être partagée.", "Chaque projet Nocx Web vise à rendre une offre plus lisible, plus crédible et plus facile à présenter à des clients, élèves, partenaires ou castings.", "Parler de mon projet", "contact")}
+    ${pageHero("Transformations", "D’un avant confus à une expérience claire, premium et prête à être partagée.", "Chaque projet Nocx Web vise à rendre une offre plus lisible, plus crédible et plus facile à présenter à des clients, élèves, partenaires ou castings.", "Demander un diagnostic", "audit")}
 
     <section class="section-tight">
       <div class="container">
@@ -1575,7 +1687,7 @@ function trustedClientsContent(clients, reviews = [], options = {}) {
 function referencesPage() {
   const visibleClients = sortTrustedClients(trustedClients.filter(client => client.visible));
   return `
-    ${pageHero("Références", "Les projets qui donnent du poids à notre savoir-faire.", "Découvrez quelques projets réalisés ou en cours : sites vitrines, portfolios, campus et plateformes privées.", "Parler de mon projet", "contact")}
+    ${pageHero("Références", "Les projets qui donnent du poids à notre savoir-faire.", "Découvrez quelques projets réalisés ou en cours : sites vitrines, portfolios, campus et plateformes privées.", "Demander un diagnostic", "audit")}
 
     <section class="section references-section" aria-labelledby="references-title" data-references-root>
       ${referencesContent(visibleClients, clientTestimonials)}
