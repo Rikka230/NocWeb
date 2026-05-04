@@ -579,7 +579,7 @@ const routes = {
             </ul>
           </div>
 
-          <div class="feature-grid">
+          <div class="feature-grid home-service-grid">
             ${feature("Campus en ligne", "Un espace privé pour organiser vos cours, vidéos, documents, apprenants et suivis dans une interface à votre image.", "01")}
             ${feature("Sites vitrines premium", "Des sites web sur mesure, rapides et crédibles pour présenter vos services et générer des demandes qualifiées.", "02")}
             ${feature("Portails privés", "Un portail client ou espace membre pour centraliser documents, accès, ressources et tableaux de bord.", "03")}
