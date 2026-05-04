@@ -1432,34 +1432,48 @@ const routes = {
 
 function dashboardVisual() {
   return `
-    <div class="hero-visual" aria-label="Aperçu abstrait d’une interface de campus en ligne" data-reveal>
+    <div class="hero-visual" aria-label="Aperçu premium d’une interface de campus en ligne" data-reveal>
       <div class="dashboard-card main-dashboard">
         <div class="dash-top">
-          <span></span><span></span><span></span>
+          <div class="dash-window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="dash-brand">
+            <span class="dash-logo">N</span>
+            <div>
+              <small>Campus privé</small>
+              <strong>Formation Elite</strong>
+            </div>
+          </div>
+          <span class="dash-status">Accès sécurisé</span>
         </div>
-        <div class="dash-grid">
-          <div class="course-card">
-            <small>Module 01</small>
-            <strong>Fondations</strong>
-            <div class="progress"><i style="width:72%"></i></div>
+        <div class="dash-grid premium-dash-grid">
+          <div class="course-card hero-course">
+            <small>Parcours en cours</small>
+            <strong>Module 03 · Structurer l’offre</strong>
+            <p>Vidéo, support PDF, exercice et suivi centralisés.</p>
+            <div class="progress"><i style="width:78%"></i></div>
+            <div class="dash-meta"><span>8 leçons</span><span>4 documents</span></div>
           </div>
           <div class="metric-card">
             <small>Progression</small>
             <strong>78%</strong>
+            <span class="metric-trend">+12% cette semaine</span>
           </div>
-          <div class="course-card wide">
-            <small>Ressources</small>
-            <strong>12 documents privés</strong>
-            <div class="mini-list"><span></span><span></span><span></span></div>
+          <div class="course-card wide module-list">
+            <small>Modules assignés</small>
+            <div class="module-row"><span>01</span><strong>Fondations</strong><i style="width:100%"></i></div>
+            <div class="module-row"><span>02</span><strong>Positionnement</strong><i style="width:86%"></i></div>
+            <div class="module-row"><span>03</span><strong>Offre premium</strong><i style="width:62%"></i></div>
           </div>
           <div class="metric-card neon">
             <small>Apprenants</small>
             <strong>146</strong>
+            <span class="metric-trend">24 actifs</span>
           </div>
         </div>
       </div>
       <div class="floating-chip chip-one">Espace apprenant</div>
-      <div class="floating-chip chip-two">Suivi centralisé</div>
+      <div class="floating-chip chip-two">Documents privés</div>
+      <div class="floating-chip chip-three">Dashboard admin</div>
     </div>
   `;
 }
@@ -1536,27 +1550,53 @@ function transformationsProofCta(source, title, text) {
 
 function campusMockup() {
   return `
-    <div class="interface-panel" data-reveal>
+    <div class="interface-panel campus-interface-panel" data-reveal>
+      <div class="campus-window-bar">
+        <div class="dash-window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+        <span>Campus Nocx · espace privé</span>
+        <strong>Live preview</strong>
+      </div>
       <div class="mock-sidebar-layout">
         <div class="mock-sidebar">
-          <span></span><span></span><span></span><span></span><span></span>
+          <strong>Campus</strong>
+          <span class="is-active">Parcours</span>
+          <span>Documents</span>
+          <span>Apprenants</span>
+          <span>Messages</span>
+          <span>Réglages</span>
         </div>
         <div class="mock-content">
           <div class="mock-header">
-            <div class="mock-pill"></div>
-            <div class="mock-pill"></div>
+            <div class="mock-heading">
+              <small>Espace apprenant</small>
+              <strong>Programme Premium</strong>
+            </div>
+            <div class="mock-pill">Accès privé</div>
           </div>
           <div class="mock-main-grid">
             <div class="mock-widget large">
               <div class="mock-video"><span class="play"></span></div>
-              <div class="mock-lines"><span></span><span></span><span></span></div>
+              <div class="mock-module-title">
+                <small>Module en cours</small>
+                <strong>Construire une offre claire et vendable</strong>
+              </div>
+              <div class="mock-progress-row"><span>Progression</span><strong>64%</strong></div>
+              <div class="progress"><i style="width:64%"></i></div>
             </div>
-            <div class="mock-widget">
+            <div class="mock-widget mock-stack">
               <div class="metric-card neon">
                 <small>Module complété</small>
                 <strong>64%</strong>
               </div>
-              <div class="mini-list" style="margin-top: 1rem;"><span></span><span></span><span></span></div>
+              <div class="mock-resource-card">
+                <small>Documents</small>
+                <strong>12 ressources</strong>
+                <div class="mini-list"><span></span><span></span><span></span></div>
+              </div>
+              <div class="mock-mentor-card">
+                <span></span>
+                <div><small>Suivi</small><strong>Coach connecté</strong></div>
+              </div>
             </div>
           </div>
         </div>
